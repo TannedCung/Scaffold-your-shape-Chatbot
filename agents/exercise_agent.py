@@ -80,7 +80,7 @@ async def handle_get_progress(state: ExerciseAgentState) -> ExerciseAgentState:
 def handle_help(state: ExerciseAgentState) -> ExerciseAgentState:
     """Handle help requests."""
     state.response = (
-        "I can help you with:\n"
+        "I'm Pili! I can help you with:\n"
         "• Log exercises: 'I did 20 pushups'\n"
         "• Track progress: 'Show my progress'\n"
         "• Join clubs: 'Join club fitness'\n"
@@ -90,7 +90,7 @@ def handle_help(state: ExerciseAgentState) -> ExerciseAgentState:
 
 def handle_unknown(state: ExerciseAgentState) -> ExerciseAgentState:
     """Handle unknown intents."""
-    state.response = "I didn't understand that. Type 'help' to see what I can do!"
+    state.response = "Sorry, I'm Pili, and I didn't understand that. Type 'help' to see what I can do!"
     return state
 
 def create_exercise_agent():

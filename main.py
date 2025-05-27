@@ -4,8 +4,8 @@ from models.chat import ChatRequest, ChatResponse
 from core.chat_handler import chat_handler
 
 app = FastAPI(
-    title="Exercise Tracker Chatbot API",
-    description="A microservice chatbot for tracking exercises using LangGraph and FastAPI.",
+    title="Pili Exercise Chatbot API",
+    description="A microservice chatbot named Pili for tracking exercises using LangGraph and FastAPI.",
     version="1.0.0",
     openapi_url="/api/openapi.json",
     docs_url="/api/docs"
@@ -16,9 +16,9 @@ api_router = APIRouter(prefix="/api")
 @api_router.post("/chat", response_model=ChatResponse, tags=["Chatbot"])
 async def chat_endpoint(request: ChatRequest):
     """
-    Chat with the Exercise Tracker Bot.
+    Chat with Pili, the Exercise Tracker Bot.
     
-    The bot can help you with:
+    Pili can help you with:
     - **Log exercises**: "I did 20 pushups"
     - **Track progress**: "Show my progress" 
     - **Join clubs**: "Join club fitness"
@@ -27,14 +27,14 @@ async def chat_endpoint(request: ChatRequest):
     
     **Parameters:**
     - **user_id**: Unique user identifier
-    - **message**: User's message to the bot
+    - **message**: User's message to Pili
     """
     return await chat_handler.process_chat(request)
 
 @api_router.get("/health", tags=["Health"])
 async def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "service": "exercise-tracker-chatbot"}
+    return {"status": "healthy", "service": "pili-exercise-chatbot"}
 
 @api_router.get("/docs", include_in_schema=False)
 async def custom_docs_redirect():
