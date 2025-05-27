@@ -2,4 +2,6 @@ fastapi==0.104.1
 uvicorn==0.24.0
 langgraph==0.0.10
 pydantic==2.4.2
-langsmith==0.0.69 
+langsmith==0.0.69
+httpx==0.25.2
+python-dotenv==1.0.0 
