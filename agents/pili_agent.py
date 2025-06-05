@@ -27,11 +27,19 @@ class PiliAgentState(TypedDict):
 
 async def detect_intent(state: PiliAgentState) -> PiliAgentState:
     """Detect the intent from the user message using LLM."""
-    intent_result = await llm_service.detect_intent(state["message"])
-    
-    state["intent"] = intent_result.get("intent", "unknown")
-    state["confidence"] = intent_result.get("confidence", 0.5)
-    state["extracted_info"] = intent_result.get("extracted_info", {})
+    try:
+        intent_result = await llm_service.detect_intent(state["message"])
+        
+        state["intent"] = intent_result.get("intent", "unknown")
+        state["confidence"] = intent_result.get("confidence", 0.5)
+        state["extracted_info"] = intent_result.get("extracted_info", {})
+    except Exception as e:
+        print(f"Error in detect_intent: {e}")
+        # Fallback to rule-based detection
+        fallback_result = llm_service._fallback_intent_detection(state["message"])
+        state["intent"] = fallback_result.get("intent", "unknown")
+        state["confidence"] = fallback_result.get("confidence", 0.5)
+        state["extracted_info"] = fallback_result.get("extracted_info", {})
     
     return state
 
@@ -96,18 +104,25 @@ async def handle_unknown(state: PiliAgentState) -> PiliAgentState:
 
 async def generate_response(state: PiliAgentState) -> PiliAgentState:
     """Generate final response using LLM."""
-    # Generate response using LLM
-    full_response = await llm_service.generate_response(
-        state["intent"], 
-        state["message"], 
-        state["action_result"]
-    )
+    try:
+        # Generate response using LLM
+        full_response = await llm_service.generate_response(
+            state["intent"], 
+            state["message"], 
+            state["action_result"]
+        )
+        
+        # Extract thinking process and final response
+        thinking, final_response = llm_service.extract_thinking_process(full_response)
+        
+        state["thinking_process"] = thinking
+        state["response"] = final_response
+    except Exception as e:
+        print(f"Error in generate_response: {e}")
+        # Fallback to action result if LLM fails
+        state["thinking_process"] = ""
+        state["response"] = state.get("action_result", "I'm sorry, something went wrong.")
     
-    # Extract thinking process and final response
-    thinking, final_response = llm_service.extract_thinking_process(full_response)
-    
-    state["thinking_process"] = thinking
-    state["response"] = final_response
     return state
 
 def create_pili_agent():
