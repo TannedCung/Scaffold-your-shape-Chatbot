@@ -8,6 +8,7 @@ from tools.api_tools import (
     manage_challenge_tool,
     get_user_stats_tool
 )
+from services.llm_service import llm_service
 from config.settings import settings
 
 # Initialize LangSmith client
@@ -17,65 +18,50 @@ class PiliAgentState(TypedDict):
     user_id: str
     message: str
     intent: str
+    confidence: float
+    extracted_info: dict
+    action_result: str
+    thinking_process: str
     response: str
     logs: list
 
-def detect_intent(state: PiliAgentState) -> PiliAgentState:
-    """Detect the intent from the user message."""
-    message = state["message"].lower()
+async def detect_intent(state: PiliAgentState) -> PiliAgentState:
+    """Detect the intent from the user message using LLM."""
+    intent_result = await llm_service.detect_intent(state["message"])
     
-    # Activity logging intents
-    if any(word in message for word in ["did", "completed", "finished", "ran", "cycled", "swam", "walked", "workout"]):
-        state["intent"] = "log_activity"
-    
-    # Club management intents
-    elif any(word in message for word in ["club", "join club", "create club", "clubs"]):
-        state["intent"] = "manage_clubs"
-    
-    # Challenge management intents
-    elif any(word in message for word in ["challenge", "challenges", "create challenge", "join challenge"]):
-        state["intent"] = "manage_challenges"
-    
-    # Stats and progress intents
-    elif any(word in message for word in ["stats", "statistics", "progress", "summary", "activities", "history"]):
-        state["intent"] = "get_stats"
-    
-    # Help intent
-    elif any(word in message for word in ["help", "what can you do", "commands"]):
-        state["intent"] = "help"
-    
-    else:
-        state["intent"] = "unknown"
+    state["intent"] = intent_result.get("intent", "unknown")
+    state["confidence"] = intent_result.get("confidence", 0.5)
+    state["extracted_info"] = intent_result.get("extracted_info", {})
     
     return state
 
 async def handle_log_activity(state: PiliAgentState) -> PiliAgentState:
     """Handle activity logging."""
-    response = await log_activity_tool(state["user_id"], state["message"])
-    state["response"] = response
+    action_result = await log_activity_tool(state["user_id"], state["message"])
+    state["action_result"] = action_result
     return state
 
 async def handle_manage_clubs(state: PiliAgentState) -> PiliAgentState:
     """Handle club management (create, join, search)."""
-    response = await manage_club_tool(state["user_id"], state["message"])
-    state["response"] = response
+    action_result = await manage_club_tool(state["user_id"], state["message"])
+    state["action_result"] = action_result
     return state
 
 async def handle_manage_challenges(state: PiliAgentState) -> PiliAgentState:
     """Handle challenge management (create, join, search)."""
-    response = await manage_challenge_tool(state["user_id"], state["message"])
-    state["response"] = response
+    action_result = await manage_challenge_tool(state["user_id"], state["message"])
+    state["action_result"] = action_result
     return state
 
 async def handle_get_stats(state: PiliAgentState) -> PiliAgentState:
     """Handle stats and progress requests."""
-    response = await get_user_stats_tool(state["user_id"])
-    state["response"] = response
+    action_result = await get_user_stats_tool(state["user_id"])
+    state["action_result"] = action_result
     return state
 
-def handle_help(state: PiliAgentState) -> PiliAgentState:
+async def handle_help(state: PiliAgentState) -> PiliAgentState:
     """Handle help requests."""
-    state["response"] = (
+    action_result = (
         "Hi! I'm Pili, your fitness companion! 🏃‍♀️ Here's what I can help you with:\n\n"
         "📝 **Log Activities:**\n"
         "• 'I ran 5 km in 30 minutes'\n"
@@ -92,11 +78,12 @@ def handle_help(state: PiliAgentState) -> PiliAgentState:
         "• 'How many activities have I logged?'\n\n"
         "Just tell me what you want to do in natural language!"
     )
+    state["action_result"] = action_result
     return state
 
-def handle_unknown(state: PiliAgentState) -> PiliAgentState:
+async def handle_unknown(state: PiliAgentState) -> PiliAgentState:
     """Handle unknown intents."""
-    state["response"] = (
+    action_result = (
         "I'm Pili, and I didn't quite catch that! 🤔 I can help you with:\n"
         "• Logging workouts and activities\n"
         "• Finding and creating fitness clubs\n"
@@ -104,10 +91,27 @@ def handle_unknown(state: PiliAgentState) -> PiliAgentState:
         "• Tracking your progress\n\n"
         "Try saying something like 'I ran 3 miles' or 'Show my stats' or just type 'help' for more examples!"
     )
+    state["action_result"] = action_result
+    return state
+
+async def generate_response(state: PiliAgentState) -> PiliAgentState:
+    """Generate final response using LLM."""
+    # Generate response using LLM
+    full_response = await llm_service.generate_response(
+        state["intent"], 
+        state["message"], 
+        state["action_result"]
+    )
+    
+    # Extract thinking process and final response
+    thinking, final_response = llm_service.extract_thinking_process(full_response)
+    
+    state["thinking_process"] = thinking
+    state["response"] = final_response
     return state
 
 def create_pili_agent():
-    """Create the LangGraph Pili agent."""
+    """Create the LangGraph Pili agent with LLM integration."""
     
     # Create the state graph
     workflow = StateGraph(PiliAgentState)
@@ -120,6 +124,7 @@ def create_pili_agent():
     workflow.add_node("get_stats", handle_get_stats)
     workflow.add_node("help", handle_help)
     workflow.add_node("unknown", handle_unknown)
+    workflow.add_node("generate_response", generate_response)
     
     # Add edges
     workflow.set_entry_point("detect_intent")
@@ -137,9 +142,12 @@ def create_pili_agent():
         }
     )
     
-    # All handler nodes go to END
+    # All handler nodes go to generate_response
     for node in ["log_activity", "manage_clubs", "manage_challenges", "get_stats", "help", "unknown"]:
-        workflow.add_edge(node, END)
+        workflow.add_edge(node, "generate_response")
+    
+    # generate_response goes to END
+    workflow.add_edge("generate_response", END)
     
     return workflow.compile()
 

@@ -2,6 +2,7 @@ from fastapi import FastAPI, APIRouter
 from fastapi.responses import RedirectResponse
 from models.chat import ChatRequest, ChatResponse
 from core.chat_handler import chat_handler
+from services.llm_service import llm_service
 
 app = FastAPI(
     title="Pili Exercise Chatbot API",
@@ -45,5 +46,18 @@ async def custom_docs_redirect():
 async def root():
     """Redirect to the API docs."""
     return RedirectResponse(url="/api/docs")
+
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint with LLM status."""
+    llm_status = await llm_service.test_connection()
+    
+    return {
+        "status": "healthy", 
+        "service": "pili-exercise-chatbot",
+        "llm_provider": llm_service.provider,
+        "llm_model": llm_service.model,
+        "llm_status": llm_status
+    }
 
 app.include_router(api_router) 
