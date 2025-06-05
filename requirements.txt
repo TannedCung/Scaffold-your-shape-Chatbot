@@ -1,7 +1,15 @@
 fastapi==0.104.1
-uvicorn==0.24.0
-langgraph==0.0.10
-pydantic==2.4.2
-langsmith==0.0.69
-httpx==0.25.2
+uvicorn[standard]==0.24.0
+pydantic==2.11.5
+pydantic-settings==2.1.0
+httpx==0.27.0
+python-multipart==0.0.6
+
+# LLM and AI framework dependencies
+openai==1.76.0
+langgraph==0.4.8
+langsmith==0.3.45
+langchain-core==0.3.63
+
+# Additional dependencies
 python-dotenv==1.0.0 
