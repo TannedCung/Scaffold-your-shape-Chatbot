@@ -1,5 +1,6 @@
 import json
-from typing import Dict, Any, Optional
+import asyncio
+from typing import Dict, Any, Optional, AsyncGenerator
 from openai import AsyncOpenAI
 import httpx
 from config.settings import settings
@@ -74,7 +75,11 @@ Respond in JSON format:
                 # Ollama sometimes needs different parameter names
                 params["stream"] = False
             
-            response = await self.client.chat.completions.create(**params)
+            # Add timeout to prevent hanging
+            response = await asyncio.wait_for(
+                self.client.chat.completions.create(**params),
+                timeout=50.0  # Reduced to 5 seconds for faster fallback
+            )
             
             content = response.choices[0].message.content
             
@@ -86,6 +91,9 @@ Respond in JSON format:
                 # Extract intent from text response if JSON parsing fails
                 return self._extract_intent_from_text(content, user_message)
             
+        except asyncio.TimeoutError:
+            print(f"LLM intent detection timed out for message: {user_message}")
+            return self._fallback_intent_detection(user_message)
         except Exception as e:
             print(f"LLM intent detection failed: {e}")
             return self._fallback_intent_detection(user_message)
@@ -130,7 +138,10 @@ Generate a natural, encouraging response as Pili:"""
             if self.provider == "ollama":
                 params["stream"] = False
             
-            response = await self.client.chat.completions.create(**params)
+            response = await asyncio.wait_for(
+                self.client.chat.completions.create(**params),
+                timeout=80.0  # Reduced to 8 seconds for response generation
+            )
             
             content = response.choices[0].message.content.strip()
             
@@ -139,24 +150,134 @@ Generate a natural, encouraging response as Pili:"""
             
             return content
             
+        except asyncio.TimeoutError:
+            print(f"LLM response generation timed out for intent: {intent}")
+            return action_result  # Fallback to action result
         except Exception as e:
             print(f"LLM response generation failed: {e}")
             return action_result  # Fallback to action result
     
+    async def generate_response_stream(self, intent: str, user_message: str, action_result: str) -> AsyncGenerator[str, None]:
+        """Generate a streaming response using LLM."""
+        if not self.client:
+            # Fallback: yield the action result as chunks
+            words = action_result.split()
+            for i, word in enumerate(words):
+                if i == 0:
+                    yield word
+                else:
+                    yield f" {word}"
+                await asyncio.sleep(0.05)  # Small delay to simulate streaming
+            return
+
+        system_prompt = """You are Pili, an enthusiastic and friendly fitness chatbot. 
+
+Your personality:
+- Encouraging and motivational
+- Uses fitness emojis appropriately  
+- Celebrates user achievements
+- Provides helpful fitness advice
+- Speaks naturally and conversationally
+
+Based on the user's message, intent, and the action result, generate a natural, personalized response.
+Keep responses concise but engaging (2-3 sentences max unless it's help/stats content).
+
+You can use <think> tags to reason through your response, but only the content after </think> will be shown to the user."""
+
+        user_prompt = f"""
+User message: "{user_message}"
+Intent: {intent}
+Action result: {action_result}
+
+Generate a natural, encouraging response as Pili:"""
+
+        try:
+            params = {
+                "model": self.model,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                "temperature": 0.7,
+                "max_tokens": 200,
+                "stream": True  # Enable streaming
+            }
+            
+            if self.provider == "ollama":
+                params["stream"] = True
+            
+            response_stream = await asyncio.wait_for(
+                self.client.chat.completions.create(**params),
+                timeout=80.0
+            )
+            
+            content_buffer = ""
+            thinking_mode = False
+            
+            async for chunk in response_stream:
+                if chunk.choices and len(chunk.choices) > 0:
+                    delta = chunk.choices[0].delta
+                    if hasattr(delta, 'content') and delta.content:
+                        content_buffer += delta.content
+                        
+                        # Handle thinking tags
+                        if "<think>" in content_buffer and not thinking_mode:
+                            thinking_mode = True
+                            continue
+                        
+                        if "</think>" in content_buffer and thinking_mode:
+                            # Extract content after </think>
+                            parts = content_buffer.split("</think>")
+                            if len(parts) > 1:
+                                final_content = parts[-1]
+                                # Yield the content after </think>
+                                if final_content.strip():
+                                    yield final_content
+                            thinking_mode = False
+                            content_buffer = ""
+                            continue
+                        
+                        # If not in thinking mode, yield the content
+                        if not thinking_mode:
+                            yield delta.content
+            
+        except asyncio.TimeoutError:
+            print(f"LLM streaming response timed out for intent: {intent}")
+            # Fallback to non-streaming action result
+            words = action_result.split()
+            for i, word in enumerate(words):
+                if i == 0:
+                    yield word
+                else:
+                    yield f" {word}"
+                await asyncio.sleep(0.02)
+                
+        except Exception as e:
+            print(f"LLM streaming response failed: {e}")
+            # Fallback to non-streaming action result
+            words = action_result.split()
+            for i, word in enumerate(words):
+                if i == 0:
+                    yield word
+                else:
+                    yield f" {word}"
+                await asyncio.sleep(0.02)
+
     def _extract_intent_from_text(self, content: str, user_message: str) -> Dict[str, Any]:
         """Extract intent from text response when JSON parsing fails."""
         content_lower = content.lower()
         
-        if "log_activity" in content_lower or "activity" in content_lower:
-            return {"intent": "log_activity", "confidence": 0.7, "extracted_info": {}}
+        # Prioritize help intent detection first
+        if "help" in content_lower:
+            return {"intent": "help", "confidence": 0.8, "extracted_info": {}}
         elif "club" in content_lower:
             return {"intent": "manage_clubs", "confidence": 0.7, "extracted_info": {}}
         elif "challenge" in content_lower:
             return {"intent": "manage_challenges", "confidence": 0.7, "extracted_info": {}}
         elif "stats" in content_lower or "progress" in content_lower:
             return {"intent": "get_stats", "confidence": 0.7, "extracted_info": {}}
-        elif "help" in content_lower:
-            return {"intent": "help", "confidence": 0.8, "extracted_info": {}}
+        elif "log_activity" in content_lower or "activity" in content_lower:
+            return {"intent": "log_activity", "confidence": 0.7, "extracted_info": {}}
         else:
             return self._fallback_intent_detection(user_message)
     
@@ -194,7 +315,7 @@ Generate a natural, encouraging response as Pili:"""
             parts = content.split("</think>")
             if len(parts) > 1:
                 # Extract thinking process for debugging
-                thinking_part = content.split("</think>")[0]
+                thinking_part = content.split("</think>")[-1].strip()
                 if thinking_part.startswith("<think>"):
                     thinking_content = thinking_part[7:]  # Remove <think> tag
                     print(f"LLM Thinking Process: {thinking_content.strip()}")
