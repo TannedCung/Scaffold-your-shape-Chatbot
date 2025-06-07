@@ -1,0 +1,31 @@
+# Development override for docker-compose.yml
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.override.yml up
+
+version: '3.8'
+
+services:
+  pili-api:
+    # Override for development
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8991", "--reload"]
+    environment:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=debug
+      - LLM_PROVIDER=vllm
+    volumes:
+      # Mount source code for hot-reloading
+      - ./:/app
+      - /app/__pycache__  # Exclude pycache
+    ports:
+      - "8991:8991"
+      - "5678:5678"  # Debug port for VSCode/PyCharm
+    
+  # Lightweight vLLM for development (smaller model)
+  # vllm-server:
+  #   command: [
+  #     "--model", "microsoft/DialoGPT-small",  # Smaller model for dev
+  #     "--host", "0.0.0.0", 
+  #     "--port", "8000",
+  #     "--served-model-name", "microsoft/DialoGPT-small"
+  #   ]
+  #   environment:
+  #     - VLLM_MODEL=microsoft/DialoGPT-small 
