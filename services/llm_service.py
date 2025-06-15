@@ -81,7 +81,10 @@ Respond in JSON format:
                 "model": self.model,
                 "messages": messages,
                 "temperature": 0.1,
-                "max_tokens": 300
+                "max_tokens": 300,
+                "extra_body": {
+                    "chat_template_kwargs": {"enable_thinking": False},
+                },
             }
             
             # For local providers, we might need to adjust parameters
@@ -92,7 +95,7 @@ Respond in JSON format:
             # Add timeout to prevent hanging
             response = await asyncio.wait_for(
                 self.client.chat.completions.create(**params),
-                timeout=50.0  # Reduced to 5 seconds for faster fallback
+                timeout=150.0  # Reduced to 5 seconds for faster fallback
             )
             
             content = response.choices[0].message.content
@@ -159,7 +162,10 @@ Generate a natural, encouraging response as Pili:"""
                 "model": self.model,
                 "messages": messages,
                 "temperature": 0.7,
-                "max_tokens": 200
+                "max_tokens": 200,
+                "extra_body": {
+                    "chat_template_kwargs": {"enable_thinking": False},
+                },
             }
             
             if self.provider == "ollama":
@@ -240,7 +246,10 @@ Generate a natural, encouraging response as Pili:"""
                 "messages": messages,
                 "temperature": 0.7,
                 "max_tokens": 200,
-                "stream": True  # Enable streaming
+                "stream": True,  # Enable streaming
+                "extra_body": {
+                    "chat_template_kwargs": {"enable_thinking": False},
+                },
             }
             
             if self.provider == "ollama":
@@ -398,7 +407,10 @@ Generate a natural, encouraging response as Pili:"""
             response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": "Hello"}],
-                max_tokens=10
+                max_tokens=10,
+                extra_body={
+                    "chat_template_kwargs": {"enable_thinking": False},
+                },
             )
             return {
                 "status": "success", 
