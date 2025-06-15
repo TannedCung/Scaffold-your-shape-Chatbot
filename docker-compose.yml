@@ -3,6 +3,7 @@ version: '3.8'
 services:
   # Pili Chatbot API
   pili-api:
+    image: tannedcung/scaffold-your-shape:pili-${BUILD_DATE:-$(date +%Y%m%d)}
     build:
       context: .
       dockerfile: Dockerfile

@@ -7,7 +7,7 @@ python-multipart==0.0.6
 
 # LLM and AI framework dependencies
 openai==1.76.0
-langchain==0.3.63
+langchain==0.3.25
 langgraph==0.4.8
 langsmith==0.3.45
 langchain-core==0.3.63
