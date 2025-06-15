@@ -18,17 +18,17 @@ COMMAND=${1:-build}
 case $COMMAND in
     "build")
         echo "📦 Building Docker image..."
-        docker-compose build pili-api
+        docker compose build pili-api
         echo "✅ Build completed: ${IMAGE_TAG}"
         ;;
     "up")
         echo "🚀 Starting services..."
-        docker-compose up -d
+        docker compose up -d
         echo "✅ Services started"
         ;;
     "down")
         echo "🛑 Stopping services..."
-        docker-compose down
+        docker compose down
         echo "✅ Services stopped"
         ;;
     "push")
@@ -39,12 +39,12 @@ case $COMMAND in
         ;;
     "build-and-up")
         echo "📦 Building and starting services..."
-        docker-compose up -d --build
+        docker compose up -d --build
         echo "✅ Services built and started"
         ;;
     "logs")
         echo "📋 Showing logs..."
-        docker-compose logs -f pili-api
+        docker compose logs -f pili-api
         ;;
     *)
         echo "❌ Unknown command: $COMMAND"
