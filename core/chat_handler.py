@@ -1,4 +1,5 @@
 from typing import Dict, Any
+from langchain.memory import ConversationBufferMemory
 from models.chat import ChatRequest, ChatResponse
 from agents.pili_agent import pili_agent
 from services.llm_service import llm_service
@@ -13,13 +14,33 @@ from tools.api_tools import (
 class ChatHandler:
     def __init__(self):
         self.agent = pili_agent
+        # Initialize conversation memory for each user
+        self.user_memories = {}
+        
+    def get_or_create_memory(self, user_id: str) -> ConversationBufferMemory:
+        """Get or create conversation memory for a specific user."""
+        if user_id not in self.user_memories:
+            self.user_memories[user_id] = ConversationBufferMemory(
+                memory_key="chat_history",
+                return_messages=True
+            )
+        return self.user_memories[user_id]
         
     async def process_chat(self, request: ChatRequest) -> ChatResponse:
         """Process a chat request using simplified logic for debugging."""
         
         try:
-            # Step 1: Detect intent
-            intent_result = await llm_service.detect_intent(request.message)
+            # Get user's conversation memory
+            memory = self.get_or_create_memory(request.user_id)
+            
+            # Get conversation history
+            conversation_history = memory.chat_memory.messages
+            
+            # Step 1: Detect intent with conversation context
+            intent_result = await llm_service.detect_intent(
+                request.message, 
+                conversation_history=conversation_history
+            )
             intent = intent_result.get("intent", "unknown")
             confidence = intent_result.get("confidence", 0.5)
             extracted_info = intent_result.get("extracted_info", {})
@@ -62,12 +83,21 @@ class ChatHandler:
                     "Try saying something like 'I ran 3 miles' or 'Show my stats' or just type 'help' for more examples!"
                 )
             
-            # Step 3: Generate final response using LLM (with fallback)
+            # Step 3: Generate final response using LLM with conversation context (with fallback)
             try:
-                final_response = await llm_service.generate_response(intent, request.message, action_result)
+                final_response = await llm_service.generate_response(
+                    intent, 
+                    request.message, 
+                    action_result,
+                    conversation_history=conversation_history
+                )
             except Exception as e:
                 print(f"LLM response generation failed: {e}")
                 final_response = action_result
+            
+            # Save the conversation to memory
+            memory.chat_memory.add_user_message(request.message)
+            memory.chat_memory.add_ai_message(final_response)
             
             # Create logs
             logs = [{
@@ -75,7 +105,8 @@ class ChatHandler:
                 "confidence": confidence,
                 "extracted_info": extracted_info,
                 "action_result": action_result,
-                "llm_provider": llm_service.provider
+                "llm_provider": llm_service.provider,
+                "conversation_length": len(conversation_history)
             }]
             
             return ChatResponse(response=final_response, logs=logs)
