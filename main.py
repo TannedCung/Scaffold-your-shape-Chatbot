@@ -2,6 +2,7 @@ from fastapi import FastAPI, APIRouter
 from fastapi.responses import RedirectResponse, StreamingResponse
 from models.chat import ChatRequest, ChatResponse
 from services.llm_service import llm_service
+from core.chat_handler import chat_handler
 import json
 import time
 import asyncio
@@ -16,7 +17,126 @@ app = FastAPI(
 
 api_router = APIRouter(prefix="/api")
 
-async def create_stream_response(user_id: str, message: str, intent: str, confidence: float, extracted_info: dict, action_result: str):
+class StreamingResponseWithMemory:
+    """A streaming response wrapper that saves conversation to memory after completion."""
+    
+    def __init__(self, user_id: str, stream_generator, message: str):
+        self.user_id = user_id
+        self.stream_generator = stream_generator
+        self.message = message
+        self.accumulated_response = ""
+    
+    async def __aiter__(self):
+        try:
+            async for chunk in self.stream_generator:
+                # Extract content from the chunk if it's a data line
+                if chunk.startswith("data: ") and not chunk.startswith("data: [DONE]"):
+                    try:
+                        chunk_data = json.loads(chunk[6:])  # Remove "data: " prefix
+                        if "choices" in chunk_data and chunk_data["choices"]:
+                            delta = chunk_data["choices"][0].get("delta", {})
+                            if "content" in delta:
+                                self.accumulated_response += delta["content"]
+                    except (json.JSONDecodeError, KeyError, IndexError):
+                        pass  # Skip chunks that don't contain content
+                
+                yield chunk
+        finally:
+            # Save the complete response to memory after streaming
+            try:
+                if self.accumulated_response.strip():  # Only save if there's actual content
+                    memory = chat_handler.get_or_create_memory(self.user_id)
+                    memory.chat_memory.add_ai_message(self.accumulated_response)
+            except Exception as e:
+                print(f"Error saving AI response to memory: {e}")
+
+async def create_stream_response_with_memory(user_id: str, message: str, intent: str, confidence: float, extracted_info: dict, action_result: str, conversation_history: list = None):
+    """Create a streaming response and save it to memory after completion."""
+    
+    # Create unique chat completion ID
+    chat_id = f"chatcmpl-{int(time.time())}"
+    created_time = int(time.time())
+    
+    # Variable to accumulate the response content for saving to memory
+    accumulated_response = ""
+    
+    # First chunk - send the intent and metadata
+    first_chunk = {
+        "id": chat_id,
+        "object": "chat.completion.chunk",
+        "created": created_time,
+        "model": "pili",
+        "choices": [{
+            "index": 0,
+            "delta": {"role": "assistant", "content": ""},
+            "finish_reason": None
+        }],
+        "metadata": {
+            "intent": intent,
+            "confidence": confidence,
+            "extracted_info": extracted_info,
+            "llm_provider": llm_service.provider,
+            "conversation_length": len(conversation_history) if conversation_history else 0
+        }
+    }
+    yield f"data: {json.dumps(first_chunk)}\n\n"
+    
+    # Stream the response content
+    try:
+        async for content_chunk in llm_service.generate_response_stream(intent, message, action_result, conversation_history):
+            accumulated_response += content_chunk
+            chunk = {
+                "id": chat_id,
+                "object": "chat.completion.chunk", 
+                "created": created_time,
+                "model": "pili",
+                "choices": [{
+                    "index": 0,
+                    "delta": {"content": content_chunk},
+                    "finish_reason": None
+                }]
+            }
+            yield f"data: {json.dumps(chunk)}\n\n"
+            await asyncio.sleep(0.01)  # Small delay for smoother streaming
+    except Exception as e:
+        print(f"Streaming error: {e}")
+        # Fallback: send action result as chunks
+        words = action_result.split()
+        for i, word in enumerate(words):
+            content = word if i == 0 else f" {word}"
+            accumulated_response += content
+            chunk = {
+                "id": chat_id,
+                "object": "chat.completion.chunk",
+                "created": created_time,
+                "model": "pili",
+                "choices": [{
+                    "index": 0,
+                    "delta": {"content": content},
+                    "finish_reason": None
+                }]
+            }
+            yield f"data: {json.dumps(chunk)}\n\n"
+            await asyncio.sleep(0.05)
+    
+    # Final chunk - indicate completion
+    final_chunk = {
+        "id": chat_id,
+        "object": "chat.completion.chunk",
+        "created": created_time,
+        "model": "pili",
+        "choices": [{
+            "index": 0,
+            "delta": {},
+            "finish_reason": "stop"
+        }]
+    }
+    yield f"data: {json.dumps(final_chunk)}\n\n"
+    yield "data: [DONE]\n\n"
+    
+    # Note: Memory saving needs to be handled by the caller since this is a generator
+
+async def create_stream_response(user_id: str, message: str, intent: str, confidence: float, extracted_info: dict, action_result: str, conversation_history: list = None):
     """Create a streaming response similar to OpenAI's format."""
     
     # Create unique chat completion ID
@@ -38,14 +158,15 @@ async def create_stream_response(user_id: str, message: str, intent: str, confid
             "intent": intent,
             "confidence": confidence,
             "extracted_info": extracted_info,
-            "llm_provider": llm_service.provider
+            "llm_provider": llm_service.provider,
+            "conversation_length": len(conversation_history) if conversation_history else 0
         }
     }
     yield f"data: {json.dumps(first_chunk)}\n\n"
     
     # Stream the response content
     try:
-        async for content_chunk in llm_service.generate_response_stream(intent, message, action_result):
+        async for content_chunk in llm_service.generate_response_stream(intent, message, action_result, conversation_history):
             chunk = {
                 "id": chat_id,
                 "object": "chat.completion.chunk", 
@@ -100,6 +221,7 @@ async def chat_endpoint(request: ChatRequest):
     Chat with Pili, the Exercise Tracker Bot.
     
     Supports both regular and streaming responses (set stream=true for streaming).
+    Now includes conversation memory to maintain context across messages.
     
     Pili can help you with:
     - **Log exercises**: "I did 20 pushups"
@@ -114,62 +236,76 @@ async def chat_endpoint(request: ChatRequest):
     - **stream**: Optional boolean to enable streaming response (default: false)
     """
     try:
-        # Step 1: Detect intent with fallback
-        try:
-            intent_result = await llm_service.detect_intent(request.message)
-            intent = intent_result.get("intent", "unknown")
-            confidence = intent_result.get("confidence", 0.5)
-            extracted_info = intent_result.get("extracted_info", {})
-        except Exception as e:
-            print(f"Intent detection failed, using fallback: {e}")
-            # Fallback to rule-based detection
-            fallback_result = llm_service._fallback_intent_detection(request.message)
-            intent = fallback_result.get("intent", "unknown")
-            confidence = fallback_result.get("confidence", 0.5)
-            extracted_info = fallback_result.get("extracted_info", {})
-        
-        # Step 2: Handle the intent
-        action_result = ""
-        if intent == "log_activity":
-            action_result = "Great job! I've logged your activity for you."
-        elif intent == "manage_clubs":
-            action_result = "Here are the clubs I found for you!"
-        elif intent == "manage_challenges":
-            action_result = "Here are some exciting challenges for you!"
-        elif intent == "get_stats":
-            action_result = "Your stats look amazing! Keep up the great work!"
-        elif intent == "help":
-            action_result = (
-                "Hi! I'm Pili, your fitness companion! 🏃‍♀️ Here's what I can help you with:\n\n"
-                "📝 **Log Activities:**\n"
-                "• 'I ran 5 km in 30 minutes'\n"
-                "• 'Did 45 minutes of yoga'\n"
-                "• 'Cycled 15 km at the park'\n\n"
-                "👥 **Club Management:**\n"
-                "• 'Show me clubs' or 'Find running clubs'\n"
-                "• 'Create club runners for people who love running'\n\n"
-                "🏆 **Challenges:**\n"
-                "• 'Show challenges' or 'Find running challenges'\n"
-                "• 'Create marathon challenge for 42 km'\n\n"
-                "📊 **Track Progress:**\n"
-                "• 'Show my stats' or 'My progress'\n"
-                "• 'How many activities have I logged?'\n\n"
-                "Just tell me what you want to do in natural language!"
-            )
-        else:
-            action_result = (
-                "I'm Pili, and I didn't quite catch that! 🤔 I can help you with:\n"
-                "• Logging workouts and activities\n"
-                "• Finding and creating fitness clubs\n"
-                "• Managing fitness challenges\n"
-                "• Tracking your progress\n\n"
-                "Try saying something like 'I ran 3 miles' or 'Show my stats' or just type 'help' for more examples!"
-            )
-        
-        # Step 3: Return streaming or regular response based on request
         if request.stream:
+            # For streaming, we need to handle the conversation memory manually
+            # Get user's conversation memory
+            memory = chat_handler.get_or_create_memory(request.user_id)
+            conversation_history = memory.chat_memory.messages
+            
+            # Step 1: Detect intent with conversation context
+            try:
+                intent_result = await llm_service.detect_intent(request.message, conversation_history)
+                intent = intent_result.get("intent", "unknown")
+                confidence = intent_result.get("confidence", 0.5)
+                extracted_info = intent_result.get("extracted_info", {})
+            except Exception as e:
+                print(f"Intent detection failed, using fallback: {e}")
+                fallback_result = llm_service._fallback_intent_detection(request.message)
+                intent = fallback_result.get("intent", "unknown")
+                confidence = fallback_result.get("confidence", 0.5)
+                extracted_info = fallback_result.get("extracted_info", {})
+            
+            # Step 2: Handle the intent (using the same logic as chat_handler)
+            action_result = ""
+            if intent == "log_activity":
+                action_result = "Great job! I've logged your activity for you."
+            elif intent == "manage_clubs":
+                action_result = "Here are the clubs I found for you!"
+            elif intent == "manage_challenges":
+                action_result = "Here are some exciting challenges for you!"
+            elif intent == "get_stats":
+                action_result = "Your stats look amazing! Keep up the great work!"
+            elif intent == "help":
+                action_result = (
+                    "Hi! I'm Pili, your fitness companion! 🏃‍♀️ Here's what I can help you with:\n\n"
+                    "📝 **Log Activities:**\n"
+                    "• 'I ran 5 km in 30 minutes'\n"
+                    "• 'Did 45 minutes of yoga'\n"
+                    "• 'Cycled 15 km at the park'\n\n"
+                    "👥 **Club Management:**\n"
+                    "• 'Show me clubs' or 'Find running clubs'\n"
+                    "• 'Create club runners for people who love running'\n\n"
+                    "🏆 **Challenges:**\n"
+                    "• 'Show challenges' or 'Find running challenges'\n"
+                    "• 'Create marathon challenge for 42 km'\n\n"
+                    "📊 **Track Progress:**\n"
+                    "• 'Show my stats' or 'My progress'\n"
+                    "• 'How many activities have I logged?'\n\n"
+                    "Just tell me what you want to do in natural language!"
+                )
+            else:
+                action_result = (
+                    "I'm Pili, and I didn't quite catch that! 🤔 I can help you with:\n"
+                    "• Logging workouts and activities\n"
+                    "• Finding and creating fitness clubs\n"
+                    "• Managing fitness challenges\n"
+                    "• Tracking your progress\n\n"
+                    "Try saying something like 'I ran 3 miles' or 'Show my stats' or just type 'help' for more examples!"
+                )
+            
+            # Save the conversation to memory (before streaming starts)
+            memory.chat_memory.add_user_message(request.message)
+            
+            # Create the streaming generator
+            stream_generator = create_stream_response_with_memory(
+                request.user_id, request.message, intent, confidence, extracted_info, action_result, conversation_history
+            )
+            
+            # Wrap with memory-saving functionality
+            memory_stream = StreamingResponseWithMemory(request.user_id, stream_generator, request.message)
+            
             return StreamingResponse(
-                create_stream_response(request.user_id, request.message, intent, confidence, extracted_info, action_result),
+                memory_stream,
                 media_type="text/plain",
                 headers={
                     "Cache-Control": "no-cache",
@@ -178,23 +314,8 @@ async def chat_endpoint(request: ChatRequest):
                 }
             )
         else:
-            # Regular non-streaming response
-            try:
-                final_response = await llm_service.generate_response(intent, request.message, action_result)
-            except Exception as e:
-                print(f"LLM response generation failed, using action result: {e}")
-                final_response = action_result
-            
-            # Create logs
-            logs = [{
-                "intent": intent,
-                "confidence": confidence,
-                "extracted_info": extracted_info,
-                "action_result": action_result,
-                "llm_provider": llm_service.provider
-            }]
-            
-            return ChatResponse(response=final_response, logs=logs)
+            # Use chat_handler for non-streaming response (with conversation memory)
+            return await chat_handler.process_chat(request)
         
     except Exception as e:
         print(f"Chat processing error: {e}")
