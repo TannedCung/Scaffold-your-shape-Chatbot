@@ -30,7 +30,7 @@ class LLMService:
             self.client = None
             self.model = "unknown"
     
-    async def detect_intent(self, user_message: str) -> Dict[str, Any]:
+    async def detect_intent(self, user_message: str, conversation_history: list = None) -> Dict[str, Any]:
         """Detect intent from user message using LLM."""
         if not self.client:
             # Fallback to rule-based detection if no LLM available
@@ -46,6 +46,8 @@ Available intents:
 - help: User needs help or wants to know what you can do
 - unknown: Message doesn't fit other categories
 
+Consider the conversation history for context clues and references to previous messages.
+
 Respond in JSON format:
 {
     "intent": "one_of_the_above",
@@ -59,13 +61,25 @@ Respond in JSON format:
 }"""
 
         try:
+            # Build messages including conversation history
+            messages = [{"role": "system", "content": system_prompt}]
+            
+            # Add conversation history if available (limit to last 10 messages to avoid token limits)
+            if conversation_history:
+                recent_history = conversation_history[-10:]  # Keep last 10 messages
+                for msg in recent_history:
+                    if hasattr(msg, 'type'):
+                        # Convert langchain message format
+                        role = "user" if msg.type == "human" else "assistant"
+                        messages.append({"role": role, "content": msg.content})
+            
+            # Add current user message
+            messages.append({"role": "user", "content": user_message})
+            
             # Adjust parameters based on provider
             params = {
                 "model": self.model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message}
-                ],
+                "messages": messages,
                 "temperature": 0.1,
                 "max_tokens": 300
             }
@@ -98,7 +112,7 @@ Respond in JSON format:
             print(f"LLM intent detection failed: {e}")
             return self._fallback_intent_detection(user_message)
     
-    async def generate_response(self, intent: str, user_message: str, action_result: str) -> str:
+    async def generate_response(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> str:
         """Generate a natural response using LLM."""
         if not self.client:
             return action_result  # Fallback to action result
@@ -112,8 +126,9 @@ Your personality:
 - Provides helpful fitness advice
 - Speaks naturally and conversationally
 
-Based on the user's message, intent, and the action result, generate a natural, personalized response.
+Based on the conversation history, user's message, intent, and the action result, generate a natural, personalized response.
 Keep responses concise but engaging (2-3 sentences max unless it's help/stats content).
+Reference previous conversations when relevant to provide continuity.
 
 You can use <think> tags to reason through your response, but only the content after </think> will be shown to the user."""
 
@@ -125,12 +140,24 @@ Action result: {action_result}
 Generate a natural, encouraging response as Pili:"""
 
         try:
+            # Build messages including conversation history
+            messages = [{"role": "system", "content": system_prompt}]
+            
+            # Add conversation history if available (limit to last 8 messages to avoid token limits)
+            if conversation_history:
+                recent_history = conversation_history[-8:]  # Keep last 8 messages for context
+                for msg in recent_history:
+                    if hasattr(msg, 'type'):
+                        # Convert langchain message format
+                        role = "user" if msg.type == "human" else "assistant"
+                        messages.append({"role": role, "content": msg.content})
+            
+            # Add current prompt
+            messages.append({"role": "user", "content": user_prompt})
+            
             params = {
                 "model": self.model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
+                "messages": messages,
                 "temperature": 0.7,
                 "max_tokens": 200
             }
@@ -157,7 +184,7 @@ Generate a natural, encouraging response as Pili:"""
             print(f"LLM response generation failed: {e}")
             return action_result  # Fallback to action result
     
-    async def generate_response_stream(self, intent: str, user_message: str, action_result: str) -> AsyncGenerator[str, None]:
+    async def generate_response_stream(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> AsyncGenerator[str, None]:
         """Generate a streaming response using LLM."""
         if not self.client:
             # Fallback: yield the action result as chunks
@@ -179,8 +206,9 @@ Your personality:
 - Provides helpful fitness advice
 - Speaks naturally and conversationally
 
-Based on the user's message, intent, and the action result, generate a natural, personalized response.
+Based on the conversation history, user's message, intent, and the action result, generate a natural, personalized response.
 Keep responses concise but engaging (2-3 sentences max unless it's help/stats content).
+Reference previous conversations when relevant to provide continuity.
 
 You can use <think> tags to reason through your response, but only the content after </think> will be shown to the user."""
 
@@ -192,12 +220,24 @@ Action result: {action_result}
 Generate a natural, encouraging response as Pili:"""
 
         try:
+            # Build messages including conversation history
+            messages = [{"role": "system", "content": system_prompt}]
+            
+            # Add conversation history if available (limit to last 8 messages to avoid token limits)
+            if conversation_history:
+                recent_history = conversation_history[-8:]  # Keep last 8 messages for context
+                for msg in recent_history:
+                    if hasattr(msg, 'type'):
+                        # Convert langchain message format
+                        role = "user" if msg.type == "human" else "assistant"
+                        messages.append({"role": role, "content": msg.content})
+            
+            # Add current prompt
+            messages.append({"role": "user", "content": user_prompt})
+            
             params = {
                 "model": self.model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
+                "messages": messages,
                 "temperature": 0.7,
                 "max_tokens": 200,
                 "stream": True  # Enable streaming
