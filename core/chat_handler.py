@@ -1,121 +1,31 @@
 from typing import Dict, Any
-from langchain.memory import ConversationBufferMemory
 from models.chat import ChatRequest, ChatResponse
-from agents.pili_agent import pili_agent
-from services.llm_service import llm_service
-from tools.api_tools import (
-    log_activity_tool, 
-    get_user_activities_tool,
-    manage_club_tool,
-    manage_challenge_tool,
-    get_user_stats_tool
-)
+from agents.orchestration_agent import orchestration_agent
 
 class ChatHandler:
     def __init__(self):
-        self.agent = pili_agent
-        # Initialize conversation memory for each user
-        self.user_memories = {}
-        
-    def get_or_create_memory(self, user_id: str) -> ConversationBufferMemory:
-        """Get or create conversation memory for a specific user."""
-        if user_id not in self.user_memories:
-            self.user_memories[user_id] = ConversationBufferMemory(
-                memory_key="chat_history",
-                return_messages=True
-            )
-        return self.user_memories[user_id]
+        self.orchestration_agent = orchestration_agent
         
     async def process_chat(self, request: ChatRequest) -> ChatResponse:
-        """Process a chat request using simplified logic for debugging."""
+        """Process a chat request using the orchestration agent."""
         
         try:
-            # Get user's conversation memory
-            memory = self.get_or_create_memory(request.user_id)
-            
-            # Get conversation history
-            conversation_history = memory.chat_memory.messages
-            
-            # Step 1: Detect intent with conversation context
-            intent_result = await llm_service.detect_intent(
-                request.message, 
-                conversation_history=conversation_history
+            # Use orchestration agent to handle the request
+            result = await self.orchestration_agent.process_request(
+                request.user_id, 
+                request.message
             )
-            intent = intent_result.get("intent", "unknown")
-            confidence = intent_result.get("confidence", 0.5)
-            extracted_info = intent_result.get("extracted_info", {})
             
-            # Step 2: Handle the intent
-            action_result = ""
-            if intent == "log_activity":
-                action_result = await log_activity_tool(request.user_id, request.message)
-            elif intent == "manage_clubs":
-                action_result = await manage_club_tool(request.user_id, request.message)
-            elif intent == "manage_challenges":
-                action_result = await manage_challenge_tool(request.user_id, request.message)
-            elif intent == "get_stats":
-                action_result = await get_user_stats_tool(request.user_id)
-            elif intent == "help":
-                action_result = (
-                    "Hi! I'm Pili, your fitness companion! 🏃‍♀️ Here's what I can help you with:\n\n"
-                    "📝 **Log Activities:**\n"
-                    "• 'I ran 5 km in 30 minutes'\n"
-                    "• 'Did 45 minutes of yoga'\n"
-                    "• 'Cycled 15 km at the park'\n\n"
-                    "👥 **Club Management:**\n"
-                    "• 'Show me clubs' or 'Find running clubs'\n"
-                    "• 'Create club runners for people who love running'\n\n"
-                    "🏆 **Challenges:**\n"
-                    "• 'Show challenges' or 'Find running challenges'\n"
-                    "• 'Create marathon challenge for 42 km'\n\n"
-                    "📊 **Track Progress:**\n"
-                    "• 'Show my stats' or 'My progress'\n"
-                    "• 'How many activities have I logged?'\n\n"
-                    "Just tell me what you want to do in natural language!"
-                )
-            else:
-                action_result = (
-                    "I'm Pili, and I didn't quite catch that! 🤔 I can help you with:\n"
-                    "• Logging workouts and activities\n"
-                    "• Finding and creating fitness clubs\n"
-                    "• Managing fitness challenges\n"
-                    "• Tracking your progress\n\n"
-                    "Try saying something like 'I ran 3 miles' or 'Show my stats' or just type 'help' for more examples!"
-                )
-            
-            # Step 3: Generate final response using LLM with conversation context (with fallback)
-            try:
-                final_response = await llm_service.generate_response(
-                    intent, 
-                    request.message, 
-                    action_result,
-                    conversation_history=conversation_history
-                )
-            except Exception as e:
-                print(f"LLM response generation failed: {e}")
-                final_response = action_result
-            
-            # Save the conversation to memory
-            memory.chat_memory.add_user_message(request.message)
-            memory.chat_memory.add_ai_message(final_response)
-            
-            # Create logs
-            logs = [{
-                "intent": intent,
-                "confidence": confidence,
-                "extracted_info": extracted_info,
-                "action_result": action_result,
-                "llm_provider": llm_service.provider,
-                "conversation_length": len(conversation_history)
-            }]
-            
-            return ChatResponse(response=final_response, logs=logs)
+            return ChatResponse(
+                response=result["response"],
+                logs=result["logs"]
+            )
             
         except Exception as e:
             print(f"Chat processing error: {e}")
             return ChatResponse(
                 response="I'm sorry, something went wrong. Please try again.",
-                logs=[{"error": str(e)}]
+                logs=[{"error": str(e), "orchestration_agent": "failed"}]
             )
 
 # Create a global chat handler instance
