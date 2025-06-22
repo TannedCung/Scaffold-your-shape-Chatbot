@@ -114,7 +114,6 @@ Available tools will be provided to you dynamically from the MCP server."""
         
         # Create tool specifications for LLM
         tools_for_llm = []
-        print(f"Processing tools for LLM: {available_tools}")
         
         for tool in available_tools:
             if isinstance(tool, dict) and tool.get("name"):
