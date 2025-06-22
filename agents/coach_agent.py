@@ -142,7 +142,7 @@ Available tools will be provided dynamically from the MCP server."""
         
         # Get LLM response with tool calling capability
         if tools_for_llm:
-            llm_response = await llm_service.generate_response_with_tools(
+            llm_response = llm_service.generate_response_with_tools(
                 "coach_agent",
                 user_query,
                 f"""You are Pili, an expert fitness coach. The user said: "{user_query}"
@@ -157,7 +157,7 @@ Available tools will be provided dynamically from the MCP server."""
             )
         else:
             # No tools available, provide general coaching advice
-            llm_response = await llm_service.generate_response(
+            llm_response = llm_service.generate_response(
                 "coach_agent",
                 user_query,
                 f"""You are Pili, an expert fitness coach. The user said: "{user_query}"
@@ -195,7 +195,7 @@ Available tools will be provided dynamically from the MCP server."""
                 })
             
             # Get final coaching response from LLM incorporating tool results
-            final_response = await llm_service.generate_response(
+            final_response = llm_service.generate_response(
                 "coach_agent_final",
                 user_query,
                 f"""Based on the fitness data and tool results, provide expert coaching advice to the user.
@@ -228,7 +228,7 @@ Available tools will be provided dynamically from the MCP server."""
             response_content = llm_response.content if hasattr(llm_response, 'content') else str(llm_response)
             
             # Enhance with motivational coaching context
-            enhanced_response = await llm_service.generate_response(
+            enhanced_response = llm_service.generate_response(
                 "coach_general",
                 user_query,
                 f"""You are Pili, an expert fitness coach. Provide encouraging coaching advice for: "{user_query}"

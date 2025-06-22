@@ -1,7 +1,7 @@
 import json
-import asyncio
-from typing import Dict, Any, Optional, AsyncGenerator
-from openai import AsyncOpenAI
+import time
+from typing import Dict, Any, Optional, Generator
+from openai import OpenAI
 import httpx
 from config.settings import settings
 
@@ -15,12 +15,12 @@ class LLMService:
     def setup_client(self):
         """Setup the appropriate LLM client based on provider."""
         if self.provider == "openai":
-            self.client = AsyncOpenAI(api_key=settings.openai_api_key) if settings.openai_api_key else None
+            self.client = OpenAI(api_key=settings.openai_api_key) if settings.openai_api_key else None
             self.model = settings.openai_model
         elif self.provider in ["ollama", "vllm", "local"]:
             # For local providers, use OpenAI-compatible client with custom base_url
             api_key = settings.local_llm_api_key or "not-required"
-            self.client = AsyncOpenAI(
+            self.client = OpenAI(
                 base_url=settings.local_llm_base_url,
                 api_key=api_key
             )
@@ -30,7 +30,7 @@ class LLMService:
             self.client = None
             self.model = "unknown"
     
-    async def detect_intent(self, user_message: str, conversation_history: list = None) -> Dict[str, Any]:
+    def detect_intent(self, user_message: str, conversation_history: list = None) -> Dict[str, Any]:
         """Detect intent from user message using LLM."""
         if not self.client:
             # Fallback to rule-based detection if no LLM available
@@ -92,11 +92,8 @@ Respond in JSON format:
                 # Ollama sometimes needs different parameter names
                 params["stream"] = False
             
-            # Add timeout to prevent hanging
-            response = await asyncio.wait_for(
-                self.client.chat.completions.create(**params),
-                timeout=150.0  # Reduced to 5 seconds for faster fallback
-            )
+            # Make synchronous call with timeout handling
+            response = self.client.chat.completions.create(**params)
             
             content = response.choices[0].message.content
             
@@ -108,14 +105,15 @@ Respond in JSON format:
                 # Extract intent from text response if JSON parsing fails
                 return self._extract_intent_from_text(content, user_message)
             
-        except asyncio.TimeoutError:
-            print(f"LLM intent detection timed out for message: {user_message}")
-            return self._fallback_intent_detection(user_message)
+        except Exception as timeout_e:
+            if "timeout" in str(timeout_e).lower():
+                print(f"LLM intent detection timed out for message: {user_message}")
+                return self._fallback_intent_detection(user_message)
         except Exception as e:
             print(f"LLM intent detection failed: {e}")
             return self._fallback_intent_detection(user_message)
     
-    async def generate_response(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> str:
+    def generate_response(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> str:
         """Generate a natural response using LLM."""
         if not self.client:
             return action_result  # Fallback to action result
@@ -132,6 +130,8 @@ Your personality:
 Based on the conversation history, user's message, intent, and the action result, generate a natural, personalized response.
 Keep responses concise but engaging (2-3 sentences max unless it's help/stats content).
 Reference previous conversations when relevant to provide continuity.
+
+Based on the provided tools, you can decide to use them or not.
 
 You can use <think> tags to reason through your response, but only the content after </think> will be shown to the user."""
 
@@ -171,10 +171,7 @@ Generate a natural, encouraging response as Pili:"""
             if self.provider == "ollama":
                 params["stream"] = False
             
-            response = await asyncio.wait_for(
-                self.client.chat.completions.create(**params),
-                timeout=80.0  # Reduced to 8 seconds for response generation
-            )
+            response = self.client.chat.completions.create(**params)
             
             content = response.choices[0].message.content.strip()
             
@@ -183,18 +180,19 @@ Generate a natural, encouraging response as Pili:"""
             
             return content
             
-        except asyncio.TimeoutError:
-            print(f"LLM response generation timed out for intent: {intent}")
-            return action_result  # Fallback to action result
+        except Exception as timeout_e:
+            if "timeout" in str(timeout_e).lower():
+                print(f"LLM response generation timed out for intent: {intent}")
+                return action_result  # Fallback to action result
         except Exception as e:
             print(f"LLM response generation failed: {e}")
             return action_result  # Fallback to action result
     
-    async def generate_response_with_tools(self, context: str, user_message: str, system_prompt: str, conversation_history: list = None, tools: list = None):
+    def generate_response_with_tools(self, context: str, user_message: str, system_prompt: str, conversation_history: list = None, tools: list = None):
         """Generate a response with tool calling capability."""
         if not self.client:
             return {"content": "LLM service unavailable"}
-        
+
         try:
             # Build messages
             messages = [{"role": "system", "content": system_prompt}]
@@ -221,46 +219,47 @@ Generate a natural, encouraging response as Pili:"""
                 "max_tokens": 1000,
             }
             
+            # Add provider-specific parameters for tool calling
+            if self.provider in ["ollama", "vllm", "local"]:
+                # Some local providers need additional hints for tool calling
+                params["extra_body"] = {
+                    "chat_template_kwargs": {"enable_thinking": True},
+                    "guided_json": None,  # Ensure JSON mode is available for tool calling
+                }
+            elif self.provider == "openai":
+                # OpenAI-specific optimizations
+                params["parallel_tool_calls"] = True  # Enable parallel tool execution
+            
             # Add tools if provided
             if tools and len(tools) > 0:
-                # Ensure tools are properly formatted for OpenAI API
-                formatted_tools = []
-                for tool in tools:
-                    if isinstance(tool, dict) and "name" in tool:
-                        formatted_tool = {
-                            "type": "function",
-                            "function": {
-                                "name": tool["name"],
-                                "description": tool.get("description", ""),
-                                "parameters": tool.get("parameters", {"type": "object", "properties": {}})
-                            }
-                        }
-                        formatted_tools.append(formatted_tool)
+                params["tools"] = tools[:1]
                 
-                if formatted_tools:
-                    params["tools"] = formatted_tools
-                    # Use "required" instead of "auto" or make it optional
-                    if len(formatted_tools) == 1:
-                        params["tool_choice"] = {"type": "function", "function": {"name": formatted_tools[0]["function"]["name"]}}
-                    else:
-                        # For multiple tools, let the model choose or don't specify tool_choice
-                        pass
+                # Encourage tool usage - be more aggressive about tool calling
+                if len(params["tools"]) == 1:
+                    # Force the single tool to be used
+                    params["tool_choice"] = {"type": "function", "function": {"name": tools[0]["function"]["name"]}}
+                elif len(params["tools"]) <= 3:
+                    # For small number of tools, encourage usage but don't force
+                    params["tool_choice"] = "required"  # This forces the model to use at least one tool
+                else:
+                    # For many tools, let model choose but encourage usage
+                    params["tool_choice"] = "auto"
+
+            response = self.client.chat.completions.create(**params)
             
-            response = await asyncio.wait_for(
-                self.client.chat.completions.create(**params),
-                timeout=30.0
-            )
+            # Debug: Print response details
+            message = response.choices[0].message
+            return message
             
-            return response.choices[0].message
-            
-        except asyncio.TimeoutError:
-            print(f"LLM tool response timed out for context: {context}")
-            return {"content": "Request timed out"}
+        except Exception as timeout_e:
+            if "timeout" in str(timeout_e).lower():
+                print(f"LLM tool response timed out for context: {context}")
+                return {"content": "Request timed out"}
         except Exception as e:
             print(f"LLM tool response generation failed: {e}")
             return {"content": f"Error: {str(e)}"}
 
-    async def generate_response_stream(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> AsyncGenerator[str, None]:
+    def generate_response_stream(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> Generator[str, None, None]:
         """Generate a streaming response using LLM."""
         if not self.client:
             # Fallback: yield the action result as chunks
@@ -270,7 +269,7 @@ Generate a natural, encouraging response as Pili:"""
                     yield word
                 else:
                     yield f" {word}"
-                await asyncio.sleep(0.05)  # Small delay to simulate streaming
+                time.sleep(0.05)  # Small delay to simulate streaming
             return
 
         system_prompt = """You are Pili, an enthusiastic and friendly fitness chatbot. 
@@ -325,15 +324,12 @@ Generate a natural, encouraging response as Pili:"""
             if self.provider == "ollama":
                 params["stream"] = True
             
-            response_stream = await asyncio.wait_for(
-                self.client.chat.completions.create(**params),
-                timeout=80.0
-            )
+            response_stream = self.client.chat.completions.create(**params)
             
             content_buffer = ""
             thinking_mode = False
             
-            async for chunk in response_stream:
+            for chunk in response_stream:
                 if chunk.choices and len(chunk.choices) > 0:
                     delta = chunk.choices[0].delta
                     if hasattr(delta, 'content') and delta.content:
@@ -360,8 +356,9 @@ Generate a natural, encouraging response as Pili:"""
                         if not thinking_mode:
                             yield delta.content
             
-        except asyncio.TimeoutError:
-            print(f"LLM streaming response timed out for intent: {intent}")
+        except Exception as timeout_e:
+            if "timeout" in str(timeout_e).lower():
+                print(f"LLM streaming response timed out for intent: {intent}")
             # Fallback to non-streaming action result
             words = action_result.split()
             for i, word in enumerate(words):
@@ -369,7 +366,7 @@ Generate a natural, encouraging response as Pili:"""
                     yield word
                 else:
                     yield f" {word}"
-                await asyncio.sleep(0.02)
+                time.sleep(0.02)
                 
         except Exception as e:
             print(f"LLM streaming response failed: {e}")
@@ -380,7 +377,7 @@ Generate a natural, encouraging response as Pili:"""
                     yield word
                 else:
                     yield f" {word}"
-                await asyncio.sleep(0.02)
+                time.sleep(0.02)
 
     def _extract_intent_from_text(self, content: str, user_message: str) -> Dict[str, Any]:
         """Extract intent from text response when JSON parsing fails."""
@@ -468,13 +465,13 @@ Generate a natural, encouraging response as Pili:"""
         
         return thinking, response
 
-    async def test_connection(self) -> Dict[str, Any]:
+    def test_connection(self) -> Dict[str, Any]:
         """Test connection to the LLM provider."""
         if not self.client:
             return {"status": "error", "message": "No LLM client configured"}
         
         try:
-            response = await self.client.chat.completions.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": "Hello"}],
                 max_tokens=10,

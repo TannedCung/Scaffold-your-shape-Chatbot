@@ -129,7 +129,7 @@ Available tools will be provided to you dynamically from the MCP server."""
         
         # Get LLM response with tool calling capability
         if tools_for_llm:
-            llm_response = await llm_service.generate_response_with_tools(
+            llm_response = llm_service.generate_response_with_tools(
                 "logger_agent",
                 user_query,
                 f"""You are Pili, a fitness assistant. The user said: "{user_query}"
@@ -143,7 +143,7 @@ Available tools will be provided to you dynamically from the MCP server."""
             )
         else:
             # No tools available, generate a response without tools
-            llm_response = await llm_service.generate_response(
+            llm_response = llm_service.generate_response(
                 "logger_agent",
                 user_query,
                 f"""You are Pili, a fitness assistant. The user said: "{user_query}"
@@ -181,7 +181,7 @@ Available tools will be provided to you dynamically from the MCP server."""
                 })
             
             # Get final response from LLM incorporating tool results
-            final_response = await llm_service.generate_response(
+            final_response = llm_service.generate_response(
                 "logger_agent_final",
                 user_query,
                 f"""Based on the tool execution results, provide a friendly, encouraging response to the user.

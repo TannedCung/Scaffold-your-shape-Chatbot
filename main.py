@@ -171,7 +171,7 @@ async def root():
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint with LLM status."""
-    llm_status = await llm_service.test_connection()
+    llm_status = llm_service.test_connection()
     
     return {
         "status": "healthy", 
@@ -186,10 +186,10 @@ async def debug_llm(request: ChatRequest):
     """Debug endpoint to test LLM response directly."""
     try:
         # Test intent detection
-        intent_result = await llm_service.detect_intent(request.message)
+        intent_result = llm_service.detect_intent(request.message)
         
         # Test response generation
-        response = await llm_service.generate_response(
+        response = llm_service.generate_response(
             intent_result.get("intent", "help"),
             request.message,
             "Debug test action result"
@@ -215,7 +215,7 @@ async def chat_simple(request: ChatRequest):
         from services.llm_service import llm_service
         
         # Step 1: Detect intent
-        intent_result = await llm_service.detect_intent(request.message)
+        intent_result = llm_service.detect_intent(request.message)
         intent = intent_result.get("intent", "unknown")
         
         # Step 2: Simple action result based on intent
@@ -228,7 +228,7 @@ async def chat_simple(request: ChatRequest):
         
         # Step 3: Generate response (with timeout handling)
         try:
-            final_response = await llm_service.generate_response(intent, request.message, action_result)
+            final_response = llm_service.generate_response(intent, request.message, action_result)
         except Exception as e:
             print(f"LLM failed: {e}")
             final_response = action_result

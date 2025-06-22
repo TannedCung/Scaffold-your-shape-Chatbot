@@ -54,7 +54,7 @@ Think step by step and provide your analysis in JSON format:
 
     try:
         # Get task analysis using LLM
-        analysis_response = await llm_service.generate_response(
+        analysis_response = llm_service.generate_response(
             "analyze_task", 
             state['message'], 
             cot_prompt,
@@ -174,7 +174,7 @@ Your response should be conversational and engaging, not robotic. If multiple ag
 Final response:"""
 
     try:
-        final_response = await llm_service.generate_response(
+        final_response = llm_service.generate_response(
             "synthesize_response",
             message,
             synthesis_prompt,
