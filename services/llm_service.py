@@ -190,6 +190,76 @@ Generate a natural, encouraging response as Pili:"""
             print(f"LLM response generation failed: {e}")
             return action_result  # Fallback to action result
     
+    async def generate_response_with_tools(self, context: str, user_message: str, system_prompt: str, conversation_history: list = None, tools: list = None):
+        """Generate a response with tool calling capability."""
+        if not self.client:
+            return {"content": "LLM service unavailable"}
+        
+        try:
+            # Build messages
+            messages = [{"role": "system", "content": system_prompt}]
+            
+            # Add conversation history if available
+            if conversation_history:
+                recent_history = conversation_history[-8:]  # Keep last 8 messages
+                for msg in recent_history:
+                    if isinstance(msg, dict):
+                        messages.append(msg)
+                    elif hasattr(msg, 'type'):
+                        # Convert langchain message format
+                        role = "user" if msg.type == "human" else "assistant"
+                        messages.append({"role": role, "content": msg.content})
+            
+            # Add current user message if not already in conversation history
+            if not any(msg.get("content") == user_message for msg in messages if msg.get("role") == "user"):
+                messages.append({"role": "user", "content": user_message})
+            
+            params = {
+                "model": self.model,
+                "messages": messages,
+                "temperature": 0.7,
+                "max_tokens": 1000,
+            }
+            
+            # Add tools if provided
+            if tools and len(tools) > 0:
+                # Ensure tools are properly formatted for OpenAI API
+                formatted_tools = []
+                for tool in tools:
+                    if isinstance(tool, dict) and "name" in tool:
+                        formatted_tool = {
+                            "type": "function",
+                            "function": {
+                                "name": tool["name"],
+                                "description": tool.get("description", ""),
+                                "parameters": tool.get("parameters", {"type": "object", "properties": {}})
+                            }
+                        }
+                        formatted_tools.append(formatted_tool)
+                
+                if formatted_tools:
+                    params["tools"] = formatted_tools
+                    # Use "required" instead of "auto" or make it optional
+                    if len(formatted_tools) == 1:
+                        params["tool_choice"] = {"type": "function", "function": {"name": formatted_tools[0]["function"]["name"]}}
+                    else:
+                        # For multiple tools, let the model choose or don't specify tool_choice
+                        pass
+            
+            response = await asyncio.wait_for(
+                self.client.chat.completions.create(**params),
+                timeout=30.0
+            )
+            
+            return response.choices[0].message
+            
+        except asyncio.TimeoutError:
+            print(f"LLM tool response timed out for context: {context}")
+            return {"content": "Request timed out"}
+        except Exception as e:
+            print(f"LLM tool response generation failed: {e}")
+            return {"content": f"Error: {str(e)}"}
+
     async def generate_response_stream(self, intent: str, user_message: str, action_result: str, conversation_history: list = None) -> AsyncGenerator[str, None]:
         """Generate a streaming response using LLM."""
         if not self.client:
