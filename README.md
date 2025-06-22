@@ -1,28 +1,57 @@
 # Pili - Exercise Tracker Chatbot Microservice
 
-A sophisticated chatbot microservice named **Pili** for an exercise tracker application, built with FastAPI, LangGraph, and LangSmith. Features a multiagent architecture with comprehensive API integration for the Scaffold Your Shape fitness platform.
+A sophisticated chatbot microservice named **Pili** for an exercise tracker application, built with FastAPI, LangGraph, and LangSmith. Features a **3-agent architecture** with **chain of thought reasoning** and **MCP server integration** for the Scaffold Your Shape fitness platform.
 
 ## 🏗️ Architecture
 
+### 3-Agent System
 ```
-├── agents/           # LangGraph-based agent implementations (Pili)
-├── tools/            # API tools for fitness tracking integration
-├── services/         # External API service integrations
+🧠 Orchestration Agent (Chain of Thought Coordinator)
+      ↓
+┌─────────────────┬─────────────────┐
+│ 📝 Logger Agent │ 🏃‍♀️ Coach Agent │
+│ (MCP Interface) │ (AI Coaching)   │
+└─────────────────┴─────────────────┘
+```
+
+### File Structure
+```
+├── agents/
+│   ├── orchestration_agent.py  # Main coordinator with CoT reasoning
+│   ├── logger_agent.py         # MCP server integration
+│   └── coach_agent.py          # Personalized coaching & planning
+├── tools/            # Legacy API tools (kept for compatibility)
+├── services/         # LLM and external service integrations
 ├── models/           # Pydantic data models for API and chat
 ├── config/           # Configuration and settings
-├── core/             # Core business logic and chat handling
+├── core/             # Orchestration-based chat handling
 └── main.py           # FastAPI application entry point
 ```
 
 ## 🚀 Features
 
-- **Pili AI Assistant**: Natural language fitness companion
-- **Comprehensive Activity Logging**: Track running, cycling, swimming, yoga, and more
-- **Club Management**: Create, join, and discover fitness clubs
-- **Challenge System**: Create and participate in fitness challenges
-- **Progress Tracking**: Detailed statistics and workout history
-- **API Integration**: Full integration with Scaffold Your Shape API
-- **LangSmith Integration**: Conversation monitoring and analytics
+### 🧠 Orchestration Agent
+- **Chain of Thought Reasoning**: Step-by-step task analysis and planning
+- **Intelligent Task Decomposition**: Breaks complex requests into manageable subtasks
+- **Multi-Agent Coordination**: Manages execution order and agent communication
+- **Context-Aware Response Synthesis**: Combines results from specialized agents
+
+### 📝 Logger Agent (MCP Integration)
+- **Direct MCP Server Connection**: Communicates with Scaffold Your Shape at `192.168.1.98:3005`
+- **Activity Logging**: Real-time workout tracking to the main application
+- **Club Management**: Join/leave fitness clubs via MCP server
+- **Progress Retrieval**: Fetches user activity history for analysis
+
+### 🏃‍♀️ Coach Agent (AI-Powered)
+- **Personalized Workout Planning**: Creates custom exercise routines
+- **Progress Analysis**: Data-driven insights and trend analysis
+- **Motivational Coaching**: Encouraging messages and goal-setting
+- **Performance Optimization**: Suggests improvements based on activity patterns
+
+### 🌟 Additional Features
+- **Conversation Memory**: Maintains context across interactions
+- **Real-time Streaming**: Supports streaming responses with orchestration metadata
+- **Robust Error Handling**: Graceful fallbacks for all components
 - **Auto-generated API Documentation**: Interactive Swagger UI
 
 ## 🛠️ Setup
@@ -58,7 +87,19 @@ Set the following environment variables in your `.env` file:
 
 - `LANGCHAIN_API_KEY`: Your LangChain API key for LangSmith
 - `LANGCHAIN_PROJECT`: Project name for LangSmith tracking (default: pili-exercise-chatbot)
-- `EXERCISE_SERVICE_URL`: Scaffold Your Shape API endpoint (e.g., http://localhost:3001/api)
+- `LLM_PROVIDER`: LLM provider (openai, ollama, vllm, local)
+- `OPENAI_API_KEY`: OpenAI API key (if using OpenAI)
+- `LOCAL_LLM_BASE_URL`: Local LLM base URL (default: http://localhost:11434)
+- `LOCAL_LLM_MODEL`: Local LLM model name (default: llama2)
+- `MCP_BASE_URL`: Scaffold Your Shape MCP server URL (default: http://192.168.1.98:3005/api/mcp)
+
+### MCP Server Configuration
+
+The Logger and Coach agents connect to the Scaffold Your Shape MCP server:
+- **MCP Server URL**: Configurable via `MCP_BASE_URL` environment variable (default: `http://192.168.1.98:3005/api/mcp`)
+- **Protocol**: HTTP POST with JSON payloads using proper MCP methods (`tools/list`, `tools/call`, `resources/list`)
+- **Timeout**: 30 seconds
+- **Methods**: Dynamic tool discovery from MCP server at runtime
 
 ## 📝 API Endpoints
 
@@ -87,15 +128,45 @@ Health check endpoint.
 ### GET `/api/docs`
 Redirects to Swagger UI documentation.
 
+## 🤖 How the 3-Agent System Works
+
+### Simple Request Flow
+```
+User: "I ran 5 km this morning"
+   ↓
+🧠 Orchestration Agent: "Simple logging task → Use Logger Agent"
+   ↓
+📝 Logger Agent: Logs to MCP server → "Activity logged successfully"
+   ↓
+🧠 Orchestration Agent: Synthesizes response
+   ↓
+Response: "🎉 Great job! I've logged your Running activity - 5 km in Scaffold Your Shape!"
+```
+
+### Complex Request Flow
+```
+User: "I want to improve my running and need a training plan"
+   ↓
+🧠 Orchestration Agent: "Complex task → Use Logger + Coach agents"
+   ↓
+📝 Logger Agent: Gets running history from MCP server
+🏃‍♀️ Coach Agent: Analyzes data + creates personalized plan
+   ↓
+🧠 Orchestration Agent: Combines results with chain of thought
+   ↓
+Response: Comprehensive training plan with current progress context
+```
+
 ## 🤖 What Pili Can Do
 
-| Category | Example Messages | Pili's Capabilities |
+| Category | Example Messages | Agent Coordination |
 |----------|------------------|-------------------|
-| **Activity Logging** | "I ran 5 km", "Did yoga for 45 minutes", "Cycled 15 km at the park" | Automatically extracts activity type, distance, duration, and location |
-| **Club Management** | "Show me clubs", "Create club runners for marathon training" | Search, create, and manage fitness clubs |
-| **Challenges** | "Show challenges", "Create marathon challenge for 42 km" | Participate in and create fitness challenges |
-| **Progress Tracking** | "Show my stats", "What's my progress?" | View comprehensive fitness statistics |
-| **Help & Guidance** | "help", "what can you do?" | Get assistance and discover features |
+| **Activity Logging** | "I ran 5 km", "Did yoga for 45 minutes" | Logger Agent → MCP Server |
+| **Club Management** | "Show me clubs", "Join club runners" | Logger Agent → MCP Server |
+| **Workout Planning** | "Create a running plan", "I need a training schedule" | Logger Agent (history) + Coach Agent (planning) |
+| **Progress Analysis** | "How am I doing?", "Analyze my progress" | Logger Agent (data) + Coach Agent (analysis) |
+| **Motivation** | "I need motivation", "Encourage me" | Coach Agent with activity context |
+| **Complex Requests** | "Plan my week and track yesterday's workout" | Orchestration Agent coordinates multiple agents |
 
 ## 🧠 Pili's Intelligence
 
@@ -137,24 +208,41 @@ Monitor Pili's conversations and performance:
 
 ## 🧪 Development
 
-The project follows a modular architecture for easy extension:
+The project follows a modular 3-agent architecture for easy extension:
 
-**Adding New Tools:**
+**Adding New Capabilities to Logger Agent:**
 ```python
-# In tools/api_tools.py
-async def new_tool(user_id: str, message: str) -> str:
-    # Your tool logic here
-    return response
+# In agents/logger_agent.py
+async def _new_mcp_method(self, user_id: str, message: str) -> str:
+    mcp_request = {
+        "method": "new_method",
+        "params": {"user_id": user_id, "data": parsed_data}
+    }
+    # Handle MCP server communication
 ```
 
-**Adding New Intents:**
+**Adding New Coaching Features:**
 ```python
-# In agents/pili_agent.py
-def detect_intent(state: PiliAgentState) -> str:
-    # Add new intent detection logic
-    if "new_intent_keyword" in message:
-        state.intent = "new_intent"
+# In agents/coach_agent.py
+async def _new_coaching_feature(self, user_id: str, message: str) -> str:
+    # Get user data via MCP
+    activity_data = await self._get_user_activity_data(user_id)
+    # Provide coaching logic
 ```
+
+**Extending Orchestration Logic:**
+```python
+# In agents/orchestration_agent.py
+# Modify analyze_task() to handle new complex scenarios
+# Add new agent coordination patterns
+```
+
+## 📖 Documentation
+
+For detailed technical documentation, see:
+- [Agent Architecture Documentation](docs/agent-architecture.md)
+- [Chain of Thought Implementation](docs/agent-architecture.md#chain-of-thought-implementation)
+- [MCP Server Integration](docs/agent-architecture.md#mcp-server-integration)
 
 ## 📄 License
 
