@@ -2,14 +2,14 @@ from fastapi import FastAPI, APIRouter
 from fastapi.responses import RedirectResponse, StreamingResponse
 from models.chat import ChatRequest, ChatResponse
 from services.llm_service import llm_service
-from core.chat_handler import chat_handler
+from agents.agent import agent_system
 import json
 import time
 import asyncio
 
 app = FastAPI(
     title="Pili Exercise Chatbot API",
-    description="A microservice chatbot named Pili for tracking exercises using LangGraph and FastAPI.",
+    description="A multiagent chatbot named Pili for tracking exercises using LangGraph and FastAPI.",
     version="1.0.0",
     openapi_url="/api/openapi.json",
     docs_url="/api/docs"
@@ -17,21 +17,24 @@ app = FastAPI(
 
 api_router = APIRouter(prefix="/api")
 
-# Legacy streaming functions removed - now handled by orchestration agent
 
 @api_router.post("/chat", tags=["Chatbot"])
 async def chat_endpoint(request: ChatRequest):
     """
     Chat with Pili, the Exercise Tracker Bot.
     
+    Uses LangGraph agent swarm with specialized agents:
+    - Logger Agent: Handles activity logging, club management, data retrieval
+    - Coach Agent: Provides coaching advice, workout planning, progress analysis
+    
     Supports both regular and streaming responses (set stream=true for streaming).
-    Now includes conversation memory to maintain context across messages.
     
     Pili can help you with:
     - **Log exercises**: "I did 20 pushups"
     - **Track progress**: "Show my progress" 
     - **Join clubs**: "Join club fitness"
     - **Exit clubs**: "Leave club fitness"
+    - **Coaching advice**: "Create a workout plan"
     - **Get help**: "help"
     
     **Parameters:**
@@ -41,20 +44,19 @@ async def chat_endpoint(request: ChatRequest):
     """
     try:
         if request.stream:
-            # For streaming, use orchestration agent but handle streaming manually
-            # Get the orchestration result first
-            orchestration_result = await chat_handler.orchestration_agent.process_request(
+            # For streaming, get agent result first then stream it
+            agent_result = await agent_system.process_request(
                 request.user_id, 
                 request.message
             )
             
             # Extract data for streaming
-            response_text = orchestration_result["response"]
-            logs = orchestration_result.get("logs", [])
-            chain_of_thought = orchestration_result.get("chain_of_thought", [])
+            response_text = agent_result["response"]
+            logs = agent_result.get("logs", [])
+            chain_of_thought = agent_result.get("chain_of_thought", [])
             
-            # Create streaming response using orchestration result
-            async def create_orchestration_stream():
+            # Create streaming response
+            async def create_agent_stream():
                 # Create unique chat completion ID
                 chat_id = f"chatcmpl-{int(time.time())}"
                 created_time = int(time.time())
@@ -64,14 +66,14 @@ async def chat_endpoint(request: ChatRequest):
                     "id": chat_id,
                     "object": "chat.completion.chunk",
                     "created": created_time,
-                    "model": "pili-orchestration",
+                    "model": "pili-langgraph-swarm",
                     "choices": [{
                         "index": 0,
                         "delta": {"role": "assistant", "content": ""},
                         "finish_reason": None
                     }],
                     "metadata": {
-                        "orchestration_agent": "active",
+                        "agent_system": "langgraph_swarm",
                         "chain_of_thought": chain_of_thought,
                         "logs": logs
                     }
@@ -86,7 +88,7 @@ async def chat_endpoint(request: ChatRequest):
                         "id": chat_id,
                         "object": "chat.completion.chunk",
                         "created": created_time,
-                        "model": "pili-orchestration",
+                        "model": "pili-langgraph-swarm",
                         "choices": [{
                             "index": 0,
                             "delta": {"content": content},
@@ -101,7 +103,7 @@ async def chat_endpoint(request: ChatRequest):
                     "id": chat_id,
                     "object": "chat.completion.chunk",
                     "created": created_time,
-                    "model": "pili-orchestration",
+                    "model": "pili-langgraph-swarm",
                     "choices": [{
                         "index": 0,
                         "delta": {},
@@ -112,7 +114,7 @@ async def chat_endpoint(request: ChatRequest):
                 yield "data: [DONE]\n\n"
             
             return StreamingResponse(
-                create_orchestration_stream(),
+                create_agent_stream(),
                 media_type="text/plain",
                 headers={
                     "Cache-Control": "no-cache",
@@ -121,14 +123,23 @@ async def chat_endpoint(request: ChatRequest):
                 }
             )
         else:
-            # Use chat_handler for non-streaming response (with conversation memory)
-            return await chat_handler.process_chat(request)
+            # Non-streaming response using agent system
+            agent_result = await agent_system.process_request(
+                request.user_id,
+                request.message
+            )
+            
+            return ChatResponse(
+                response=agent_result["response"],
+                logs=agent_result["logs"]
+            )
         
     except Exception as e:
         # Log the error with traceback
         import traceback
         traceback.print_exc()
         print(f"Chat processing error: {e}")
+        
         if request.stream:
             # Return streaming error
             async def error_stream():
@@ -136,10 +147,10 @@ async def chat_endpoint(request: ChatRequest):
                     "id": f"chatcmpl-error-{int(time.time())}",
                     "object": "chat.completion.chunk",
                     "created": int(time.time()),
-                    "model": "pili",
+                    "model": "pili-langgraph-swarm",
                     "choices": [{
                         "index": 0,
-                        "delta": {"content": "I'm sorry, something went wrong. Please try again."},
+                        "delta": {"content": "I'm sorry, something went wrong. Please try again! 💪"},
                         "finish_reason": "stop"
                     }]
                 }
@@ -149,41 +160,50 @@ async def chat_endpoint(request: ChatRequest):
             return StreamingResponse(error_stream(), media_type="text/plain")
         else:
             return ChatResponse(
-                response="I'm sorry, something went wrong. Please try again.",
-                logs=[{"error": str(e)}]
+                response="I'm sorry, something went wrong. Please try again! 💪",
+                logs=[{"error": str(e), "agent_system": "failed"}]
             )
+
 
 @api_router.get("/health", tags=["Health"])
 async def health_check():
     """Health check endpoint."""
     return {"status": "healthy", "service": "pili-exercise-chatbot"}
 
+
 @api_router.get("/docs", include_in_schema=False)
 async def custom_docs_redirect():
     """Redirect to the FastAPI Swagger UI documentation."""
     return RedirectResponse(url="/api/docs")
+
 
 @app.get("/", include_in_schema=False)
 async def root():
     """Redirect to the API docs."""
     return RedirectResponse(url="/api/docs")
 
+
 @app.get("/api/health")
-async def health_check():
+async def health_check_detailed():
     """Health check endpoint with LLM status."""
-    llm_status = llm_service.test_connection()
+    try:
+        llm_status = llm_service.test_connection()
+    except Exception as e:
+        llm_status = f"error: {str(e)}"
     
     return {
         "status": "healthy", 
         "service": "pili-exercise-chatbot",
+        "agent_system": "langgraph_swarm",
         "llm_provider": llm_service.provider,
         "llm_model": llm_service.model,
         "llm_status": llm_status
     }
 
+
 @app.post("/api/debug-llm")
 async def debug_llm(request: ChatRequest):
-    """Debug endpoint to test LLM response directly."""
+    """Debug endpoint to test LLM response directly (bypassing agent system)."""
     try:
         # Test intent detection
         intent_result = llm_service.detect_intent(request.message)
@@ -202,43 +222,49 @@ async def debug_llm(request: ChatRequest):
             "raw_response": response,
             "thinking_process": thinking,
             "final_response": final_response,
-            "intent_result": intent_result
+            "intent_result": intent_result,
+            "note": "This bypasses the agent system for direct LLM testing"
         }
     except Exception as e:
         return {"error": str(e)}
 
+
 @app.post("/api/chat-simple")
 async def chat_simple(request: ChatRequest):
-    """Simple chat endpoint without complex imports."""
+    """Simple chat endpoint without agent system for testing."""
     try:
-        # Import here to avoid circular imports
-        from services.llm_service import llm_service
-        
-        # Step 1: Detect intent
-        intent_result = llm_service.detect_intent(request.message)
-        intent = intent_result.get("intent", "unknown")
-        
-        # Step 2: Simple action result based on intent
-        if intent == "help":
-            action_result = "I'm Pili! I can help you log activities, manage clubs, challenges, and track your progress."
-        elif intent == "get_stats":
-            action_result = "Here are your stats: You're doing great!"
-        else:
-            action_result = f"I detected intent '{intent}' for your message: {request.message}"
-        
-        # Step 3: Generate response (with timeout handling)
-        try:
-            final_response = llm_service.generate_response(intent, request.message, action_result)
-        except Exception as e:
-            print(f"LLM failed: {e}")
-            final_response = action_result
+        # Simple LLM response without agents
+        final_response = llm_service.generate_response(
+            "simple_chat",
+            request.message,
+            f"""You are Pili, an enthusiastic fitness assistant. 
+            User ({request.user_id}) said: "{request.message}"
+            
+            Provide a helpful, encouraging response about fitness and exercise.
+            Use fitness emojis appropriately. This is a simple mode without access to fitness tracking tools."""
+        )
         
         return {
             "response": final_response,
-            "logs": [{"intent": intent, "action_result": action_result}]
+            "logs": [{"mode": "simple_chat", "note": "Bypasses agent system"}]
         }
         
     except Exception as e:
         return {"error": str(e)}
+
+
+@app.post("/api/agent/clear-cache")
+async def clear_agent_cache(user_id: str = None):
+    """Clear agent cache for a specific user or all users."""
+    try:
+        if user_id:
+            agent_system.clear_user_cache(user_id)
+            return {"status": "success", "message": f"Cleared cache for user {user_id}"}
+        else:
+            agent_system.clear_all_cache()
+            return {"status": "success", "message": "Cleared all agent caches"}
+    except Exception as e:
+        return {"error": str(e)}
+
 
 app.include_router(api_router) 
