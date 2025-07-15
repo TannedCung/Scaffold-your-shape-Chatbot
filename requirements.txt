@@ -1,17 +1,28 @@
+# Core Framework
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
-pydantic==2.11.5
+pydantic==2.5.0
 pydantic-settings==2.1.0
+
+# LangChain and LangGraph
+langchain==0.1.0
+langchain-core==0.1.0
+langchain-openai==0.0.5
+langgraph==0.0.20
+langsmith==0.0.69
+
+# LangGraph Swarm (from example)
+langgraph-swarm
+
+# HTTP Client
 httpx==0.25.2
-python-multipart==0.0.6
 
-# LLM and AI framework dependencies
-openai==1.76.0
-langchain==0.3.25
-langgraph==0.4.8
-langsmith==0.3.45
-langchain-core==0.3.63
+# Optional LLM Providers
+openai==1.6.0
 
-# Additional dependencies
-python-dotenv==1.0.0
-aiohttp==3.9.1 
+# Utilities for web content
+markdownify==0.11.6
+
+# Development and Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1 
