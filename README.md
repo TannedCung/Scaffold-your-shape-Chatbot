@@ -5,14 +5,8 @@ A sophisticated chatbot microservice named **Pili** for an exercise tracker appl
 ## 🏗️ Architecture
 
 ### 3-Agent System
-```
-🧠 Orchestration Agent (Chain of Thought Coordinator)
-      ↓
-┌─────────────────┬─────────────────┐
-│ 📝 Logger Agent │ 🏃‍♀️ Coach Agent │
-│ (MCP Interface) │ (AI Coaching)   │
-└─────────────────┴─────────────────┘
-```
+
+![Arch](docs/graph.png)
 
 ### File Structure
 ```
