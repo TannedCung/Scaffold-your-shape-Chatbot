@@ -1,13 +1,15 @@
 """Main agent system for Pili fitness chatbot using LangGraph patterns."""
 
-from langchain.chat_models import init_chat_model
+import uuid
+from openai import OpenAI
+from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from langgraph_swarm import create_handoff_tool, create_swarm
 from typing import Dict, Any, List, Optional
 import json
 
 from .prompts import logger_prompt, coach_prompt
-from .utils import get_mcp_tools, execute_mcp_tool, create_tool_spec_for_llm, extract_user_id_from_args
+from .utils import get_mcp_tools, execute_mcp_tool, extract_user_id_from_args, print_stream
 from config.settings import settings, get_configuration
 
 
@@ -15,18 +17,24 @@ from config.settings import settings, get_configuration
 config = get_configuration()
 
 if config.llm_provider == "openai":
-    model = init_chat_model(
+    # Use OpenAI API
+    openai_client = OpenAI(api_key=config.openai_api_key)
+    model = ChatOpenAI(
         model=config.openai_model,
-        model_provider="openai",
-        api_key=config.openai_api_key
+        api_key=config.openai_api_key,
+        temperature=0.7
     )
 else:
-    # For local/other providers, adapt as needed
-    model = init_chat_model(
-        model=config.local_llm_model,
-        model_provider="openai",  # Use OpenAI-compatible interface
+    # Use local LLM (vLLM, Ollama, etc.) with OpenAI-compatible interface
+    openai_client = OpenAI(
         base_url=config.local_llm_base_url,
         api_key=config.local_llm_api_key or "dummy-key"
+    )
+    model = ChatOpenAI(
+        model=config.local_llm_model,
+        base_url=config.local_llm_base_url,
+        api_key=config.local_llm_api_key or "dummy-key",
+        temperature=0.7
     )
 
 
@@ -42,39 +50,37 @@ transfer_to_coach_agent = create_handoff_tool(
 )
 
 
-class MCPTool:
-    """Wrapper for MCP tools to make them compatible with LangGraph agents."""
+def create_mcp_tool_function(tool_name: str, tool_description: str, user_id: str):
+    """Create a proper function wrapper for MCP tools compatible with LangGraph."""
     
-    def __init__(self, tool_name: str, tool_description: str, user_id: str):
-        self.tool_name = tool_name
-        self.tool_description = tool_description
-        self.user_id = user_id
-        self.name = tool_name
-        self.description = tool_description
-    
-    async def __call__(self, **kwargs) -> str:
+    async def mcp_tool_func(**kwargs) -> str:
         """Execute the MCP tool with given arguments."""
         # Ensure user_id is in arguments
-        kwargs = extract_user_id_from_args(kwargs, self.user_id)
-        return await execute_mcp_tool(self.tool_name, kwargs)
+        kwargs = extract_user_id_from_args(kwargs, user_id)
+        return await execute_mcp_tool(tool_name, kwargs)
     
-    def __repr__(self):
-        return f"MCPTool(name='{self.tool_name}', description='{self.tool_description}')"
+    # Set function attributes for LangGraph compatibility
+    mcp_tool_func.__name__ = tool_name
+    mcp_tool_func.__doc__ = tool_description
+    mcp_tool_func.name = tool_name
+    mcp_tool_func.description = tool_description
+    
+    return mcp_tool_func
 
 
-async def create_mcp_tools_for_agent(user_id: str) -> List[MCPTool]:
+async def create_mcp_tools_for_agent(user_id: str) -> List:
     """Create MCP tools for use with LangGraph agents."""
     available_tools = await get_mcp_tools()
     
     mcp_tools = []
     for tool in available_tools:
         if isinstance(tool, dict) and tool.get("name"):
-            mcp_tool = MCPTool(
+            mcp_tool_func = create_mcp_tool_function(
                 tool_name=tool.get("name", ""),
                 tool_description=tool.get("description", ""),
                 user_id=user_id
             )
-            mcp_tools.append(mcp_tool)
+            mcp_tools.append(mcp_tool_func)
     
     return mcp_tools
 
@@ -161,6 +167,9 @@ class PiliAgentSystem:
             # Run the agent system
             result = await agent_app.ainvoke(initial_state)
             
+            config = {"configurable": {"thread_id": str(uuid.uuid4()) + user_id, "user_id": user_id}}
+            print_stream(agent_app.stream(initial_state, config=config, subgraphs=True))
+
             # Extract the final response
             messages = result.get("messages", [])
             if messages:
