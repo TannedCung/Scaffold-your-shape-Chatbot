@@ -1,8 +1,8 @@
 from fastapi import FastAPI, APIRouter
 from fastapi.responses import RedirectResponse, StreamingResponse
 from models.chat import ChatRequest, ChatResponse
-from services.llm_service import llm_service
 from agents.agent import agent_system
+from config.settings import get_configuration
 import json
 import time
 import asyncio
@@ -185,72 +185,132 @@ async def root():
 
 @app.get("/api/health")
 async def health_check_detailed():
-    """Health check endpoint with LLM status."""
+    """Health check endpoint with system status."""
     try:
-        llm_status = llm_service.test_connection()
+        config = get_configuration()
+        
+        # Test MCP connection
+        from services.mcp_client import create_mcp_client
+        mcp_client = create_mcp_client()
+        try:
+            mcp_status = await mcp_client.test_connection()
+        finally:
+            await mcp_client.close()
+        
     except Exception as e:
-        llm_status = f"error: {str(e)}"
+        mcp_status = {"status": "error", "error": str(e)}
     
     return {
         "status": "healthy", 
         "service": "pili-exercise-chatbot",
         "agent_system": "langgraph_swarm",
-        "llm_provider": llm_service.provider,
-        "llm_model": llm_service.model,
-        "llm_status": llm_status
+        "llm_provider": config.llm_provider,
+        "llm_model": config.openai_model if config.llm_provider == "openai" else config.local_llm_model,
+        "mcp_status": mcp_status
     }
 
 
-@app.post("/api/debug-llm")
-async def debug_llm(request: ChatRequest):
-    """Debug endpoint to test LLM response directly (bypassing agent system)."""
+@app.post("/api/debug-agent")
+async def debug_agent(request: ChatRequest):
+    """Debug endpoint to test agent system directly."""
     try:
-        # Test intent detection
-        intent_result = llm_service.detect_intent(request.message)
-        
-        # Test response generation
-        response = llm_service.generate_response(
-            intent_result.get("intent", "help"),
-            request.message,
-            "Debug test action result"
-        )
-        
-        # Test thinking process extraction
-        thinking, final_response = llm_service.extract_thinking_process(response)
+        # Test agent system processing
+        result = await agent_system.process_request(request.user_id, request.message)
         
         return {
-            "raw_response": response,
-            "thinking_process": thinking,
-            "final_response": final_response,
-            "intent_result": intent_result,
-            "note": "This bypasses the agent system for direct LLM testing"
+            "agent_response": result["response"],
+            "logs": result["logs"],
+            "chain_of_thought": result.get("chain_of_thought", []),
+            "note": "Direct agent system testing"
         }
     except Exception as e:
         return {"error": str(e)}
 
 
-@app.post("/api/chat-simple")
-async def chat_simple(request: ChatRequest):
-    """Simple chat endpoint without agent system for testing."""
+@app.get("/api/test-config")
+async def test_config():
+    """Test endpoint to verify configuration."""
     try:
-        # Simple LLM response without agents
-        final_response = llm_service.generate_response(
-            "simple_chat",
-            request.message,
-            f"""You are Pili, an enthusiastic fitness assistant. 
-            User ({request.user_id}) said: "{request.message}"
+        config = get_configuration()
+        
+        return {
+            "llm_provider": config.llm_provider,
+            "model": config.openai_model if config.llm_provider == "openai" else config.local_llm_model,
+            "base_url": config.local_llm_base_url if config.llm_provider != "openai" else "https://api.openai.com",
+            "mcp_base_url": config.mcp_base_url,
+            "note": "Configuration test endpoint"
+        }
+        
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.get("/api/debug-mcp")
+async def debug_mcp():
+    """Debug endpoint to test MCP client and tool schemas."""
+    try:
+        from services.mcp_client import create_mcp_client
+        
+        mcp_client = create_mcp_client()
+        try:
+            # Test connection
+            connection_test = await mcp_client.test_connection()
             
-            Provide a helpful, encouraging response about fitness and exercise.
-            Use fitness emojis appropriately. This is a simple mode without access to fitness tracking tools."""
-        )
-        
-        return {
-            "response": final_response,
-            "logs": [{"mode": "simple_chat", "note": "Bypasses agent system"}]
-        }
-        
+            # Get raw tools
+            raw_tools = await mcp_client.list_tools()
+            
+            # Get LangChain tools for a test user
+            test_user_id = "debug-user"
+            langchain_tools = await mcp_client.get_tools(test_user_id)
+            
+            # Detailed info
+            tool_details = []
+            for tool in raw_tools[:3]:  # First 3 tools
+                tool_info = {
+                    "name": tool.get("name", "unnamed"),
+                    "description": tool.get("description", "No description"),
+                    "input_schema": tool.get("inputSchema", {}),
+                    "has_schema": bool(tool.get("inputSchema"))
+                }
+                tool_details.append(tool_info)
+            
+            langchain_tool_details = []
+            for tool in langchain_tools[:3]:  # First 3 tools
+                tool_detail = {
+                    "name": tool.name,
+                    "description": tool.description[:100] + "..." if len(tool.description) > 100 else tool.description,
+                    "has_args_schema": hasattr(tool, 'args_schema') and tool.args_schema is not None,
+                    "tool_type": str(type(tool).__name__)
+                }
+                
+                # Add schema fields if available
+                if hasattr(tool, 'args_schema') and tool.args_schema:
+                    if hasattr(tool.args_schema, 'model_fields'):
+                        tool_detail["schema_fields"] = list(tool.args_schema.model_fields.keys())
+                    elif hasattr(tool.args_schema, '__fields__'):
+                        tool_detail["schema_fields"] = list(tool.args_schema.__fields__.keys())
+                
+                langchain_tool_details.append(tool_detail)
+            
+            return {
+                "status": "success",
+                "connection_test": connection_test,
+                "raw_tools_count": len(raw_tools),
+                "langchain_tools_count": len(langchain_tools),
+                "sample_raw_tools": tool_details,
+                "sample_langchain_tools": langchain_tool_details
+            }
+            
+        finally:
+            await mcp_client.close()
+            
     except Exception as e:
-        return {"error": str(e)}
+        import traceback
+        return {
+            "status": "error",
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }
 
 
 @app.post("/api/agent/clear-cache")
