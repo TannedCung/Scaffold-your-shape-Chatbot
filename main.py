@@ -7,9 +7,6 @@ import json
 import time
 import asyncio
 
-# LLM finalization imports
-from openai import OpenAI
-
 app = FastAPI(
     title="Pili Exercise Chatbot API",
     description="A multiagent chatbot named Pili for tracking exercises using LangGraph and FastAPI.",
@@ -20,95 +17,6 @@ app = FastAPI(
 
 api_router = APIRouter(prefix="/api")
 
-
-async def finalize_response(agent_result: dict, user_message: str) -> dict:
-    """
-    Use LLM to generate a friendly, summarized response based on agent result.
-    
-    Args:
-        agent_result: The raw result from agent system containing response, logs, chain_of_thought
-        user_message: The original user message for context
-        
-    Returns:
-        dict: Enhanced result with finalized response
-    """
-    try:
-        # Get configuration for LLM
-        config = get_configuration()
-        
-        # Initialize LLM client based on configuration
-        if config.llm_provider == "openai":
-            client = OpenAI(api_key=config.openai_api_key)
-            model_name = config.openai_model
-        else:
-            client = OpenAI(
-                base_url=config.local_llm_base_url,
-                api_key=config.local_llm_api_key or "dummy-key"
-            )
-            model_name = config.local_llm_model
-        
-        # Extract information from agent result
-        original_response = agent_result.get("response", "")
-        logs = agent_result.get("logs", [])
-        chain_of_thought = agent_result.get("chain_of_thought", [])
-        
-        # Create finalization prompt
-        finalization_prompt = f"""
-You are Pili, a friendly fitness chatbot. Your job is to create a warm, personalized response based on the agent's work.
-
-## User's original message:
-{user_message}
-
-## What the agent system did:
-{original_response}
-
-## Summary of actions taken:
-{json.dumps(chain_of_thought, indent=2)}
-
-## Your task:
-1. Create a friendly, conversational response that acknowledges what was accomplished
-2. Include a brief summary of what you did to help the user
-3. Maintain Pili's encouraging, fitness-focused personality
-4. Keep it concise but warm
-5. If there were any errors or limitations, address them positively
-
-## Guidelines:
-- Use emojis appropriately (💪, 🏃‍♀️, 📊, etc.)
-- Be encouraging and supportive
-- End with a motivational or helpful note
-- If multiple actions were taken, briefly summarize the key points
-
-Generate only the final response - do not include explanations or meta-text.
-"""
-
-        # Get finalized response from LLM
-        completion = await asyncio.to_thread(
-            client.chat.completions.create,
-            model=model_name,
-            messages=[
-                {"role": "system", "content": "You are Pili, a friendly and encouraging fitness chatbot."},
-                {"role": "user", "content": finalization_prompt}
-            ],
-            temperature=0.7,
-            max_tokens=300
-        )
-        
-        finalized_response = completion.choices[0].message.content.strip()
-        
-        # Update the result with finalized response
-        finalized_result = agent_result.copy()
-        finalized_result["response"] = finalized_response
-        finalized_result["original_response"] = original_response  # Keep original for debugging
-        finalized_result["finalized"] = True
-        
-        return finalized_result
-        
-    except Exception as e:
-        print(f"Finalization error: {e}")
-        # Return original result if finalization fails
-        fallback_result = agent_result.copy()
-        fallback_result["finalization_error"] = str(e)
-        return fallback_result
 
 
 @api_router.post("/chat", tags=["Chatbot"])
@@ -137,19 +45,16 @@ async def chat_endpoint(request: ChatRequest):
     """
     try:
         if request.stream:
-            # For streaming, get agent result first then stream it
+            # For streaming, get agent result (now includes finalization)
             agent_result = await agent_system.process_request(
                 request.user_id, 
                 request.message
             )
-            
-            # Finalize the response with LLM
-            finalized_result = await finalize_response(agent_result, request.message)
                   
             # Extract data for streaming
-            response_text = finalized_result["response"]
-            logs = finalized_result.get("logs", [])
-            chain_of_thought = finalized_result.get("chain_of_thought", [])
+            response_text = agent_result["response"]
+            logs = agent_result.get("logs", [])
+            chain_of_thought = agent_result.get("chain_of_thought", [])
             
             # Create streaming response
             async def create_agent_stream():
@@ -172,7 +77,8 @@ async def chat_endpoint(request: ChatRequest):
                         "agent_system": "langgraph_swarm",
                         "chain_of_thought": chain_of_thought,
                         "logs": logs,
-                        "finalized": finalized_result.get("finalized", False)
+                        "finalized": agent_result.get("finalized", False),
+                        "execution_summary": agent_result.get("execution_summary", [])
                     }
                 }
                 yield f"data: {json.dumps(first_chunk)}\n\n"
@@ -220,18 +126,15 @@ async def chat_endpoint(request: ChatRequest):
                 }
             )
         else:
-            # Non-streaming response using agent system
+            # Non-streaming response using agent system (includes finalization)
             agent_result = await agent_system.process_request(
                 request.user_id,
                 request.message
             )
             
-            # Finalize the response with LLM
-            finalized_result = await finalize_response(agent_result, request.message)
-            
             return ChatResponse(
-                response=finalized_result["response"],
-                logs=finalized_result["logs"]
+                response=agent_result["response"],
+                logs=agent_result["logs"]
             )
         
     except Exception as e:
@@ -314,20 +217,18 @@ async def health_check_detailed():
 async def debug_agent(request: ChatRequest):
     """Debug endpoint to test agent system directly."""
     try:
-        # Test agent system processing
+        # Test agent system processing (includes finalization)
         result = await agent_system.process_request(request.user_id, request.message)
         
-        # Apply finalization step
-        finalized_result = await finalize_response(result, request.message)
-        
         return {
-            "agent_response": finalized_result["response"],
-            "original_response": finalized_result.get("original_response", ""),
-            "logs": finalized_result["logs"],
-            "chain_of_thought": finalized_result.get("chain_of_thought", []),
-            "finalized": finalized_result.get("finalized", False),
-            "finalization_error": finalized_result.get("finalization_error"),
-            "note": "Direct agent system testing with finalization"
+            "agent_response": result["response"],
+            "original_response": result.get("original_response", ""),
+            "logs": result["logs"],
+            "chain_of_thought": result.get("chain_of_thought", []),
+            "execution_summary": result.get("execution_summary", []),
+            "finalized": result.get("finalized", False),
+            "finalization_error": result.get("finalization_error"),
+            "note": "Direct agent system testing with built-in finalization"
         }
     except Exception as e:
         return {"error": str(e)}

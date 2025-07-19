@@ -2,12 +2,14 @@
 
 import uuid
 from datetime import datetime
+import langchain_core
 from openai import OpenAI
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from langgraph_swarm import create_handoff_tool, create_swarm
 from typing import Dict, Any, List, Optional, Tuple
 import json
+import asyncio
 
 # Fix LangChain compatibility issues
 try:
@@ -170,8 +172,80 @@ class PiliAgentSystem:
         
         return self.agent_cache[user_id][0]  # Return just the agent app
     
+    async def _finalize_response(self, agent_result: Dict[str, Any], user_message: str, execution_summary: List[str]) -> Dict[str, Any]:
+        """
+        Use LLM to generate a friendly, summarized response based on agent execution result.
+        
+        Args:
+            agent_result: The raw result from agent system
+            user_message: The original user message
+            execution_summary: Brief summary of what the agent execution accomplished
+            
+        Returns:
+            dict: Enhanced result with finalized response
+        """
+        try:
+            # Get configuration for LLM
+            config = get_configuration()
+            
+            # Initialize LLM client based on configuration
+            if config.llm_provider == "openai":
+                client = OpenAI(api_key=config.openai_api_key)
+                model_name = config.openai_model
+            else:
+                client = OpenAI(
+                    base_url=config.local_llm_base_url,
+                    api_key=config.local_llm_api_key or "dummy-key"
+                )
+                model_name = config.local_llm_model
+            
+            # Extract information from agent result
+            original_response = agent_result.get("response", "")
+            
+            # Create concise finalization prompt with execution summary
+            summary_text = " | ".join(execution_summary) if execution_summary else "Processed request"
+            
+            finalization_prompt = f"""Rewrite as Pili, friendly fitness bot.
+
+User asked: "{user_message}"
+Agent did: {original_response}
+Execution: {summary_text}
+
+Make it a short and warm answer. Briefly summarize what you accomplished."""
+
+            # Get finalized response from LLM
+            completion = await asyncio.to_thread(
+                client.chat.completions.create,
+                model=model_name,
+                messages=[
+                    {"role": "system", "content": "You are Pili, a friendly and encouraging fitness chatbot."},
+                    {"role": "user", "content": finalization_prompt}
+                ],
+                temperature=0.7,
+                max_tokens=300
+            )
+            
+            finalized_response = completion.choices[0].message.content.strip()
+            
+            # Update the result with finalized response
+            finalized_result = agent_result.copy()
+            finalized_result["response"] = finalized_response
+            finalized_result["original_response"] = original_response  # Keep original for debugging
+            finalized_result["execution_summary"] = execution_summary
+            finalized_result["finalized"] = True
+            
+            return finalized_result
+            
+        except Exception as e:
+            print(f"Finalization error: {e}")
+            # Return original result if finalization fails
+            fallback_result = agent_result.copy()
+            fallback_result["finalization_error"] = str(e)
+            fallback_result["execution_summary"] = execution_summary
+            return fallback_result
+
     async def process_request(self, user_id: str, message: str) -> Dict[str, Any]:
-        """Process a user request through the agent system."""
+        """Process a user request through the agent system with finalization."""
         try:
             # Get agent system for user
             agent_app = await self.get_agent_for_user(user_id)
@@ -195,34 +269,85 @@ class PiliAgentSystem:
             
             result = await agent_app.ainvoke(initial_state, config=config)
             
-            # Extract the final response
+                        # Extract and analyze the agent execution result
             messages = result.get("messages", [])
             if messages:
                 final_message = messages[-1]
                 response = final_message.content if hasattr(final_message, 'content') else str(final_message)
+                
+                # Analyze what actually happened during execution
+                agent_names = set()
+                tool_calls = []
+                ai_messages = []
+                
+                for msg in messages:
+                    # Track agent names
+                    if hasattr(msg, 'name') and msg.name:
+                        agent_names.add(msg.name)
+                    
+                    # Track tool calls and responses
+                    if isinstance(msg, langchain_core.messages.tool.ToolMessage):
+                        tool_calls.append({
+                            "tool_name": msg.name,
+                            "tool_response": msg.content[:2000] + "..." if len(msg.content) > 2000 else msg.content
+                        })
+                    
+                    # Track AI messages (assistant responses)
+                    if isinstance(msg, langchain_core.messages.ai.AIMessage) and msg.content:
+                        ai_messages.append({
+                            "content": msg.content[:500] + "..." if len(msg.content) > 500 else msg.content,
+                            "agent": getattr(msg, 'name', 'assistant')
+                        })
+                
+                # Create comprehensive execution summary
+                execution_summary = []
+                
+                if agent_names:
+                    execution_summary.append(f"Agents: {', '.join(agent_names)}")
+                
+                if tool_calls:
+                    tool_summary = []
+                    for tool in tool_calls:
+                        tool_summary.append(f"{tool['tool_name']} → {tool['tool_response']}")
+                    execution_summary.append(f"Tools: {' | '.join(tool_summary)}")
+                
+                if ai_messages:
+                    ai_summary = []
+                    for ai_msg in ai_messages:
+                        ai_summary.append(f"{ai_msg['agent']}: {ai_msg['content']}")
+                    execution_summary.append(f"AI responses: {' | '.join(ai_summary)}")
+                
+                execution_summary.append(f"Total messages: {len(messages)}")
+                
             else:
                 response = "I'm sorry, I couldn't process your request right now."
+                execution_summary = ["No agent response generated"]
             
-            # Prepare logs for debugging
-            logs = [{
-                "agent_system": "langgraph_swarm",
-                "user_id": user_id,
-                "message_count": len(messages),
-                "final_response": response
-            }]
-            
-            return {
+            # Prepare initial result
+            agent_result = {
                 "response": response,
-                "logs": logs,
-                "chain_of_thought": [f"Processed request for user {user_id} through LangGraph agent swarm"]
+                "logs": [{
+                    "agent_system": "langgraph_swarm",
+                    "user_id": user_id,
+                    "message_count": len(messages),
+                    "execution_summary": execution_summary
+                }],
+                "chain_of_thought": execution_summary.copy()
             }
+            
+            # Apply finalization step with execution summary
+            finalized_result = await self._finalize_response(agent_result, message, execution_summary)
+            
+            return finalized_result
             
         except Exception as e:
             print(f"Error in agent system for user {user_id}: {e}")
+            error_summary = [f"Error: {str(e)}"]
             return {
                 "response": "I'm sorry, something went wrong. Please try again! 💪",
                 "logs": [{"error": str(e), "agent_system": "failed", "user_id": user_id}],
-                "chain_of_thought": [f"Error occurred for user {user_id}: {str(e)}"]
+                "chain_of_thought": error_summary,
+                "execution_summary": error_summary
             }
     
     async def clear_user_cache(self, user_id: str):
