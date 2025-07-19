@@ -10,6 +10,7 @@ from langgraph_swarm import create_handoff_tool, create_swarm
 from typing import Dict, Any, List, Optional, Tuple
 import json
 import asyncio
+from langsmith import traceable
 
 # Fix LangChain compatibility issues
 try:
@@ -172,6 +173,13 @@ class PiliAgentSystem:
         
         return self.agent_cache[user_id][0]  # Return just the agent app
     
+    @traceable(
+        name="finalize_response",
+        metadata={
+            "component": "pili_agent_system",
+            "operation": "response_finalization"
+        }
+    )
     async def _finalize_response(self, agent_result: Dict[str, Any], user_message: str, execution_summary: List[str]) -> Dict[str, Any]:
         """
         Use LLM to generate a friendly, summarized response based on agent execution result.
@@ -187,6 +195,18 @@ class PiliAgentSystem:
         try:
             # Get configuration for LLM
             config = get_configuration()
+            
+            # Add tracing metadata for configuration
+            from langsmith import get_current_run_tree
+            run = get_current_run_tree()
+            if run:
+                run.add_metadata({
+                    "llm_provider": config.llm_provider,
+                    "user_message_length": len(user_message),
+                    "execution_summary_items": len(execution_summary),
+                    "original_response_length": len(agent_result.get("response", "")),
+                    "execution_summary": execution_summary[:3]  # First 3 items for visibility
+                })
             
             # Initialize LLM client based on configuration
             if config.llm_provider == "openai":
@@ -213,6 +233,14 @@ Execution: {summary_text}
 
 Make it a short and warm answer. Briefly summarize what you accomplished."""
 
+            # Add prompt to trace
+            if run:
+                run.add_metadata({
+                    "finalization_prompt": finalization_prompt,
+                    "model_name": model_name,
+                    "summary_text_length": len(summary_text)
+                })
+
             # Get finalized response from LLM
             completion = await asyncio.to_thread(
                 client.chat.completions.create,
@@ -227,6 +255,16 @@ Make it a short and warm answer. Briefly summarize what you accomplished."""
             
             finalized_response = completion.choices[0].message.content.strip()
             
+            # Add completion details to trace
+            if run:
+                run.add_metadata({
+                    "completion_tokens": completion.usage.completion_tokens if completion.usage else 0,
+                    "prompt_tokens": completion.usage.prompt_tokens if completion.usage else 0,
+                    "total_tokens": completion.usage.total_tokens if completion.usage else 0,
+                    "finalized_response_length": len(finalized_response),
+                    "finalization_success": True
+                })
+            
             # Update the result with finalized response
             finalized_result = agent_result.copy()
             finalized_result["response"] = finalized_response
@@ -238,15 +276,43 @@ Make it a short and warm answer. Briefly summarize what you accomplished."""
             
         except Exception as e:
             print(f"Finalization error: {e}")
+            
+            # Add error to trace
+            from langsmith import get_current_run_tree
+            run = get_current_run_tree()
+            if run:
+                run.add_metadata({
+                    "finalization_success": False,
+                    "error": str(e),
+                    "error_type": type(e).__name__
+                })
+            
             # Return original result if finalization fails
             fallback_result = agent_result.copy()
             fallback_result["finalization_error"] = str(e)
             fallback_result["execution_summary"] = execution_summary
             return fallback_result
 
+    @traceable(
+        name="process_request",
+        metadata={
+            "component": "pili_agent_system",
+            "operation": "full_request_processing"
+        }
+    )
     async def process_request(self, user_id: str, message: str) -> Dict[str, Any]:
         """Process a user request through the agent system with finalization."""
         try:
+            # Add initial tracing metadata
+            from langsmith import get_current_run_tree
+            run = get_current_run_tree()
+            if run:
+                run.add_metadata({
+                    "user_id": user_id,
+                    "message_length": len(message),
+                    "user_cached": user_id in self.agent_cache
+                })
+            
             # Get agent system for user
             agent_app = await self.get_agent_for_user(user_id)
             
@@ -323,6 +389,18 @@ Make it a short and warm answer. Briefly summarize what you accomplished."""
                 response = "I'm sorry, I couldn't process your request right now."
                 execution_summary = ["No agent response generated"]
             
+            # Add execution results to trace
+            if run:
+                run.add_metadata({
+                    "agent_execution_complete": True,
+                    "message_count": len(messages),
+                    "execution_summary_length": len(execution_summary),
+                    "response_length": len(response),
+                    "agents_used": len(agent_names) if 'agent_names' in locals() else 0,
+                    "tools_called": len(tool_calls) if 'tool_calls' in locals() else 0,
+                    "ai_messages_count": len(ai_messages) if 'ai_messages' in locals() else 0
+                })
+            
             # Prepare initial result
             agent_result = {
                 "response": response,
@@ -338,10 +416,30 @@ Make it a short and warm answer. Briefly summarize what you accomplished."""
             # Apply finalization step with execution summary
             finalized_result = await self._finalize_response(agent_result, message, execution_summary)
             
+            # Add final result metadata to trace
+            if run:
+                run.add_metadata({
+                    "finalization_applied": finalized_result.get("finalized", False),
+                    "final_response_length": len(finalized_result["response"]),
+                    "has_finalization_error": "finalization_error" in finalized_result
+                })
+            
             return finalized_result
             
         except Exception as e:
             print(f"Error in agent system for user {user_id}: {e}")
+            
+            # Add error to trace
+            from langsmith import get_current_run_tree
+            run = get_current_run_tree()
+            if run:
+                run.add_metadata({
+                    "process_request_success": False,
+                    "error": str(e),
+                    "error_type": type(e).__name__,
+                    "user_id": user_id
+                })
+            
             error_summary = [f"Error: {str(e)}"]
             return {
                 "response": "I'm sorry, something went wrong. Please try again! 💪",
