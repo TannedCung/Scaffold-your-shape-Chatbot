@@ -231,7 +231,7 @@ User asked: "{user_message}"
 Agent did: {original_response}
 Execution: {summary_text}
 
-Make it a short and warm answer. Briefly summarize what you accomplished."""
+Make it a short and warm answer, with emojis. Briefly summarize what you accomplished."""
 
             # Add prompt to trace
             if run:
