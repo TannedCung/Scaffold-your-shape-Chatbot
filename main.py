@@ -83,10 +83,8 @@ async def chat_endpoint(request: ChatRequest):
                 }
                 yield f"data: {json.dumps(first_chunk)}\n\n"
                 
-                # Stream the response content word by word
-                words = response_text.split()
-                for i, word in enumerate(words):
-                    content = word if i == 0 else f" {word}"
+                # Stream the response content character by character
+                for i, char in enumerate(response_text):
                     chunk = {
                         "id": chat_id,
                         "object": "chat.completion.chunk",
@@ -94,12 +92,12 @@ async def chat_endpoint(request: ChatRequest):
                         "model": "pili-langgraph-swarm",
                         "choices": [{
                             "index": 0,
-                            "delta": {"content": content},
+                            "delta": {"content": char},
                             "finish_reason": None
                         }]
                     }
-                    yield f"data: {json.dumps(chunk)}\n\n"
-                    await asyncio.sleep(0.03)  # Small delay for smooth streaming
+                    yield f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
+                    await asyncio.sleep(0.01)  # Small delay for smooth streaming
                 
                 # Final chunk
                 final_chunk = {
