@@ -1,17 +1,14 @@
 """LangChain-based memory service for conversation history management."""
 
 from typing import Dict, List, Optional, Any
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import asyncio
 import json
 from pathlib import Path
 from collections import defaultdict
 import logging
 
-from langchain.memory.buffer import ConversationBufferMemory
-from langchain.memory.summary_buffer import ConversationSummaryBufferMemory
-from langchain.memory.buffer_window import ConversationBufferWindowMemory
-from langchain.memory.entity import ConversationEntityMemory
+# Using basic LangChain message history without deprecated memory classes
 from langchain_community.chat_message_histories import FileChatMessageHistory
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -30,22 +27,31 @@ class LangChainMemoryService:
         self.memory_dir = Path("data/langchain_memory")
         self.memory_dir.mkdir(parents=True, exist_ok=True)
         self._cleanup_task = None
-        
-        # Initialize LLM for summary-based memory
-        app_config = get_configuration()
-        if app_config.llm_provider == "openai":
-            self.llm = ChatOpenAI(
-                model=app_config.openai_model,
-                api_key=app_config.openai_api_key,
-                temperature=0.3
-            )
-        else:
-            self.llm = ChatOpenAI(
-                model=app_config.local_llm_model,
-                base_url=app_config.local_llm_base_url,
-                api_key=app_config.local_llm_api_key or "dummy-key",
-                temperature=0.3
-            )
+        self._llm = None  # Lazy initialization
+    
+    def _get_llm(self):
+        """Get LLM instance with lazy initialization."""
+        if self._llm is None:
+            # Fix LangChain verbose issue
+            import langchain
+            if not hasattr(langchain, 'verbose'):
+                langchain.verbose = False
+            
+            app_config = get_configuration()
+            if app_config.llm_provider == "openai":
+                self._llm = ChatOpenAI(
+                    model=app_config.openai_model,
+                    api_key=app_config.openai_api_key,
+                    temperature=0.3
+                )
+            else:
+                self._llm = ChatOpenAI(
+                    model=app_config.local_llm_model,
+                    base_url=app_config.local_llm_base_url,
+                    api_key=app_config.local_llm_api_key or "dummy-key",
+                    temperature=0.3
+                )
+        return self._llm
     
     async def initialize(self):
         """Initialize the memory service."""
@@ -70,108 +76,69 @@ class LangChainMemoryService:
         """Get the file path for storing chat history."""
         return str(self.memory_dir / f"{user_id}_{session_id}_history.json")
     
-    def get_memory_for_user(self, user_id: str, session_id: str = "default", memory_type: str = "buffer_window") -> Any:
-        """Get or create memory instance for a user."""
+    def get_chat_history_for_user(self, user_id: str, session_id: str = "default") -> FileChatMessageHistory:
+        """Get or create chat history instance for a user."""
         memory_key = self._get_memory_key(user_id, session_id)
         
         if memory_key not in self.user_memories:
             chat_history_file = self._get_chat_history_file(user_id, session_id)
+            
+            # Ensure the file exists and has valid JSON content
+            file_path = Path(chat_history_file)
+            if not file_path.exists():
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+                file_path.write_text("[]", encoding="utf-8")
+            elif file_path.read_text(encoding="utf-8").strip() == "":
+                file_path.write_text("[]", encoding="utf-8")
+                
             chat_history = FileChatMessageHistory(file_path=chat_history_file)
             
-            # Create different types of memory based on configuration
-            if memory_type == "buffer":
-                memory = ConversationBufferMemory(
-                    chat_memory=chat_history,
-                    memory_key="chat_history",
-                    input_key="input",
-                    output_key="output",
-                    return_messages=True,
-                    max_token_limit=self.config.max_characters_per_message * 10
-                )
-            elif memory_type == "buffer_window":
-                memory = ConversationBufferWindowMemory(
-                    chat_memory=chat_history,
-                    memory_key="chat_history",
-                    input_key="input",
-                    output_key="output",
-                    return_messages=True,
-                    k=min(self.config.max_messages_per_user // 2, 20)  # Keep last 20 exchanges
-                )
-            elif memory_type == "summary_buffer":
-                memory = ConversationSummaryBufferMemory(
-                    llm=self.llm,
-                    chat_memory=chat_history,
-                    memory_key="chat_history",
-                    input_key="input",
-                    output_key="output",
-                    return_messages=True,
-                    max_token_limit=2000,
-                    moving_summary_buffer=""
-                )
-            elif memory_type == "entity":
-                memory = ConversationEntityMemory(
-                    llm=self.llm,
-                    chat_memory=chat_history,
-                    memory_key="chat_history",
-                    input_key="input",
-                    output_key="output",
-                    return_messages=True
-                )
-            else:
-                # Default to buffer window
-                memory = ConversationBufferWindowMemory(
-                    chat_memory=chat_history,
-                    memory_key="chat_history",
-                    input_key="input",
-                    output_key="output",
-                    return_messages=True,
-                    k=20
-                )
-            
             self.user_memories[memory_key] = {
-                "memory": memory,
-                "created_at": datetime.utcnow(),
-                "last_accessed": datetime.utcnow(),
+                "chat_history": chat_history,
+                "created_at": datetime.now(timezone.utc),
+                "last_accessed": datetime.now(timezone.utc),
                 "user_id": user_id,
                 "session_id": session_id
             }
         
         # Update last accessed time
-        self.user_memories[memory_key]["last_accessed"] = datetime.utcnow()
-        return self.user_memories[memory_key]["memory"]
+        self.user_memories[memory_key]["last_accessed"] = datetime.now(timezone.utc)
+        return self.user_memories[memory_key]["chat_history"]
     
     async def add_exchange(self, user_id: str, user_message: str, ai_response: str, session_id: str = "default"):
         """Add a user-AI exchange to memory."""
-        memory = self.get_memory_for_user(user_id, session_id)
+        chat_history = self.get_chat_history_for_user(user_id, session_id)
         
-        # Save the conversation exchange
+        # Add messages to chat history
         await asyncio.get_event_loop().run_in_executor(
             None,
-            lambda: memory.save_context(
-                {"input": user_message},
-                {"output": ai_response}
-            )
+            lambda: self._add_messages_to_history(chat_history, user_message, ai_response)
         )
+    
+    def _add_messages_to_history(self, chat_history: FileChatMessageHistory, user_message: str, ai_response: str):
+        """Add messages to chat history synchronously."""
+        chat_history.add_user_message(user_message)
+        chat_history.add_ai_message(ai_response)
     
     async def get_conversation_context(self, user_id: str, session_id: str = "default") -> str:
         """Get conversation context as formatted string for LLM."""
-        memory = self.get_memory_for_user(user_id, session_id)
+        chat_history = self.get_chat_history_for_user(user_id, session_id)
         
         try:
-            # Load memory variables in executor to avoid blocking
-            memory_variables = await asyncio.get_event_loop().run_in_executor(
+            # Get messages from chat history
+            messages = await asyncio.get_event_loop().run_in_executor(
                 None,
-                lambda: memory.load_memory_variables({})
+                lambda: chat_history.messages
             )
             
-            chat_history = memory_variables.get("chat_history", [])
-            
-            if not chat_history:
+            if not messages:
                 return ""
             
-            # Format the conversation history
+            # Format the conversation history (last 10 messages)
             context_parts = []
-            for message in chat_history[-10:]:  # Last 10 messages
+            recent_messages = messages[-10:] if len(messages) > 10 else messages
+            
+            for message in recent_messages:
                 if isinstance(message, HumanMessage):
                     context_parts.append(f"User: {message.content}")
                 elif isinstance(message, AIMessage):
@@ -190,27 +157,28 @@ class LangChainMemoryService:
     
     async def get_memory_variables(self, user_id: str, session_id: str = "default") -> Dict[str, Any]:
         """Get memory variables for a user that can be used in prompts."""
-        memory = self.get_memory_for_user(user_id, session_id)
+        chat_history = self.get_chat_history_for_user(user_id, session_id)
         
         try:
-            return await asyncio.get_event_loop().run_in_executor(
+            messages = await asyncio.get_event_loop().run_in_executor(
                 None,
-                lambda: memory.load_memory_variables({})
+                lambda: chat_history.messages
             )
+            return {"chat_history": messages}
         except Exception as e:
             logger.error(f"Error loading memory variables for {user_id}/{session_id}: {e}")
-            return {}
+            return {"chat_history": []}
     
     async def clear_user_memory(self, user_id: str, session_id: Optional[str] = None):
         """Clear memory for a user."""
         if session_id:
             memory_key = self._get_memory_key(user_id, session_id)
             if memory_key in self.user_memories:
-                # Clear the memory
-                memory = self.user_memories[memory_key]["memory"]
+                # Clear the chat history
+                chat_history = self.user_memories[memory_key]["chat_history"]
                 await asyncio.get_event_loop().run_in_executor(
                     None,
-                    lambda: memory.clear()
+                    lambda: chat_history.clear()
                 )
                 del self.user_memories[memory_key]
             
@@ -226,10 +194,10 @@ class LangChainMemoryService:
             ]
             
             for key in keys_to_remove:
-                memory = self.user_memories[key]["memory"]
+                chat_history = self.user_memories[key]["chat_history"]
                 await asyncio.get_event_loop().run_in_executor(
                     None,
-                    lambda: memory.clear()
+                    lambda: chat_history.clear()
                 )
                 del self.user_memories[key]
             
@@ -250,17 +218,16 @@ class LangChainMemoryService:
             }
         
         memory_info = self.user_memories[memory_key]
-        memory = memory_info["memory"]
+        chat_history = memory_info["chat_history"]
         
         try:
             # Get message count from chat history
-            memory_vars = await asyncio.get_event_loop().run_in_executor(
+            messages = await asyncio.get_event_loop().run_in_executor(
                 None,
-                lambda: memory.load_memory_variables({})
+                lambda: chat_history.messages
             )
             
-            chat_history = memory_vars.get("chat_history", [])
-            message_count = len(chat_history)
+            message_count = len(messages)
             
             return {
                 "user_id": user_id,
@@ -269,7 +236,7 @@ class LangChainMemoryService:
                 "message_count": message_count,
                 "created_at": memory_info["created_at"],
                 "last_accessed": memory_info["last_accessed"],
-                "memory_type": type(memory).__name__
+                "memory_type": "FileChatMessageHistory"
             }
             
         except Exception as e:
@@ -291,14 +258,13 @@ class LangChainMemoryService:
         
         for memory_info in self.user_memories.values():
             try:
-                memory = memory_info["memory"]
-                memory_vars = await asyncio.get_event_loop().run_in_executor(
+                chat_history = memory_info["chat_history"]
+                messages = await asyncio.get_event_loop().run_in_executor(
                     None,
-                    lambda: memory.load_memory_variables({})
+                    lambda: chat_history.messages
                 )
                 
-                chat_history = memory_vars.get("chat_history", [])
-                total_messages += len(chat_history)
+                total_messages += len(messages)
                 
                 created_at = memory_info["created_at"]
                 if oldest_conversation is None or created_at < oldest_conversation:
@@ -336,15 +302,13 @@ class LangChainMemoryService:
         
         for session_info in user_sessions:
             try:
-                memory = session_info["memory"]
-                memory_vars = await asyncio.get_event_loop().run_in_executor(
+                chat_history = session_info["chat_history"]
+                messages = await asyncio.get_event_loop().run_in_executor(
                     None,
-                    lambda: memory.load_memory_variables({})
+                    lambda: chat_history.messages
                 )
                 
-                chat_history = memory_vars.get("chat_history", [])
-                
-                for i, message in enumerate(chat_history):
+                for i, message in enumerate(messages):
                     if query_lower in message.content.lower():
                         results.append({
                             "session_id": session_info["session_id"],
@@ -375,27 +339,25 @@ class LangChainMemoryService:
             }
         
         memory_info = self.user_memories[memory_key]
-        memory = memory_info["memory"]
+        chat_history = memory_info["chat_history"]
         
         try:
-            memory_vars = await asyncio.get_event_loop().run_in_executor(
+            messages = await asyncio.get_event_loop().run_in_executor(
                 None,
-                lambda: memory.load_memory_variables({})
+                lambda: chat_history.messages
             )
             
-            chat_history = memory_vars.get("chat_history", [])
-            
             # Apply limit
-            if limit and len(chat_history) > limit:
-                chat_history = chat_history[-limit:]
+            if limit and len(messages) > limit:
+                messages = messages[-limit:]
             
             # Format messages
             formatted_messages = []
-            for message in chat_history:
+            for message in messages:
                 formatted_messages.append({
                     "role": "user" if isinstance(message, HumanMessage) else "assistant",
                     "content": message.content,
-                    "timestamp": getattr(message, 'timestamp', None) or datetime.utcnow().isoformat()
+                    "timestamp": getattr(message, 'timestamp', None) or datetime.now(timezone.utc).isoformat()
                 })
             
             return {
@@ -430,7 +392,7 @@ class LangChainMemoryService:
     
     async def _cleanup_old_conversations(self):
         """Clean up conversations older than configured age."""
-        cutoff_date = datetime.utcnow() - timedelta(days=self.config.max_conversation_age_days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.config.max_conversation_age_days)
         keys_to_remove = []
         
         for key, memory_info in self.user_memories.items():
