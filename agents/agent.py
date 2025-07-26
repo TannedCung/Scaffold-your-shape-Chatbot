@@ -12,7 +12,6 @@ import json
 import asyncio
 from langsmith import traceable
 
-# Fix LangChain compatibility issues - removed deprecated globals usage
 
 from .prompts import create_logger_prompt, create_coach_prompt
 from .utils import print_stream
@@ -31,26 +30,37 @@ def format_user_message_with_context(user_id: str, message: str) -> str:
 # Initialize LLM based on configuration
 config = get_configuration()
 
-if config.llm_provider == "openai":
-    # Use OpenAI API
-    openai_client = OpenAI(api_key=config.openai_api_key)
-    model = ChatOpenAI(
-        model=config.openai_model,
-        api_key=config.openai_api_key,
-        temperature=0.7
-    )
-else:
-    # Use local LLM (vLLM, Ollama, etc.) with OpenAI-compatible interface
-    openai_client = OpenAI(
-        base_url=config.local_llm_base_url,
-        api_key=config.local_llm_api_key or "dummy-key"
-    )
-    model = ChatOpenAI(
-        model=config.local_llm_model,
-        base_url=config.local_llm_base_url,
-        api_key=config.local_llm_api_key or "dummy-key",
-        temperature=0.7
-    )
+def get_model():
+    """Get the LLM model with lazy initialization to avoid import-time errors."""
+    config = get_configuration()
+    
+    if config.llm_provider == "openai":
+        # Use OpenAI API
+        return ChatOpenAI(
+            model=config.openai_model,
+            api_key=config.openai_api_key,
+            temperature=0.7
+        )
+    else:
+        # Use local LLM (vLLM, Ollama, etc.) with OpenAI-compatible interface
+        return ChatOpenAI(
+            model=config.local_llm_model,
+            base_url=config.local_llm_base_url,
+            api_key=config.local_llm_api_key or "dummy-key",
+            temperature=0.7
+        )
+
+def get_openai_client():
+    """Get the OpenAI client with lazy initialization."""
+    config = get_configuration()
+    
+    if config.llm_provider == "openai":
+        return OpenAI(api_key=config.openai_api_key)
+    else:
+        return OpenAI(
+            base_url=config.local_llm_base_url,
+            api_key=config.local_llm_api_key or "dummy-key"
+        )
 
 
 # Create handoff tools for agent communication
@@ -83,7 +93,7 @@ async def create_logger_agent(mcp_client, user_id: str):
     logger_prompt = create_logger_prompt(user_id)
     
     logger_agent = create_react_agent(
-        model,
+        get_model(),
         prompt=logger_prompt,
         tools=all_tools,
         name="logger_agent",
@@ -103,7 +113,7 @@ async def create_coach_agent(mcp_client, user_id: str):
     coach_prompt = create_coach_prompt(user_id)
     
     coach_agent = create_react_agent(
-        model,
+        get_model(),
         prompt=coach_prompt,
         tools=all_tools,
         name="coach_agent",
