@@ -10,6 +10,7 @@ langchain-core==0.3.68
 langchain-openai==0.3.28
 langgraph==0.5.3
 langsmith==0.3.45
+langchain-community==0.3.25
 
 # LangGraph Swarm (from example)
 langgraph-swarm==0.0.12
@@ -22,6 +23,7 @@ openai==1.95.0
 
 # Utilities for web content
 markdownify==0.11.6
+aiofiles==24.1.0
 
 # Development and Testing
 pytest==7.4.3
