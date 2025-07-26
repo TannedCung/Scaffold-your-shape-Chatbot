@@ -68,7 +68,7 @@ class Configuration(BaseModel):
 
     # Agent Configuration
     max_conversation_history: int = Field(
-        default=20,
+        default=10,
         title="Max Conversation History",
         description="Maximum number of messages to keep in conversation history"
     )
@@ -158,7 +158,7 @@ class Settings(BaseSettings):
     mcp_base_url: str = "http://localhost:3005/api/mcp"  # Scaffold Your Shape MCP server
     
     # Agent Configuration
-    max_conversation_history: int = 20
+    max_conversation_history: int = 10
     agent_timeout: float = 30.0
     
     # Memory Configuration
