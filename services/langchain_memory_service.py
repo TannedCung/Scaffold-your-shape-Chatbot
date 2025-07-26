@@ -32,11 +32,6 @@ class LangChainMemoryService:
     def _get_llm(self):
         """Get LLM instance with lazy initialization."""
         if self._llm is None:
-            # Fix LangChain verbose issue
-            import langchain
-            if not hasattr(langchain, 'verbose'):
-                langchain.verbose = False
-            
             app_config = get_configuration()
             if app_config.llm_provider == "openai":
                 self._llm = ChatOpenAI(

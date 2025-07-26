@@ -202,7 +202,7 @@ async def get_global_memory_stats():
         stats = await langchain_memory_service.get_global_memory_stats()
         return {
             "memory_enabled": True,
-            "stats": stats.dict()
+            "stats": stats.model_dump()
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
