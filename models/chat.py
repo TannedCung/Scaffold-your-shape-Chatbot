@@ -4,6 +4,7 @@ from typing import List, Dict, Any, Optional
 class ChatRequest(BaseModel):
     user_id: str
     message: str
+    session_id: Optional[str] = "default"  # Add session support for memory
     stream: Optional[bool] = False  # Add streaming support
 
 class ChatResponse(BaseModel):
@@ -34,4 +35,13 @@ class StreamChoice(BaseModel):
     """Model for streaming choice data."""
     index: int
     delta: Dict[str, Any]
-    finish_reason: Optional[str] = None 
+    finish_reason: Optional[str] = None
+
+class MemoryStatsRequest(BaseModel):
+    """Request model for memory statistics."""
+    user_id: str
+
+class ClearMemoryRequest(BaseModel):
+    """Request model for clearing memory."""
+    user_id: str
+    session_id: Optional[str] = None 

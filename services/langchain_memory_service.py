@@ -8,14 +8,12 @@ from pathlib import Path
 from collections import defaultdict
 import logging
 
-from langchain.memory import (
-    ConversationBufferMemory,
-    ConversationBufferWindowMemory,
-    ConversationSummaryBufferMemory,
-    ConversationEntityMemory
-)
-from langchain.memory.chat_message_histories import FileChatMessageHistory
-from langchain.schema import BaseMessage, HumanMessage, AIMessage, SystemMessage
+from langchain.memory.buffer import ConversationBufferMemory
+from langchain.memory.summary_buffer import ConversationSummaryBufferMemory
+from langchain.memory.buffer_window import ConversationBufferWindowMemory
+from langchain.memory.entity import ConversationEntityMemory
+from langchain_community.chat_message_histories import FileChatMessageHistory
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
 from config.settings import get_configuration
@@ -363,6 +361,61 @@ class LangChainMemoryService:
                 logger.error(f"Error searching session {session_info['session_id']}: {e}")
         
         return results[:max_results]
+    
+    async def get_conversation_history_formatted(self, user_id: str, session_id: str = "default", limit: int = 50) -> Dict[str, Any]:
+        """Get conversation history in a formatted structure."""
+        memory_key = self._get_memory_key(user_id, session_id)
+        
+        if memory_key not in self.user_memories:
+            return {
+                "user_id": user_id,
+                "session_id": session_id,
+                "messages": [],
+                "message_count": 0
+            }
+        
+        memory_info = self.user_memories[memory_key]
+        memory = memory_info["memory"]
+        
+        try:
+            memory_vars = await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: memory.load_memory_variables({})
+            )
+            
+            chat_history = memory_vars.get("chat_history", [])
+            
+            # Apply limit
+            if limit and len(chat_history) > limit:
+                chat_history = chat_history[-limit:]
+            
+            # Format messages
+            formatted_messages = []
+            for message in chat_history:
+                formatted_messages.append({
+                    "role": "user" if isinstance(message, HumanMessage) else "assistant",
+                    "content": message.content,
+                    "timestamp": getattr(message, 'timestamp', None) or datetime.utcnow().isoformat()
+                })
+            
+            return {
+                "user_id": user_id,
+                "session_id": session_id,
+                "messages": formatted_messages,
+                "message_count": len(formatted_messages),
+                "created_at": memory_info["created_at"],
+                "updated_at": memory_info["last_accessed"]
+            }
+            
+        except Exception as e:
+            logger.error(f"Error getting conversation history for {user_id}/{session_id}: {e}")
+            return {
+                "user_id": user_id,
+                "session_id": session_id,
+                "messages": [],
+                "message_count": 0,
+                "error": str(e)
+            }
     
     async def _periodic_cleanup(self):
         """Periodic cleanup of old conversations."""

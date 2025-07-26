@@ -12,21 +12,13 @@ import json
 import asyncio
 from langsmith import traceable
 
-# Fix LangChain compatibility issues
-try:
-    import langchain
-    if not hasattr(langchain, 'verbose'):
-        langchain.verbose = False
-    if not hasattr(langchain, 'debug'):
-        langchain.debug = False
-    if not hasattr(langchain, 'llm_cache'):
-        langchain.llm_cache = None
-except ImportError:
-    pass
+# Fix LangChain compatibility issues - removed deprecated globals usage
 
 from .prompts import create_logger_prompt, create_coach_prompt
 from .utils import print_stream
 from services.mcp_client import create_mcp_client
+from services.langchain_memory_service import langchain_memory_service
+from models.memory import MemoryConfiguration
 from config.settings import settings, get_configuration
 
 
@@ -150,9 +142,34 @@ class PiliAgentSystem:
     def __init__(self):
         self.agent_cache = {}  # Cache compiled agents and their MCP clients per user
         self.max_cache_size = 100  # Limit cache size
+        self.memory_initialized = False
+    
+    async def _ensure_memory_initialized(self):
+        """Ensure memory service is initialized."""
+        if not self.memory_initialized:
+            try:
+                config = get_configuration()
+                if config.memory_enabled:
+                    # Configure memory service
+                    memory_config = MemoryConfiguration(
+                        max_messages_per_user=config.memory_max_messages_per_user,
+                        max_characters_per_message=config.memory_max_characters_per_message,
+                        memory_cleanup_interval_hours=config.memory_cleanup_interval_hours,
+                        max_conversation_age_days=config.memory_max_conversation_age_days,
+                        enable_memory_compression=config.memory_enable_compression,
+                        memory_storage_backend=config.memory_storage_backend
+                    )
+                    langchain_memory_service.config = memory_config
+                    await langchain_memory_service.initialize()
+                self.memory_initialized = True
+            except Exception as e:
+                print(f"Warning: Failed to initialize memory service: {e}")
+                self.memory_initialized = True  # Don't keep retrying
     
     async def get_agent_for_user(self, user_id: str):
         """Get or create agent system for a specific user."""
+        await self._ensure_memory_initialized()
+        
         if user_id not in self.agent_cache:
             # Create new agent system for user
             if len(self.agent_cache) >= self.max_cache_size:
@@ -300,7 +317,7 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
             "operation": "full_request_processing"
         }
     )
-    async def process_request(self, user_id: str, message: str) -> Dict[str, Any]:
+    async def process_request(self, user_id: str, message: str, session_id: str = "default") -> Dict[str, Any]:
         """Process a user request through the agent system with finalization."""
         try:
             # Add initial tracing metadata
@@ -309,31 +326,48 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
             if run:
                 run.add_metadata({
                     "user_id": user_id,
+                    "session_id": session_id,
                     "message_length": len(message),
                     "user_cached": user_id in self.agent_cache
                 })
             
+            # Ensure memory is initialized
+            await self._ensure_memory_initialized()
+            
+            # Get conversation context for LLM
+            conversation_context = ""
+            config = get_configuration()
+            if config.memory_enabled:
+                conversation_context = await langchain_memory_service.get_conversation_context(
+                    user_id=user_id,
+                    session_id=session_id
+                )
+            
             # Get agent system for user
             agent_app = await self.get_agent_for_user(user_id)
             
-            # Format user message with datetime and user context for better LLM understanding
+            # Format user message with datetime, user context, and conversation history
             formatted_message = format_user_message_with_context(user_id, message)
+            if conversation_context:
+                formatted_message = conversation_context + formatted_message
             
             # Prepare initial state with user context
             initial_state = {
                 "messages": [{"role": "user", "content": formatted_message}],
-                "user_id": user_id  # Include user_id in state
+                "user_id": user_id,  # Include user_id in state
+                "session_id": session_id  # Include session_id in state
             }
             
             # Run the agent system with user-specific configuration
-            config = {
+            agent_config = {
                 "configurable": {
-                    "thread_id": f"{user_id}_{uuid.uuid4()}", 
-                    "user_id": user_id
+                    "thread_id": f"{user_id}_{session_id}_{uuid.uuid4()}", 
+                    "user_id": user_id,
+                    "session_id": session_id
                 }
             }
             
-            result = await agent_app.ainvoke(initial_state, config=config)
+            result = await agent_app.ainvoke(initial_state, config=agent_config)
             
                         # Extract and analyze the agent execution result
             messages = result.get("messages", [])
@@ -416,12 +450,23 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
             # Apply finalization step with execution summary
             finalized_result = await self._finalize_response(agent_result, message, execution_summary)
             
+            # Add conversation exchange to memory
+            app_config = get_configuration()
+            if app_config.memory_enabled:
+                await langchain_memory_service.add_exchange(
+                    user_id=user_id,
+                    session_id=session_id,
+                    user_message=message,
+                    ai_response=finalized_result["response"]
+                )
+            
             # Add final result metadata to trace
             if run:
                 run.add_metadata({
                     "finalization_applied": finalized_result.get("finalized", False),
                     "final_response_length": len(finalized_result["response"]),
-                    "has_finalization_error": "finalization_error" in finalized_result
+                    "has_finalization_error": "finalization_error" in finalized_result,
+                    "memory_enabled": app_config.memory_enabled
                 })
             
             return finalized_result
@@ -470,6 +515,36 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
                 except Exception as e:
                     print(f"Error closing MCP client for user {user_id}: {e}")
         self.agent_cache.clear()
+        
+        # Also shutdown memory service
+        try:
+            await langchain_memory_service.shutdown()
+        except Exception as e:
+            print(f"Error shutting down memory service: {e}")
+    
+    async def get_user_memory_stats(self, user_id: str) -> Dict[str, Any]:
+        """Get memory statistics for a specific user."""
+        await self._ensure_memory_initialized()
+        
+        try:
+            stats = await langchain_memory_service.get_user_memory_stats(user_id, "default")
+            return stats
+        except Exception as e:
+            return {
+                "user_id": user_id,
+                "has_memory": False,
+                "error": str(e)
+            }
+    
+    async def clear_user_memory(self, user_id: str, session_id: Optional[str] = None):
+        """Clear memory for a specific user."""
+        await self._ensure_memory_initialized()
+        
+        try:
+            await langchain_memory_service.clear_user_memory(user_id, session_id)
+            return {"success": True, "message": f"Memory cleared for user {user_id}"}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
 
 # Global agent system instance

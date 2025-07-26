@@ -79,6 +79,43 @@ class Configuration(BaseModel):
         description="Timeout in seconds for agent operations"
     )
 
+    # Memory Configuration
+    memory_enabled: bool = Field(
+        default=True,
+        title="Memory Enabled",
+        description="Enable memory for conversation history"
+    )
+    memory_max_messages_per_user: int = Field(
+        default=10,
+        title="Max Messages per User",
+        description="Maximum number of messages to keep in memory for each user"
+    )
+    memory_max_characters_per_message: int = Field( 
+        default=2000,
+        title="Max Characters per Message",
+        description="Maximum number of characters to keep in memory for each message"
+    )
+    memory_cleanup_interval_hours: int = Field(
+        default=24, 
+        title="Cleanup Interval Hours",
+        description="Interval in hours to clean up old conversations"
+    )
+    memory_max_conversation_age_days: int = Field(
+        default=30,
+        title="Max Conversation Age Days",  
+        description="Maximum age of conversations to keep in memory"
+    )
+    memory_enable_compression: bool = Field(
+        default=True,
+        title="Enable Memory Compression",
+        description="Enable compression for memory storage" 
+    )
+    memory_storage_backend: str = Field(
+        default="memory",
+        title="Memory Storage Backend",
+        description="Backend for storing conversation history: memory, file, database"
+    )
+
     @classmethod
     def from_runnable_config(
         cls, config: Optional[RunnableConfig] = None
@@ -124,6 +161,16 @@ class Settings(BaseSettings):
     max_conversation_history: int = 20
     agent_timeout: float = 30.0
     
+    # Memory Configuration
+    memory_enabled: bool = True
+    memory_max_messages_per_user: int = 10
+    memory_max_characters_per_message: int = 2000
+    memory_cleanup_interval_hours: int = 24
+    memory_max_conversation_age_days: int = 30
+    memory_enable_compression: bool = True
+    memory_storage_backend: str = "memory"  # "memory", "file", "database"
+    memory_type: str = "buffer_window"  # "buffer", "buffer_window", "summary_buffer", "entity"
+    
     class Config:
         env_file = ".env"
         extra = "ignore"  # Ignore extra environment variables
@@ -146,5 +193,12 @@ def get_configuration() -> Configuration:
         local_llm_api_key=settings.local_llm_api_key,
         mcp_base_url=settings.mcp_base_url,
         max_conversation_history=settings.max_conversation_history,
-        agent_timeout=settings.agent_timeout
+        agent_timeout=settings.agent_timeout,
+        memory_enabled=settings.memory_enabled,
+        memory_max_messages_per_user=settings.memory_max_messages_per_user,
+        memory_max_characters_per_message=settings.memory_max_characters_per_message,
+        memory_cleanup_interval_hours=settings.memory_cleanup_interval_hours,
+        memory_max_conversation_age_days=settings.memory_max_conversation_age_days,
+        memory_enable_compression=settings.memory_enable_compression,
+        memory_storage_backend=settings.memory_storage_backend,
     ) 
