@@ -1,7 +1,9 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from fastapi.responses import RedirectResponse, StreamingResponse
-from models.chat import ChatRequest, ChatResponse
+from models.chat import ChatRequest, ChatResponse, MemoryStatsRequest, ClearMemoryRequest
+from models.memory import MemorySearchQuery
 from agents.agent import agent_system
+from services.langchain_memory_service import langchain_memory_service
 from config.settings import get_configuration
 import json
 import time
@@ -48,7 +50,8 @@ async def chat_endpoint(request: ChatRequest):
             # For streaming, get agent result (now includes finalization)
             agent_result = await agent_system.process_request(
                 request.user_id, 
-                request.message
+                request.message,
+                request.session_id or "default"
             )
                   
             # Extract data for streaming
@@ -127,7 +130,8 @@ async def chat_endpoint(request: ChatRequest):
             # Non-streaming response using agent system (includes finalization)
             agent_result = await agent_system.process_request(
                 request.user_id,
-                request.message
+                request.message,
+                request.session_id or "default"
             )
             
             return ChatResponse(
@@ -164,6 +168,112 @@ async def chat_endpoint(request: ChatRequest):
                 response="I'm sorry, something went wrong. Please try again! 💪",
                 logs=[{"error": str(e), "agent_system": "failed"}]
             )
+
+
+@api_router.get("/memory/stats/{user_id}", tags=["Memory"])
+async def get_memory_stats(user_id: str):
+    """
+    Get memory statistics for a specific user.
+    
+    Returns information about the user's conversation history including:
+    - Number of messages stored
+    - Session information
+    - Memory timestamps
+    """
+    try:
+        stats = await agent_system.get_user_memory_stats(user_id)
+        return stats
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/memory/global-stats", tags=["Memory"])
+async def get_global_memory_stats():
+    """
+    Get global memory statistics across all users.
+    
+    Returns system-wide memory usage information.
+    """
+    try:
+        config = get_configuration()
+        if not config.memory_enabled:
+            return {"memory_enabled": False, "message": "Memory is disabled"}
+            
+        stats = await langchain_memory_service.get_global_memory_stats()
+        return {
+            "memory_enabled": True,
+            "stats": stats.dict()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/memory/clear", tags=["Memory"])
+async def clear_user_memory(request: ClearMemoryRequest):
+    """
+    Clear conversation memory for a specific user.
+    
+    Optionally specify a session_id to clear only a specific session,
+    otherwise clears all sessions for the user.
+    """
+    try:
+        result = await agent_system.clear_user_memory(request.user_id, request.session_id)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/memory/search", tags=["Memory"])
+async def search_memory(query: MemorySearchQuery):
+    """
+    Search through conversation history for a specific user.
+    
+    Allows searching through past conversations using text-based queries.
+    """
+    try:
+        config = get_configuration()
+        if not config.memory_enabled:
+            raise HTTPException(status_code=503, detail="Memory service is disabled")
+            
+        results = await langchain_memory_service.search_conversations(
+            user_id=query.user_id,
+            query=query.query,
+            max_results=query.max_results
+        )
+        return {
+            "query": query.query,
+            "results_count": len(results),
+            "results": results
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/memory/conversation/{user_id}", tags=["Memory"])
+async def get_conversation_history(
+    user_id: str, 
+    session_id: str = "default", 
+    limit: int = 50
+):
+    """
+    Get conversation history for a specific user and session.
+    
+    Returns the conversation messages in chronological order.
+    """
+    try:
+        config = get_configuration()
+        if not config.memory_enabled:
+            raise HTTPException(status_code=503, detail="Memory service is disabled")
+            
+        conversation_data = await langchain_memory_service.get_conversation_history_formatted(
+            user_id=user_id,
+            session_id=session_id,
+            limit=limit
+        )
+        
+        return conversation_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @api_router.get("/health", tags=["Health"])
