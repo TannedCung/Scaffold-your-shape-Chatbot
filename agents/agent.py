@@ -3,17 +3,32 @@
 import uuid
 from datetime import datetime
 import langchain_core
-from openai import OpenAI
+
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from langgraph_swarm import create_handoff_tool, create_swarm
 from typing import Dict, Any, List, Optional, Tuple
 import json
-import asyncio
 from langsmith import traceable
 
+# Fix langchain globals issue
+import langchain
+import os
 
-from .prompts import create_logger_prompt, create_coach_prompt
+# Set environment variables to disable problematic features
+os.environ['LANGCHAIN_TRACING_V2'] = 'false'
+os.environ['LANGCHAIN_DEBUG'] = 'false'
+
+# Monkey patch langchain to fix missing attributes
+if not hasattr(langchain, 'debug'):
+    langchain.debug = False
+if not hasattr(langchain, 'verbose'):
+    langchain.verbose = False
+if not hasattr(langchain, 'llm_cache'):
+    langchain.llm_cache = None
+
+
+from .prompts import create_logger_prompt, create_coach_prompt, orchestration_prompt
 from .utils import print_stream
 from services.mcp_client import create_mcp_client
 from services.langchain_memory_service import langchain_memory_service
@@ -39,7 +54,9 @@ def get_model():
         return ChatOpenAI(
             model=config.openai_model,
             api_key=config.openai_api_key,
-            temperature=0.7
+            temperature=0.7,
+            verbose=False,
+            streaming=False
         )
     else:
         # Use local LLM (vLLM, Ollama, etc.) with OpenAI-compatible interface
@@ -47,7 +64,9 @@ def get_model():
             model=config.local_llm_model,
             base_url=config.local_llm_base_url,
             api_key=config.local_llm_api_key or "dummy-key",
-            temperature=0.7
+            temperature=0.7,
+            verbose=False,
+            streaming=False
         )
 
 def get_openai_client():
@@ -122,19 +141,36 @@ async def create_coach_agent(mcp_client, user_id: str):
     return coach_agent
 
 
+async def create_orchestration_agent(user_id: str):
+    """Create the orchestration agent that routes between specialized agents."""
+    # Use the same handoff tools as other agents for consistency
+    orchestration_agent = create_react_agent(
+        get_model(),
+        prompt=orchestration_prompt,
+        tools=[transfer_to_logger_agent, transfer_to_coach_agent],
+        name="orchestration_agent",
+    )
+    
+    return orchestration_agent
+
+
 async def create_agent_swarm(user_id: str) -> Tuple[Any, Any]:
     """Create the agent swarm for the given user and return (agent_app, mcp_client)."""
     # Create MCP client for this user
     mcp_client = create_mcp_client()
     
     try:
+        # Create orchestration agent first (the main coordinator)
+        orchestration_agent = await create_orchestration_agent(user_id)
+        
+        # Create specialized agents
         logger_agent = await create_logger_agent(mcp_client, user_id)
         coach_agent = await create_coach_agent(mcp_client, user_id)
         
-        # Create swarm with logger as default (handles most basic requests)
+        # Create swarm with orchestration agent as default (routes to others)
         agent_swarm = create_swarm(
-            [logger_agent, coach_agent], 
-            default_active_agent="logger_agent"
+            [orchestration_agent, logger_agent, coach_agent], 
+            default_active_agent="orchestration_agent"
         )
         
         agent_app = agent_swarm.compile()
@@ -200,125 +236,7 @@ class PiliAgentSystem:
         
         return self.agent_cache[user_id][0]  # Return just the agent app
     
-    @traceable(
-        name="finalize_response",
-        metadata={
-            "component": "pili_agent_system",
-            "operation": "response_finalization"
-        }
-    )
-    async def _finalize_response(self, agent_result: Dict[str, Any], user_message: str, execution_summary: List[str]) -> Dict[str, Any]:
-        """
-        Use LLM to generate a friendly, summarized response based on agent execution result.
-        
-        Args:
-            agent_result: The raw result from agent system
-            user_message: The original user message
-            execution_summary: Brief summary of what the agent execution accomplished
-            
-        Returns:
-            dict: Enhanced result with finalized response
-        """
-        try:
-            # Get configuration for LLM
-            config = get_configuration()
-            
-            # Add tracing metadata for configuration
-            from langsmith import get_current_run_tree
-            run = get_current_run_tree()
-            if run:
-                run.add_metadata({
-                    "llm_provider": config.llm_provider,
-                    "user_message_length": len(user_message),
-                    "execution_summary_items": len(execution_summary),
-                    "original_response_length": len(agent_result.get("response", "")),
-                    "execution_summary": execution_summary[:3]  # First 3 items for visibility
-                })
-            
-            # Initialize LLM client based on configuration
-            if config.llm_provider == "openai":
-                client = OpenAI(api_key=config.openai_api_key)
-                model_name = config.openai_model
-            else:
-                client = OpenAI(
-                    base_url=config.local_llm_base_url,
-                    api_key=config.local_llm_api_key or "dummy-key"
-                )
-                model_name = config.local_llm_model
-            
-            # Extract information from agent result
-            original_response = agent_result.get("response", "")
-            
-            # Create concise finalization prompt with execution summary
-            summary_text = " | ".join(execution_summary) if execution_summary else "Processed request"
-            
-            finalization_prompt = f"""Rewrite as Pili, friendly fitness bot.
 
-User asked: "{user_message}"
-Agent did: {original_response}
-Execution: {summary_text}
-
-Make it a short and warm answer, with emojis. Briefly summarize what you accomplished."""
-
-            # Add prompt to trace
-            if run:
-                run.add_metadata({
-                    "finalization_prompt": finalization_prompt,
-                    "model_name": model_name,
-                    "summary_text_length": len(summary_text)
-                })
-
-            # Get finalized response from LLM
-            completion = await asyncio.to_thread(
-                client.chat.completions.create,
-                model=model_name,
-                messages=[
-                    {"role": "system", "content": "You are Pili, a friendly and encouraging fitness chatbot."},
-                    {"role": "user", "content": finalization_prompt}
-                ],
-                temperature=0.7,
-                max_tokens=300
-            )
-            
-            finalized_response = completion.choices[0].message.content.strip()
-            
-            # Add completion details to trace
-            if run:
-                run.add_metadata({
-                    "completion_tokens": completion.usage.completion_tokens if completion.usage else 0,
-                    "prompt_tokens": completion.usage.prompt_tokens if completion.usage else 0,
-                    "total_tokens": completion.usage.total_tokens if completion.usage else 0,
-                    "finalized_response_length": len(finalized_response),
-                    "finalization_success": True
-                })
-            
-            # Update the result with finalized response
-            finalized_result = agent_result.copy()
-            finalized_result["response"] = finalized_response
-            finalized_result["original_response"] = original_response  # Keep original for debugging
-            finalized_result["execution_summary"] = execution_summary
-            finalized_result["finalized"] = True
-            
-            return finalized_result
-            
-        except Exception as e:
-            print(f"Finalization error: {e}")
-            
-            # Add error to trace
-            from langsmith import get_current_run_tree
-            run = get_current_run_tree()
-            if run:
-                run.add_metadata({
-                    "finalization_success": False,
-                    "error": str(e),
-                    "error_type": type(e).__name__
-                })
-            
-            # Return original result if finalization fails
-            fallback_result = agent_result.copy()
-            fallback_result["finalization_error"] = str(e)
-            fallback_result["execution_summary"] = execution_summary
-            return fallback_result
 
     @traceable(
         name="process_request",
@@ -328,7 +246,7 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
         }
     )
     async def process_request(self, user_id: str, message: str, session_id: str = "default") -> Dict[str, Any]:
-        """Process a user request through the agent system with finalization."""
+        """Process a user request through the orchestration agent system."""
         try:
             # Add initial tracing metadata
             from langsmith import get_current_run_tree
@@ -445,20 +363,18 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
                     "ai_messages_count": len(ai_messages) if 'ai_messages' in locals() else 0
                 })
             
-            # Prepare initial result
-            agent_result = {
+            # Prepare final result directly from orchestration agent
+            final_result = {
                 "response": response,
                 "logs": [{
-                    "agent_system": "langgraph_swarm",
+                    "agent_system": "langgraph_swarm_orchestration",
                     "user_id": user_id,
                     "message_count": len(messages),
                     "execution_summary": execution_summary
                 }],
-                "chain_of_thought": execution_summary.copy()
+                "chain_of_thought": execution_summary.copy(),
+                "execution_summary": execution_summary
             }
-            
-            # Apply finalization step with execution summary
-            finalized_result = await self._finalize_response(agent_result, message, execution_summary)
             
             # Add conversation exchange to memory
             app_config = get_configuration()
@@ -467,19 +383,19 @@ Make it a short and warm answer, with emojis. Briefly summarize what you accompl
                     user_id=user_id,
                     session_id=session_id,
                     user_message=message,
-                    ai_response=finalized_result["response"]
+                    ai_response=final_result["response"]
                 )
             
             # Add final result metadata to trace
             if run:
                 run.add_metadata({
-                    "finalization_applied": finalized_result.get("finalized", False),
-                    "final_response_length": len(finalized_result["response"]),
-                    "has_finalization_error": "finalization_error" in finalized_result,
-                    "memory_enabled": app_config.memory_enabled
+                    "orchestration_complete": True,
+                    "final_response_length": len(final_result["response"]),
+                    "memory_enabled": app_config.memory_enabled,
+                    "using_orchestration_agent": True
                 })
             
-            return finalized_result
+            return final_result
             
         except Exception as e:
             print(f"Error in agent system for user {user_id}: {e}")

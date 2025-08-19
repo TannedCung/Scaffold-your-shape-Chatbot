@@ -8,6 +8,7 @@ from config.settings import get_configuration
 import json
 import time
 import asyncio
+import uuid
 
 app = FastAPI(
     title="Pili Exercise Chatbot API",
@@ -47,87 +48,57 @@ async def chat_endpoint(request: ChatRequest):
     """
     try:
         if request.stream:
-            # For streaming, get agent result (now includes finalization)
-            agent_result = await agent_system.process_request(
-                request.user_id, 
-                request.message,
-                request.session_id or "default"
-            )
-                  
-            # Extract data for streaming
-            response_text = agent_result["response"]
-            logs = agent_result.get("logs", [])
-            chain_of_thought = agent_result.get("chain_of_thought", [])
+            # For streaming, use the structured agent stream
+            from agents.utils import structured_agent_stream
             
-            # Create streaming response
-            async def create_agent_stream():
-                # Create unique chat completion ID
-                chat_id = f"chatcmpl-{int(time.time())}"
-                created_time = int(time.time())
-                
-                # First chunk with metadata
-                first_chunk = {
-                    "id": chat_id,
-                    "object": "chat.completion.chunk",
-                    "created": created_time,
-                    "model": "pili-langgraph-swarm",
-                    "choices": [{
-                        "index": 0,
-                        "delta": {"role": "assistant", "content": ""},
-                        "finish_reason": None
-                    }],
-                    "metadata": {
-                        "agent_system": "langgraph_swarm",
-                        "chain_of_thought": chain_of_thought,
-                        "logs": logs,
-                        "finalized": agent_result.get("finalized", False),
-                        "execution_summary": agent_result.get("execution_summary", [])
-                    }
-                }
-                yield f"data: {json.dumps(first_chunk)}\n\n"
-                
-                # Stream the response content character by character
-                for i, char in enumerate(response_text):
-                    chunk = {
-                        "id": chat_id,
-                        "object": "chat.completion.chunk",
-                        "created": created_time,
-                        "model": "pili-langgraph-swarm",
-                        "choices": [{
-                            "index": 0,
-                            "delta": {"content": char},
-                            "finish_reason": None
-                        }]
-                    }
-                    yield f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
-                    await asyncio.sleep(0.01)  # Small delay for smooth streaming
-                
-                # Final chunk
-                final_chunk = {
-                    "id": chat_id,
-                    "object": "chat.completion.chunk",
-                    "created": created_time,
-                    "model": "pili-langgraph-swarm",
-                    "choices": [{
-                        "index": 0,
-                        "delta": {},
-                        "finish_reason": "stop"
-                    }]
-                }
-                yield f"data: {json.dumps(final_chunk)}\n\n"
-                yield "data: [DONE]\n\n"
+            # Get agent system for user
+            agent_app = await agent_system.get_agent_for_user(request.user_id)
             
+            # Get conversation context for LLM
+            conversation_context = ""
+            config = get_configuration()
+            if config.memory_enabled:
+                conversation_context = await langchain_memory_service.get_conversation_context(
+                    user_id=request.user_id,
+                    session_id=request.session_id or "default"
+                )
+            
+            # Format user message with context
+            from agents.agent import format_user_message_with_context
+            formatted_message = format_user_message_with_context(request.user_id, request.message)
+            if conversation_context:
+                formatted_message = conversation_context + formatted_message
+            
+            # Prepare initial state
+            initial_state = {
+                "messages": [{"role": "user", "content": formatted_message}],
+                "user_id": request.user_id,
+                "session_id": request.session_id or "default"
+            }
+            
+            # Agent configuration
+            agent_config = {
+                "configurable": {
+                    "thread_id": f"{request.user_id}_{request.session_id or 'default'}_{uuid.uuid4()}", 
+                    "user_id": request.user_id,
+                    "session_id": request.session_id or "default"
+                }
+            }
+            
+            # Create structured streaming response
             return StreamingResponse(
-                create_agent_stream(),
-                media_type="text/plain",
-                headers={
-                    "Cache-Control": "no-cache",
-                    "Connection": "keep-alive",
-                    "Content-Type": "text/plain; charset=utf-8"
-                }
+                structured_agent_stream(
+                    agent_app=agent_app,
+                    initial_state=initial_state,
+                    config=agent_config,
+                    user_id=request.user_id,
+                    session_id=request.session_id or "default",
+                    user_message=request.message
+                ),
+                media_type="text/plain"
             )
         else:
-            # Non-streaming response using agent system (includes finalization)
+            # Non-streaming response using orchestration agent system
             agent_result = await agent_system.process_request(
                 request.user_id,
                 request.message,
@@ -152,7 +123,7 @@ async def chat_endpoint(request: ChatRequest):
                     "id": f"chatcmpl-error-{int(time.time())}",
                     "object": "chat.completion.chunk",
                     "created": int(time.time()),
-                    "model": "pili-langgraph-swarm",
+                    "model": "pili-orchestration-swarm",
                     "choices": [{
                         "index": 0,
                         "delta": {"content": "I'm sorry, something went wrong. Please try again! 💪"},
@@ -325,18 +296,16 @@ async def health_check_detailed():
 async def debug_agent(request: ChatRequest):
     """Debug endpoint to test agent system directly."""
     try:
-        # Test agent system processing (includes finalization)
+        # Test orchestration agent system processing
         result = await agent_system.process_request(request.user_id, request.message)
         
         return {
             "agent_response": result["response"],
-            "original_response": result.get("original_response", ""),
             "logs": result["logs"],
             "chain_of_thought": result.get("chain_of_thought", []),
             "execution_summary": result.get("execution_summary", []),
-            "finalized": result.get("finalized", False),
-            "finalization_error": result.get("finalization_error"),
-            "note": "Direct agent system testing with built-in finalization"
+            "orchestrated": True,
+            "note": "Direct orchestration agent system testing"
         }
     except Exception as e:
         return {"error": str(e)}
