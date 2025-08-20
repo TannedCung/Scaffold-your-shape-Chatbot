@@ -1,19 +1,19 @@
 # Pili - Exercise Tracker Chatbot Microservice
 
-A sophisticated chatbot microservice named **Pili** for an exercise tracker application, built with FastAPI, LangGraph, and LangSmith. Features a **3-agent architecture** with **chain of thought reasoning** and **MCP server integration** for the Scaffold Your Shape fitness platform.
+A sophisticated chatbot microservice named **Pili** for an exercise tracker application, built with FastAPI, LangGraph, and LangSmith. Features a **3-agent orchestration architecture** with **intelligent routing** and **MCP server integration** for the Scaffold Your Shape fitness platform.
 
 ## 🏗️ Architecture
 
-### 3-Agent System
+### 3-Agent Orchestration System
 
 ![Arch](docs/graph.png)
 
 ### File Structure
 ```
 ├── agents/
-│   ├── orchestration_agent.py  # Main coordinator with CoT reasoning
-│   ├── logger_agent.py         # MCP server integration
-│   └── coach_agent.py          # Personalized coaching & planning
+│   ├── agent.py                # Main orchestration system and agent creation
+│   ├── prompts.py              # Agent prompts including orchestration logic
+│   └── utils.py                # Utility functions for agents
 ├── tools/            # Legacy API tools (kept for compatibility)
 ├── services/         # LLM and external service integrations
 ├── models/           # Pydantic data models for API and chat
@@ -24,11 +24,11 @@ A sophisticated chatbot microservice named **Pili** for an exercise tracker appl
 
 ## 🚀 Features
 
-### 🧠 Orchestration Agent
-- **Chain of Thought Reasoning**: Step-by-step task analysis and planning
-- **Intelligent Task Decomposition**: Breaks complex requests into manageable subtasks
-- **Multi-Agent Coordination**: Manages execution order and agent communication
-- **Context-Aware Response Synthesis**: Combines results from specialized agents
+### 🎯 Orchestration Agent (Primary)
+- **Intelligent Request Routing**: Analyzes user intent and routes to appropriate specialized agents
+- **Concise Few-Shot Learning**: Uses minimal, optimal prompts with clear routing examples
+- **Friendly Response Generation**: Maintains Pili's warm personality throughout interactions
+- **Efficient Agent Coordination**: Seamlessly coordinates between Logger and Coach agents
 
 ### 📝 Logger Agent (MCP Integration)
 - **Direct MCP Server Connection**: Communicates with Scaffold Your Shape at `192.168.1.98:3005`
@@ -122,17 +122,17 @@ Health check endpoint.
 ### GET `/api/docs`
 Redirects to Swagger UI documentation.
 
-## 🤖 How the 3-Agent System Works
+## 🤖 How the 3-Agent Orchestration System Works
 
 ### Simple Request Flow
 ```
 User: "I ran 5 km this morning"
    ↓
-🧠 Orchestration Agent: "Simple logging task → Use Logger Agent"
+🎯 Orchestration Agent: "Direct logging task → Route to Logger Agent"
    ↓
 📝 Logger Agent: Logs to MCP server → "Activity logged successfully"
    ↓
-🧠 Orchestration Agent: Synthesizes response
+🎯 Orchestration Agent: Returns friendly response
    ↓
 Response: "🎉 Great job! I've logged your Running activity - 5 km in Scaffold Your Shape!"
 ```
@@ -141,26 +141,60 @@ Response: "🎉 Great job! I've logged your Running activity - 5 km in Scaffold 
 ```
 User: "I want to improve my running and need a training plan"
    ↓
-🧠 Orchestration Agent: "Complex task → Use Logger + Coach agents"
+🎯 Orchestration Agent: "Complex task → Route to Logger + Coach agents"
    ↓
 📝 Logger Agent: Gets running history from MCP server
 🏃‍♀️ Coach Agent: Analyzes data + creates personalized plan
    ↓
-🧠 Orchestration Agent: Combines results with chain of thought
+🎯 Orchestration Agent: Combines results with friendly response
    ↓
 Response: Comprehensive training plan with current progress context
 ```
 
 ## 🤖 What Pili Can Do
 
-| Category | Example Messages | Agent Coordination |
-|----------|------------------|-------------------|
-| **Activity Logging** | "I ran 5 km", "Did yoga for 45 minutes" | Logger Agent → MCP Server |
-| **Club Management** | "Show me clubs", "Join club runners" | Logger Agent → MCP Server |
-| **Workout Planning** | "Create a running plan", "I need a training schedule" | Logger Agent (history) + Coach Agent (planning) |
-| **Progress Analysis** | "How am I doing?", "Analyze my progress" | Logger Agent (data) + Coach Agent (analysis) |
-| **Motivation** | "I need motivation", "Encourage me" | Coach Agent with activity context |
-| **Complex Requests** | "Plan my week and track yesterday's workout" | Orchestration Agent coordinates multiple agents |
+| Category | Example Messages | Agent Flow |
+|----------|------------------|------------|
+| **Activity Logging** | "I ran 5 km", "Did yoga for 45 minutes" | Orchestration → Logger → MCP Server |
+| **Club Management** | "Show me clubs", "Join club runners" | Orchestration → Logger → MCP Server |
+| **Workout Planning** | "Create a running plan", "I need a training schedule" | Orchestration → Logger (data) + Coach (planning) |
+| **Progress Analysis** | "How am I doing?", "Analyze my progress" | Orchestration → Logger (data) + Coach (analysis) |
+| **Motivation** | "I need motivation", "Encourage me" | Orchestration → Coach with context |
+| **Memory & Context** | "How did my run go yesterday?", "Continue my training plan" | Memory-aware responses using conversation history |
+
+## 🧠 Memory System
+
+Pili now includes a comprehensive memory system that maintains conversation history for each user:
+
+### Features
+- **Per-User Memory**: Each user has separate conversation history
+- **Session Support**: Multiple conversation sessions per user (e.g., workout planning vs. nutrition)
+- **LangChain Integration**: Uses LangChain's robust memory capabilities
+- **Persistent Storage**: Conversations stored to disk and survive server restarts
+- **Context-Aware Agents**: Agents reference previous conversations for personalized responses
+
+### Memory Types
+- **Buffer Window** (Default): Keeps last 20 conversation exchanges
+- **Summary Buffer**: Summarizes older conversations, keeps recent ones
+- **Entity Memory**: Tracks entities mentioned (people, exercises, goals)
+- **Full Buffer**: Keeps complete conversation history
+
+### Memory Management API
+```bash
+# Get user memory stats
+GET /api/memory/stats/{user_id}
+
+# Clear user memory
+POST /api/memory/clear
+{"user_id": "user123", "session_id": "optional"}
+
+# Search conversation history
+POST /api/memory/search
+{"user_id": "user123", "query": "running"}
+
+# Get conversation history
+GET /api/memory/conversation/{user_id}?session_id=default&limit=50
+```
 
 ## 🧠 Pili's Intelligence
 
