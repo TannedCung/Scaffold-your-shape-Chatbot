@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Pili - Exercise Tracker Chatbot'
-copyright = '2024, Pili Development Team'
+copyright = '2025, Pili Development Team'
 author = 'Pili Development Team'
 release = '1.0.0'
 
@@ -44,6 +44,19 @@ autoapi_generate_api_docs = True
 autoapi_add_toctree_entry = True
 autoapi_member_order = 'groupwise'
 autoapi_python_class_content = 'both'
+autoapi_options = [
+    'members',
+    'undoc-members',
+    'show-inheritance',
+    'show-module-summary',
+    'special-members',
+    'imported-members'
+]
+autoapi_ignore = [
+    '*migrations*',
+    '*tests*',
+    '*test_*',
+]
 
 # MyST Parser configuration
 source_suffix = {
@@ -70,20 +83,21 @@ napoleon_attr_annotations = True
 # Autodoc settings
 autodoc_typehints = 'description'
 autodoc_member_order = 'bysource'
-autodoc_default_options = {
-    'members': True,
-    'member-order': 'bysource',
-    'special-members': '__init__',
-    'undoc-members': True,
-    'exclude-members': '__weakref__'
-}
 
 # Templates path
 templates_path = ['_templates']
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = [
+    '_build', 
+    'Thumbs.db', 
+    '.DS_Store',
+    'README.md',  # Exclude problematic markdown files
+    'SETUP_COMPLETE.md',
+    'AUTOMATION_COMPLETE.md',
+    'BUILD_FIXES_APPLIED.md'
+]
 
 # Master document
 master_doc = 'index'
@@ -97,7 +111,6 @@ html_static_path = ['_static']
 # Theme options
 html_theme_options = {
     'logo_only': False,
-    'display_version': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
     'vcs_pageview_mode': '',
@@ -166,10 +179,26 @@ texinfo_documents = [
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
     'fastapi': ('https://fastapi.tiangolo.com', None),
-    'langchain': ('https://python.langchain.com/docs/', None),
     'pydantic': ('https://docs.pydantic.dev/latest/', None),
 }
 
 # Copy button configuration
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
-copybutton_prompt_is_regexp = True 
+copybutton_prompt_is_regexp = True
+
+# Suppress specific warnings
+suppress_warnings = [
+    'toc.not_readable',   # Suppress warnings about documents not in toctree
+    'ref.doc',            # Suppress warnings about unknown documents
+    'toc.not_included',   # Suppress warnings about AutoAPI documents not in toctree
+]
+
+# Autodoc configuration to handle duplicates
+autodoc_default_options = {
+    'members': True,
+    'member-order': 'bysource',
+    'special-members': '__init__',
+    'undoc-members': True,
+    'exclude-members': '__weakref__',
+    'no-index': False
+} 
