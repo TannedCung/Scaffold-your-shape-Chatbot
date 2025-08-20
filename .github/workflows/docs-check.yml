@@ -1,0 +1,161 @@
+name: 🔍 Documentation Check
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'sphinx_docs/**'
+      - 'agents/**'
+      - 'core/**'
+      - 'models/**'
+      - 'services/**'
+      - 'tools/**'
+      - 'config/**'
+      - 'requirements.txt'
+      - '.github/workflows/docs-*.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  docs-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+        
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        # Install additional tools for documentation checking
+        pip install doc8 pyspelling
+        
+    - name: 🏗️ Test documentation build
+      id: build-test
+      run: |
+        cd sphinx_docs
+        echo "Building documentation..."
+        sphinx-build -b html . _build/html -W --keep-going -v
+        echo "✅ Documentation builds successfully!"
+        
+    - name: 🔗 Check for broken links
+      continue-on-error: true
+      id: linkcheck
+      run: |
+        cd sphinx_docs
+        echo "Checking for broken links..."
+        sphinx-build -b linkcheck . _build/linkcheck -q
+        
+    - name: 📝 Check documentation style
+      continue-on-error: true
+      id: style-check
+      run: |
+        echo "Checking documentation style..."
+        doc8 sphinx_docs --ignore-path sphinx_docs/_build --max-line-length 100
+        
+    - name: 📊 Analyze documentation coverage
+      id: coverage
+      run: |
+        cd sphinx_docs
+        echo "Analyzing documentation coverage..."
+        
+        # Count Python files
+        PYTHON_FILES=$(find .. -name "*.py" -not -path "../sphinx_docs/*" -not -path "../.*" | wc -l)
+        
+        # Count documented modules (rough estimate)
+        DOCUMENTED_MODULES=$(find _build/html -path "*/autoapi/*" -name "*.html" | wc -l)
+        
+        # Count documentation pages
+        DOC_PAGES=$(find . -name "*.rst" | wc -l)
+        
+        echo "python_files=$PYTHON_FILES" >> $GITHUB_OUTPUT
+        echo "documented_modules=$DOCUMENTED_MODULES" >> $GITHUB_OUTPUT
+        echo "doc_pages=$DOC_PAGES" >> $GITHUB_OUTPUT
+        
+    - name: 📋 Generate documentation report
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const pythonFiles = '${{ steps.coverage.outputs.python_files }}';
+          const documentedModules = '${{ steps.coverage.outputs.documented_modules }}';
+          const docPages = '${{ steps.coverage.outputs.doc_pages }}';
+          
+          const buildSuccess = '${{ steps.build-test.outcome }}' === 'success';
+          const linkchecksSuccess = '${{ steps.linkcheck.outcome }}' === 'success';
+          const styleSuccess = '${{ steps.style-check.outcome }}' === 'success';
+          
+          const report = `## 📚 Documentation Quality Report
+          
+          ### 🏗️ Build Status
+          ${buildSuccess ? '✅' : '❌'} **Documentation Build**: ${buildSuccess ? 'Successful' : 'Failed'}
+          ${linkchecksSuccess ? '✅' : '⚠️'} **Link Check**: ${linkchecksSuccess ? 'All links working' : 'Some issues found'}
+          ${styleSuccess ? '✅' : '⚠️'} **Style Check**: ${styleSuccess ? 'Style guidelines followed' : 'Style improvements needed'}
+          
+          ### 📊 Coverage Statistics
+          - **Python modules**: ${pythonFiles}
+          - **Documented modules**: ${documentedModules}
+          - **Documentation pages**: ${docPages}
+          - **Coverage estimate**: ${Math.round((documentedModules / pythonFiles) * 100)}%
+          
+          ### 📝 Quality Checklist
+          - [${buildSuccess ? 'x' : ' '}] Documentation builds without errors
+          - [${linkchecksSuccess ? 'x' : ' '}] All internal links are working
+          - [${styleSuccess ? 'x' : ' '}] Documentation style is consistent
+          - [ ] Code examples are tested and working
+          - [ ] New features are documented
+          - [ ] API changes are reflected in docs
+          
+          ### 💡 Recommendations
+          ${!buildSuccess ? '- ❗ Fix documentation build errors before merging\n' : ''}
+          ${!linkchecksSuccess ? '- ⚠️ Check and fix broken links\n' : ''}
+          ${!styleSuccess ? '- 📝 Review documentation style guidelines\n' : ''}
+          ${documentedModules < pythonFiles * 0.8 ? '- 📚 Consider adding more API documentation\n' : ''}
+          
+          ---
+          🤖 *Automated documentation analysis*`;
+          
+          // Post comment on PR
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.payload.pull_request.number
+          });
+          
+          const existingComment = comments.find(comment => 
+            comment.body.includes('📚 Documentation Quality Report')
+          );
+          
+          if (existingComment) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: existingComment.id,
+              body: report
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: report
+            });
+          }
+          
+          // Add to job summary
+          core.summary.addRaw(report);
+          await core.summary.write();
+          
+    - name: ❌ Fail if documentation build failed
+      if: steps.build-test.outcome == 'failure'
+      run: |
+        echo "Documentation build failed. Please fix the errors before merging."
+        exit 1 
