@@ -384,39 +384,3 @@ async def close_httpx_client():
     """Close the HTTP client connection."""
     await httpx_client.aclose() 
 
-def print_stream(stream):
-    """
-    Print agent stream updates in a structured format.
-    Similar to the provided sample but enhanced for agent system.
-    """
-    for ns, update in stream:
-        for node, node_updates in update.items():
-            if node_updates is None:
-                continue
-
-            if isinstance(node_updates, (dict, tuple)):
-                node_updates_list = [node_updates]
-            elif isinstance(node_updates, list):
-                node_updates_list = node_updates
-            else:
-                raise ValueError(f"Unexpected update type: {type(node_updates)}")
-
-            for node_update in node_updates_list:
-                if isinstance(node_update, tuple):
-                    continue
-                    
-                # Look for messages in the update
-                messages_key = next(
-                    (k for k in node_update.keys() if "messages" in k), None
-                )
-                
-                if messages_key is not None and node_update[messages_key]:
-                    last_message = node_update[messages_key][-1]
-                    
-                    # Pretty print the message
-                    if hasattr(last_message, 'pretty_print'):
-                        last_message.pretty_print()
-                    else:
-                        print(f"[{node}] {last_message}")
-                else:
-                    print(f"[{node}] Update: {node_update}")

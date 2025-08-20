@@ -1,0 +1,129 @@
+name: 🚀 Deploy Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'sphinx_docs/**'
+      - 'agents/**'
+      - 'core/**'
+      - 'models/**'
+      - 'services/**'
+      - 'tools/**'
+      - 'config/**'
+      - 'requirements.txt'
+      - '.github/workflows/docs-deploy.yml'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for accurate build info
+        
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+        
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: 🏗️ Build documentation
+      run: |
+        cd sphinx_docs
+        sphinx-build -b html . _build/html --keep-going
+        
+    - name: 📋 Add build info
+      run: |
+        # Add build timestamp and commit info to the documentation
+        cat << EOF > sphinx_docs/_build/html/build-info.html
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Build Information</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; }
+                .build-info { background: #f5f5f5; padding: 20px; border-radius: 8px; }
+                .commit { background: #e8f4fd; padding: 10px; border-radius: 4px; margin: 10px 0; }
+                code { background: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
+            </style>
+        </head>
+        <body>
+            <div class="build-info">
+                <h2>📚 Documentation Build Information</h2>
+                <p><strong>Build Time:</strong> $(date -u)</p>
+                <p><strong>Commit:</strong> <code>${GITHUB_SHA:0:8}</code></p>
+                <p><strong>Branch:</strong> <code>${GITHUB_REF_NAME}</code></p>
+                <p><strong>Python Version:</strong> $(python --version)</p>
+                <p><strong>Sphinx Version:</strong> $(sphinx-build --version)</p>
+                
+                <div class="commit">
+                    <h3>Latest Commit</h3>
+                    <p><strong>Message:</strong> $(git log -1 --pretty=format:'%s')</p>
+                    <p><strong>Author:</strong> $(git log -1 --pretty=format:'%an <%ae>')</p>
+                    <p><strong>Date:</strong> $(git log -1 --pretty=format:'%ad' --date=iso)</p>
+                </div>
+                
+                <p><a href="index.html">← Back to Documentation</a></p>
+            </div>
+        </body>
+        </html>
+        EOF
+        
+    - name: 📊 Generate documentation report
+      run: |
+        echo "## 📚 Documentation Deployment Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Documentation built and ready for deployment!" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📊 Statistics" >> $GITHUB_STEP_SUMMARY
+        echo "- **Total pages**: $(find sphinx_docs/_build/html -name "*.html" | wc -l)" >> $GITHUB_STEP_SUMMARY
+        echo "- **API modules**: $(find sphinx_docs/_build/html -path "*/autoapi/*" -name "*.html" | wc -l)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Build size**: $(du -sh sphinx_docs/_build/html | cut -f1)" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit**: \`${GITHUB_SHA:0:8}\`" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+        echo "- **Live Documentation**: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> $GITHUB_STEP_SUMMARY
+        echo "- **Build Info**: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/build-info.html" >> $GITHUB_STEP_SUMMARY
+        
+    - name: 📤 Upload Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: sphinx_docs/_build/html/
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: 🚀 Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      
+    - name: 🎉 Deployment complete
+      run: |
+        echo "## 🎉 Documentation Deployed Successfully!" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Your documentation is now live at:" >> $GITHUB_STEP_SUMMARY
+        echo "**${{ steps.deployment.outputs.page_url }}**" >> $GITHUB_STEP_SUMMARY 

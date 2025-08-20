@@ -267,10 +267,29 @@ async def _new_coaching_feature(self, user_id: str, message: str) -> str:
 
 ## 📖 Documentation
 
+**📚 Live Documentation**: https://YOUR-USERNAME.github.io/Scaffold-your-shape-Chatbot/
+
+### Documentation Features
+- **🏗️ Auto-generated**: API documentation from code
+- **🔄 Auto-deployed**: Updates automatically on merges to main
+- **👀 PR Previews**: Every PR gets a documentation preview
+- **✅ Quality Checks**: Automated validation and link checking
+
+### Local Documentation
+```bash
+# Build and serve documentation
+./scripts/build_docs.sh serve
+
+# Development with auto-reload
+./scripts/build_docs.sh auto
+```
+
+### Technical Documentation
 For detailed technical documentation, see:
 - [Agent Architecture Documentation](docs/agent-architecture.md)
 - [Chain of Thought Implementation](docs/agent-architecture.md#chain-of-thought-implementation)
 - [MCP Server Integration](docs/agent-architecture.md#mcp-server-integration)
+- [Documentation Setup Guide](DOCUMENTATION_AUTOMATION_SETUP.md)
 
 ## 📄 License
 

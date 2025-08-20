@@ -7,3 +7,16 @@
 *.pyzw
 .env
 .cursorrules
+example/
+vllm.env.example
+server.log
+scripts/
+data/
+docs/
+
+# Sphinx documentation build artifacts
+sphinx_docs/_build/
+sphinx_docs/autoapi/
+
+# GitHub Actions artifacts
+.github/artifacts/

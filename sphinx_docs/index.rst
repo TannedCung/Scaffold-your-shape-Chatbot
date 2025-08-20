@@ -58,6 +58,12 @@ Pili implements a cutting-edge 3-agent orchestration system:
 
    examples/basic_usage
 
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   autoapi/index
+
 🤖 What Can Pili Do?
 ====================
 
