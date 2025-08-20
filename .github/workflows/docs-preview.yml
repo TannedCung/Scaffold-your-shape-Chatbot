@@ -15,7 +15,7 @@ on:
       - '.github/workflows/docs-preview.yml'
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   pages: write
   id-token: write
