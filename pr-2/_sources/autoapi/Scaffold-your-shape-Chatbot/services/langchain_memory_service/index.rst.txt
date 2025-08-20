@@ -1,0 +1,136 @@
+Scaffold-your-shape-Chatbot.services.langchain_memory_service
+=============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.langchain_memory_service
+
+.. autoapi-nested-parse::
+
+   LangChain-based memory service for conversation history management.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.langchain_memory_service.langchain_memory_service
+   Scaffold-your-shape-Chatbot.services.langchain_memory_service.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService
+
+
+Module Contents
+---------------
+
+.. py:class:: LangChainMemoryService(config = None)
+
+   Service for managing conversation memory using LangChain's memory capabilities.
+
+
+   .. py:method:: add_exchange(user_id, user_message, ai_response, session_id = 'default')
+      :async:
+
+
+      Add a user-AI exchange to memory.
+
+
+
+   .. py:method:: clear_user_memory(user_id, session_id = None)
+      :async:
+
+
+      Clear memory for a user.
+
+
+
+   .. py:method:: get_chat_history_for_user(user_id, session_id = 'default')
+
+      Get or create chat history instance for a user.
+
+
+
+   .. py:method:: get_conversation_context(user_id, session_id = 'default')
+      :async:
+
+
+      Get conversation context as formatted string for LLM.
+
+
+
+   .. py:method:: get_conversation_history_formatted(user_id, session_id = 'default', limit = 50)
+      :async:
+
+
+      Get conversation history in a formatted structure.
+
+
+
+   .. py:method:: get_global_memory_stats()
+      :async:
+
+
+      Get global memory statistics.
+
+
+
+   .. py:method:: get_memory_variables(user_id, session_id = 'default')
+      :async:
+
+
+      Get memory variables for a user that can be used in prompts.
+
+
+
+   .. py:method:: get_user_memory_stats(user_id, session_id = 'default')
+      :async:
+
+
+      Get memory statistics for a specific user.
+
+
+
+   .. py:method:: initialize()
+      :async:
+
+
+      Initialize the memory service.
+
+
+
+   .. py:method:: search_conversations(user_id, query, max_results = 10)
+      :async:
+
+
+      Search through conversation history (basic text search).
+
+
+
+   .. py:method:: shutdown()
+      :async:
+
+
+      Shutdown the memory service.
+
+
+
+   .. py:attribute:: config
+
+
+   .. py:attribute:: memory_dir
+
+
+   .. py:attribute:: user_memories
+      :type:  Dict[str, Dict[str, Any]]
+
+
+.. py:data:: langchain_memory_service
+
+.. py:data:: logger
+

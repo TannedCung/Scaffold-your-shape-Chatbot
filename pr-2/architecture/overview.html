@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture Overview &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Basic Usage Examples" href="../examples/basic_usage.html" />
+    <link rel="prev" title="Configuration Guide" href="../configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#agent-interaction-patterns">Agent Interaction Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simple-request-flow">Simple Request Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complex-request-flow">Complex Request Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/architecture/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-overview">
+<h1>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading"></a></h1>
+<p>Pili implements a sophisticated <strong>3-agent orchestration architecture</strong> designed for scalability, maintainability, and intelligent request handling.</p>
+</section>
+<section id="system-architecture">
+<h1>System Architecture<a class="headerlink" href="#system-architecture" title="Link to this heading"></a></h1>
+<p>The Pili architecture consists of multiple layers working together:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────┐
+│                    REST API Layer                           │
+│                 FastAPI + Swagger UI                        │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+┌─────────────────────────▼───────────────────────────────────┐
+│               🎯 Orchestration Agent                        │
+│            Request Router &amp; Coordinator                     │
+└─────┬───────────────────────────────────────────┬─────────┘
+      │                                           │
+┌─────▼─────────┐                         ┌───────▼─────────┐
+│📝 Logger Agent│                         │🏃‍♀️ Coach Agent │
+│MCP Integration│                         │AI Planning      │
+└─────┬─────────┘                         └───────┬─────────┘
+      │                                           │
+┌─────▼─────────┐  ┌─────────────┐  ┌─────────────▼─────────┐
+│  MCP Server   │  │ Memory      │  │    LLM Provider       │
+│Scaffold Shape │  │ Service     │  │  OpenAI/Local/VLLM    │
+└───────────────┘  └─────────────┘  └───────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="core-components">
+<h1>Core Components<a class="headerlink" href="#core-components" title="Link to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p><strong>Orchestration Agent</strong> 🎯
+- Entry point for all user requests
+- Intelligent routing based on intent analysis
+- Response coordination and formatting
+- Conversation flow management</p></li>
+<li><p><strong>Logger Agent</strong> 📝
+- Direct integration with MCP server
+- Activity tracking and logging
+- Club management operations
+- Data retrieval and synchronization</p></li>
+<li><p><strong>Coach Agent</strong> 🏃‍♀️
+- AI-powered workout planning
+- Progress analysis and insights
+- Motivational coaching
+- Personalized recommendations</p></li>
+<li><p><strong>Memory Service</strong> 🧠
+- Persistent conversation history
+- User context maintenance
+- Session management
+- Cross-agent data sharing</p></li>
+</ol>
+</section>
+<section id="agent-interaction-patterns">
+<h1>Agent Interaction Patterns<a class="headerlink" href="#agent-interaction-patterns" title="Link to this heading"></a></h1>
+<section id="simple-request-flow">
+<h2>Simple Request Flow<a class="headerlink" href="#simple-request-flow" title="Link to this heading"></a></h2>
+<p>For straightforward requests (e.g., “Log my run”):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1. User sends message to REST API
+2. Orchestration Agent analyzes intent
+3. Routes to Logger Agent
+4. Logger Agent calls MCP server
+5. Response flows back through Orchestration Agent
+6. Formatted response returned to user
+</pre></div>
+</div>
+</section>
+<section id="complex-request-flow">
+<h2>Complex Request Flow<a class="headerlink" href="#complex-request-flow" title="Link to this heading"></a></h2>
+<p>For multi-step requests (e.g., “Analyze my progress and suggest improvements”):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1. User sends message to REST API
+2. Orchestration Agent identifies complex intent
+3. Coordinates Logger Agent (data retrieval)
+4. Coordinates Coach Agent (analysis &amp; planning)
+5. Orchestration Agent combines results
+6. Formatted comprehensive response returned
+</pre></div>
+</div>
+</section>
+</section>
+<section id="request-routing-logic">
+<h1>Request Routing Logic<a class="headerlink" href="#request-routing-logic" title="Link to this heading"></a></h1>
+<p>The Orchestration Agent uses sophisticated intent analysis:</p>
+<p><strong>Intent Categories</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Intent Type</p></th>
+<th class="head"><p>Keywords/Patterns</p></th>
+<th class="head"><p>Target Agent</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Activity Logging</strong></p></td>
+<td><p>“ran”, “did”, “completed”, “workout”</p></td>
+<td><p>Logger Agent</p></td>
+<td><p>“I ran 5k today”</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Data Retrieval</strong></p></td>
+<td><p>“show”, “get”, “history”, “progress”</p></td>
+<td><p>Logger Agent</p></td>
+<td><p>“Show my activities”</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Planning</strong></p></td>
+<td><p>“plan”, “schedule”, “program”, “routine”</p></td>
+<td><p>Coach Agent</p></td>
+<td><p>“Create a training plan”</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Analysis</strong></p></td>
+<td><p>“analyze”, “insights”, “trends”, “compare”</p></td>
+<td><p>Logger + Coach</p></td>
+<td><p>“Analyze my progress”</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Motivation</strong></p></td>
+<td><p>“motivation”, “encourage”, “support”</p></td>
+<td><p>Coach Agent</p></td>
+<td><p>“I need motivation”</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision Tree</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_intent</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AgentRoute</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">contains_activity_data</span><span class="p">(</span><span class="n">user_message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Route</span><span class="o">.</span><span class="n">LOGGER_AGENT</span>
+    <span class="k">elif</span> <span class="n">contains_planning_request</span><span class="p">(</span><span class="n">user_message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Route</span><span class="o">.</span><span class="n">COACH_AGENT</span>
+    <span class="k">elif</span> <span class="n">contains_analysis_request</span><span class="p">(</span><span class="n">user_message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Route</span><span class="o">.</span><span class="n">LOGGER_AND_COACH</span>
+    <span class="k">elif</span> <span class="n">contains_motivation_request</span><span class="p">(</span><span class="n">user_message</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Route</span><span class="o">.</span><span class="n">COACH_AGENT</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Route</span><span class="o">.</span><span class="n">ORCHESTRATION_ONLY</span>
+</pre></div>
+</div>
+</section>
+<section id="technology-stack">
+<h1>Technology Stack<a class="headerlink" href="#technology-stack" title="Link to this heading"></a></h1>
+<p><strong>Core Framework</strong>
+- <strong>FastAPI</strong>: High-performance REST API framework
+- <strong>Pydantic</strong>: Data validation and serialization
+- <strong>Uvicorn</strong>: ASGI server for production deployment</p>
+<p><strong>AI/ML Stack</strong>
+- <strong>LangChain</strong>: Agent orchestration and LLM integration
+- <strong>LangGraph</strong>: Multi-agent workflow management
+- <strong>LangSmith</strong>: Monitoring and observability</p>
+<p><strong>LLM Integration</strong>
+- <strong>OpenAI</strong>: Primary LLM provider
+- <strong>Local LLMs</strong>: Ollama, VLLM support
+- <strong>Streaming</strong>: Real-time response generation</p>
+<p><strong>External Integration</strong>
+- <strong>MCP Protocol</strong>: Scaffold Your Shape integration
+- <strong>HTTP/REST</strong>: External service communication</p>
+</section>
+<section id="data-flow-architecture">
+<h1>Data Flow Architecture<a class="headerlink" href="#data-flow-architecture" title="Link to this heading"></a></h1>
+<p><strong>Memory Management</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>User Request → Memory Retrieval → Agent Processing → Memory Update → Response
+</pre></div>
+</div>
+<p><strong>Conversation Context</strong>
+- Each user has isolated conversation history
+- Agents share context through memory service
+- Session-based memory management
+- Automatic memory cleanup and optimization</p>
+<p><strong>Error Handling</strong>
+- Graceful degradation on external service failures
+- Retry logic with exponential backoff
+- Fallback responses when agents are unavailable
+- Comprehensive error logging and monitoring</p>
+</section>
+<section id="scalability-considerations">
+<h1>Scalability Considerations<a class="headerlink" href="#scalability-considerations" title="Link to this heading"></a></h1>
+<p><strong>Horizontal Scaling</strong>
+- Stateless agent design
+- External memory service
+- Load balancer compatible
+- Container-ready architecture</p>
+<p><strong>Performance Optimization</strong>
+- Async/await throughout
+- Connection pooling
+- Response caching where appropriate
+- Memory usage optimization</p>
+<p><strong>Monitoring &amp; Observability</strong>
+- LangSmith integration for AI monitoring
+- Structured logging
+- Health check endpoints
+- Metrics collection</p>
+</section>
+<section id="security-architecture">
+<h1>Security Architecture<a class="headerlink" href="#security-architecture" title="Link to this heading"></a></h1>
+<p><strong>API Security</strong>
+- Input validation and sanitization
+- Rate limiting
+- CORS configuration
+- Environment-based secrets management</p>
+<p><strong>External Service Security</strong>
+- Secure API key management
+- TLS/HTTPS enforcement
+- Request/response validation
+- Timeout and retry limits</p>
+<p><strong>Data Privacy</strong>
+- User data isolation
+- Memory encryption options
+- Audit logging
+- GDPR compliance ready</p>
+</section>
+<section id="deployment-architecture">
+<h1>Deployment Architecture<a class="headerlink" href="#deployment-architecture" title="Link to this heading"></a></h1>
+<p><strong>Container Strategy</strong>
+- Docker containerization
+- Docker Compose for development
+- Production-ready Dockerfile
+- Health check integration</p>
+<p><strong>Environment Management</strong>
+- Development/staging/production configs
+- Environment variable management
+- Secrets management
+- Configuration validation</p>
+<p><strong>Monitoring &amp; Logging</strong>
+- Centralized logging
+- Application metrics
+- Health monitoring
+- Error tracking</p>
+</section>
+<section id="future-architecture-considerations">
+<h1>Future Architecture Considerations<a class="headerlink" href="#future-architecture-considerations" title="Link to this heading"></a></h1>
+<p><strong>Agent Extensibility</strong>
+- Plugin architecture for new agents
+- Dynamic agent registration
+- Agent-specific configuration
+- Hot-reloading capabilities</p>
+<p><strong>Advanced Features</strong>
+- Multi-language support
+- Voice interface integration
+- Real-time notifications
+- Advanced analytics</p>
+<p><strong>Integration Expansion</strong>
+- Additional fitness platform support
+- Third-party service integrations
+- Webhook support
+- GraphQL API option</p>
+<p>This architecture provides a solid foundation for Pili’s current capabilities while maintaining flexibility for future enhancements and scaling requirements.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../configuration.html" class="btn btn-neutral float-left" title="Configuration Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples/basic_usage.html" class="btn btn-neutral float-right" title="Basic Usage Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

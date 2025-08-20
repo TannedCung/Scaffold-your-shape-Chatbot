@@ -1,0 +1,122 @@
+Scaffold-your-shape-Chatbot.services.memory_service
+===================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.memory_service
+
+.. autoapi-nested-parse::
+
+   Memory service for conversation history management.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.memory_service.logger
+   Scaffold-your-shape-Chatbot.services.memory_service.memory_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.memory_service.MemoryService
+
+
+Module Contents
+---------------
+
+.. py:class:: MemoryService(config = None)
+
+   Service for managing conversation memory and history.
+
+
+   .. py:method:: add_message(user_id, role, content, session_id = 'default', metadata = None, tool_calls = None, agent_name = None)
+      :async:
+
+
+      Add a message to the conversation history.
+
+
+
+   .. py:method:: clear_user_memory(user_id, session_id = None)
+      :async:
+
+
+      Clear memory for a user (optionally specific session).
+
+
+
+   .. py:method:: get_conversation_context(user_id, session_id = 'default', max_tokens = 4000)
+      :async:
+
+
+      Get conversation context as formatted string for LLM.
+
+
+
+   .. py:method:: get_conversation_history(user_id, session_id = 'default', limit = None)
+      :async:
+
+
+      Get conversation history for a user and session.
+
+
+
+   .. py:method:: get_memory_stats()
+      :async:
+
+
+      Get statistics about memory usage.
+
+
+
+   .. py:method:: get_recent_messages(user_id, session_id = 'default', count = 10)
+      :async:
+
+
+      Get the most recent messages for context.
+
+
+
+   .. py:method:: initialize()
+      :async:
+
+
+      Initialize the memory service and load existing conversations.
+
+
+
+   .. py:method:: search_conversations(query)
+      :async:
+
+
+      Search through conversation history.
+
+
+
+   .. py:method:: shutdown()
+      :async:
+
+
+      Shutdown the memory service and save conversations.
+
+
+
+   .. py:attribute:: config
+
+
+   .. py:attribute:: conversations
+      :type:  Dict[str, Dict[str, models.memory.ConversationHistory]]
+
+
+   .. py:attribute:: memory_dir
+
+
+.. py:data:: logger
+
+.. py:data:: memory_service
+

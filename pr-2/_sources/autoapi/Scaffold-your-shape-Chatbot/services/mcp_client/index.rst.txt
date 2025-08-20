@@ -1,0 +1,147 @@
+Scaffold-your-shape-Chatbot.services.mcp_client
+===============================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.mcp_client
+
+.. autoapi-nested-parse::
+
+   MCP Client for Pili fitness chatbot.
+
+   This module provides the PiliMCPClient class for managing connections to the
+   Scaffold Your Shape MCP server and loading LangChain tools and resources.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.mcp_client.mcp_client
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.mcp_client.create_mcp_client
+
+
+Module Contents
+---------------
+
+.. py:class:: PiliMCPClient(base_url = None)
+
+   Client for connecting to Scaffold Your Shape MCP server.
+
+   Loads LangChain-compatible tools from the MCP server for use in agent workflows.
+
+   Initialize the Pili MCP client.
+
+   :param base_url: Base URL for the MCP server. If None, uses configuration.
+
+
+   .. py:method:: __aenter__()
+      :async:
+
+
+      Async context manager entry.
+
+
+
+   .. py:method:: __aexit__(exc_type, exc_val, exc_tb)
+      :async:
+
+
+      Async context manager exit.
+
+
+
+   .. py:method:: call_tool(tool_name, arguments)
+      :async:
+
+
+      Call a tool on the MCP server.
+
+
+
+   .. py:method:: close()
+      :async:
+
+
+      Close the HTTP client.
+
+
+
+   .. py:method:: get_tool(tool_name, user_id)
+      :async:
+
+
+      Get a specific tool by name.
+
+      :param tool_name: Name of the tool to retrieve
+      :param user_id: User ID to inject into tool calls
+
+      :returns: LangChain tool or None if not found
+
+
+
+   .. py:method:: get_tools(user_id)
+      :async:
+
+
+      Get all tools as LangChain BaseTool objects for a specific user.
+
+      :param user_id: User ID to inject into tool calls
+
+      :returns: List of LangChain tools ready for use with agents
+
+
+
+   .. py:method:: list_tools()
+      :async:
+
+
+      Get list of available tools from MCP server.
+
+
+
+   .. py:method:: test_connection()
+      :async:
+
+
+      Test connection to MCP server.
+
+
+
+   .. py:attribute:: base_url
+      :value: None
+
+
+
+   .. py:attribute:: client
+
+
+   .. py:attribute:: config
+
+
+.. py:function:: create_mcp_client(base_url = None)
+
+   Create a new MCP client instance.
+
+   :param base_url: Optional base URL override
+
+   :returns: PiliMCPClient instance
+
+
+.. py:data:: mcp_client
+
