@@ -25,6 +25,14 @@ openai==1.95.0
 markdownify==0.11.6
 aiofiles==24.1.0
 
+# Documentation
+sphinx>=7.0.0
+sphinx-rtd-theme>=2.0.0
+sphinx-autodoc-typehints>=1.25.0
+sphinx-copybutton>=0.5.2
+myst-parser>=2.0.0
+sphinx-autoapi>=3.0.0
+
 # Development and Testing
 pytest==7.4.3
 pytest-asyncio==0.21.1
