@@ -34,6 +34,8 @@ extensions = [
     'sphinx_autodoc_typehints',
     'sphinx_copybutton',
     'autoapi.extension',
+    'myst_parser',
+    'sphinxcontrib.mermaid',
 ]
 
 # AutoAPI configuration
@@ -62,7 +64,7 @@ autoapi_ignore = [
 # MyST Parser configuration
 source_suffix = {
     '.rst': None,
-    '.md': None,
+    '.md': 'myst_parser',
 }
 
 # Napoleon settings for Google-style docstrings
@@ -194,6 +196,18 @@ intersphinx_mapping = {
 # Copy button configuration
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
+
+# Mermaid configuration
+mermaid_version = "latest"
+mermaid_init_js = """
+mermaid.initialize({
+    'theme': 'default',
+    'themeVariables': {
+        'fontFamily': '"Helvetica Neue",Helvetica,Arial,sans-serif',
+        'fontSize': '14px'
+    }
+});
+"""
 
 # Suppress specific warnings
 suppress_warnings = [
