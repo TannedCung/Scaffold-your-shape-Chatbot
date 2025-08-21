@@ -32,6 +32,7 @@ sphinx-autodoc-typehints>=1.25.0
 sphinx-copybutton>=0.5.2
 myst-parser>=2.0.0
 sphinx-autoapi>=3.0.0
+sphinxcontrib-mermaid>=0.9.2
 
 # Development and Testing
 pytest==7.4.3

@@ -8,27 +8,41 @@ System Architecture
 
 The Pili architecture consists of multiple layers working together:
 
-.. code-block:: text
+.. mermaid::
 
-   ┌─────────────────────────────────────────────────────────────┐
-   │                    REST API Layer                           │
-   │                 FastAPI + Swagger UI                        │
-   └─────────────────────────┬───────────────────────────────────┘
-                             │
-   ┌─────────────────────────▼───────────────────────────────────┐
-   │               🎯 Orchestration Agent                        │
-   │            Request Router & Coordinator                     │
-   └─────┬───────────────────────────────────────────┬─────────┘
-         │                                           │
-   ┌─────▼─────────┐                         ┌───────▼─────────┐
-   │📝 Logger Agent│                         │🏃‍♀️ Coach Agent │
-   │MCP Integration│                         │AI Planning      │
-   └─────┬─────────┘                         └───────┬─────────┘
-         │                                           │
-   ┌─────▼─────────┐  ┌─────────────┐  ┌─────────────▼─────────┐
-   │  MCP Server   │  │ Memory      │  │    LLM Provider       │
-   │Scaffold Shape │  │ Service     │  │  OpenAI/Local/VLLM    │
-   └───────────────┘  └─────────────┘  └───────────────────────┘
+   graph TB
+       %% Main API Layer
+       API["REST API Layer<br/>FastAPI + Swagger UI"]
+       
+       %% Orchestration Agent
+       ORCH["🎯 Orchestration Agent<br/>Request Router & Coordinator"]
+       
+       %% Specialized Agents
+       LOGGER["📝 Logger Agent<br/>MCP Integration"]
+       COACH["🏃‍♀️ Coach Agent<br/>AI Planning"]
+       
+       %% External Services
+       MCP["MCP Server<br/>Scaffold Shape"]
+       MEMORY["Memory Service<br/>Conversation History"]
+       LLM["LLM Provider<br/>OpenAI/Local/VLLM"]
+       
+       %% Connections
+       API --> ORCH
+       ORCH --> LOGGER
+       ORCH --> COACH
+       LOGGER --> MCP
+       LOGGER --> MEMORY
+       COACH --> LLM
+       COACH --> MEMORY
+       
+       %% Styling
+       classDef apiLayer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+       classDef agent fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+       classDef service fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+       
+       class API apiLayer
+       class ORCH,LOGGER,COACH agent
+       class MCP,MEMORY,LLM service
 
 Core Components
 ===============

@@ -34,6 +34,8 @@ extensions = [
     'sphinx_autodoc_typehints',
     'sphinx_copybutton',
     'autoapi.extension',
+    'myst_parser',
+    'sphinxcontrib.mermaid',
 ]
 
 # AutoAPI configuration
