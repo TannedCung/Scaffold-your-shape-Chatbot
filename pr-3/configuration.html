@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration Guide &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Architecture Overview" href="architecture/overview.html" />
+    <link rel="prev" title="Quick Start Guide" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core-configuration">Core Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#llm-provider-configuration">LLM Provider Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mcp-server-configuration">MCP Server Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-configuration">Memory Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-configuration">Application Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration-files">Configuration Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#settings-module">Settings Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#agent-configuration">Agent Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#development-configuration">Development Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#debug-mode">Debug Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-configuration">Testing Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#production-configuration">Production Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#security-settings">Security Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-settings">Performance Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#docker-configuration">Docker Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#docker-compose">Docker Compose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-file">Environment File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration-templates">Configuration Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#development-template">Development Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#production-template">Production Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-template">Testing Template</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration-guide">
+<h1>Configuration Guide<a class="headerlink" href="#configuration-guide" title="Link to this heading"></a></h1>
+<p>This guide covers all configuration options for Pili, the Exercise Tracker Chatbot.</p>
+</section>
+<section id="environment-variables">
+<h1>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h1>
+<p>Pili uses environment variables for configuration. Create a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the project root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copy the sample environment file</span>
+cp<span class="w"> </span>.env.sample<span class="w"> </span>.env
+</pre></div>
+</div>
+<section id="core-configuration">
+<h2>Core Configuration<a class="headerlink" href="#core-configuration" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LANGCHAIN_API_KEY</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Your LangChain API key for LangSmith integration</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LANGCHAIN_PROJECT</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Project name for LangSmith (default: “pili-exercise-chatbot”)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LLM_PROVIDER</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>LLM provider: “openai”, “ollama”, “vllm”, or “local”</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="llm-provider-configuration">
+<h2>LLM Provider Configuration<a class="headerlink" href="#llm-provider-configuration" title="Link to this heading"></a></h2>
+<p><strong>OpenAI Configuration</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LLM_PROVIDER</span><span class="o">=</span>openai
+<span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-your-openai-api-key-here
+<span class="nv">OPENAI_MODEL</span><span class="o">=</span>gpt-4<span class="w">  </span><span class="c1"># Optional: default is gpt-3.5-turbo</span>
+</pre></div>
+</div>
+<p><strong>Local LLM Configuration</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LLM_PROVIDER</span><span class="o">=</span><span class="nb">local</span>
+<span class="nv">LOCAL_LLM_BASE_URL</span><span class="o">=</span>http://localhost:11434
+<span class="nv">LOCAL_LLM_MODEL</span><span class="o">=</span>llama2
+<span class="nv">LOCAL_LLM_TIMEOUT</span><span class="o">=</span><span class="m">60</span><span class="w">  </span><span class="c1"># Optional: request timeout in seconds</span>
+</pre></div>
+</div>
+<p><strong>Ollama Configuration</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LLM_PROVIDER</span><span class="o">=</span>ollama
+<span class="nv">OLLAMA_BASE_URL</span><span class="o">=</span>http://localhost:11434
+<span class="nv">OLLAMA_MODEL</span><span class="o">=</span>llama2
+</pre></div>
+</div>
+<p><strong>VLLM Configuration</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LLM_PROVIDER</span><span class="o">=</span>vllm
+<span class="nv">VLLM_BASE_URL</span><span class="o">=</span>http://localhost:8000
+<span class="nv">VLLM_MODEL</span><span class="o">=</span>meta-llama/Llama-2-7b-chat-hf
+</pre></div>
+</div>
+</section>
+<section id="mcp-server-configuration">
+<h2>MCP Server Configuration<a class="headerlink" href="#mcp-server-configuration" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MCP_BASE_URL</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>URL of the Scaffold Your Shape MCP server</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MCP_TIMEOUT</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Request timeout in seconds (default: 30)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MCP_RETRY_ATTEMPTS</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Number of retry attempts (default: 3)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># MCP Server Settings</span>
+<span class="nv">MCP_BASE_URL</span><span class="o">=</span>http://192.168.1.98:3005/api/mcp
+<span class="nv">MCP_TIMEOUT</span><span class="o">=</span><span class="m">30</span>
+<span class="nv">MCP_RETRY_ATTEMPTS</span><span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-configuration">
+<h2>Memory Configuration<a class="headerlink" href="#memory-configuration" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MEMORY_TYPE</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Memory type: “buffer”, “summary”, “entity” (default: “buffer”)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MEMORY_MAX_TOKENS</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Maximum tokens to store in memory (default: 2000)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MEMORY_RETURN_MESSAGES</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Number of messages to return (default: 20)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Memory Settings</span>
+<span class="nv">MEMORY_TYPE</span><span class="o">=</span>buffer
+<span class="nv">MEMORY_MAX_TOKENS</span><span class="o">=</span><span class="m">2000</span>
+<span class="nv">MEMORY_RETURN_MESSAGES</span><span class="o">=</span><span class="m">20</span>
+</pre></div>
+</div>
+</section>
+<section id="application-configuration">
+<h2>Application Configuration<a class="headerlink" href="#application-configuration" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">APP_HOST</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Host to bind the server (default: “0.0.0.0”)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">APP_PORT</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Port to bind the server (default: 8000)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LOG_LEVEL</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Logging level: “DEBUG”, “INFO”, “WARNING”, “ERROR” (default: “INFO”)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CORS_ORIGINS</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Comma-separated list of allowed CORS origins</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Application Settings</span>
+<span class="nv">APP_HOST</span><span class="o">=</span><span class="m">0</span>.0.0.0
+<span class="nv">APP_PORT</span><span class="o">=</span><span class="m">8000</span>
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
+<span class="nv">CORS_ORIGINS</span><span class="o">=</span>http://localhost:3000,http://localhost:3001
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-files">
+<h1>Configuration Files<a class="headerlink" href="#configuration-files" title="Link to this heading"></a></h1>
+<p>In addition to environment variables, Pili uses several configuration files:</p>
+<section id="settings-module">
+<h2>Settings Module<a class="headerlink" href="#settings-module" title="Link to this heading"></a></h2>
+<p>The main configuration is handled by <code class="docutils literal notranslate"><span class="pre">config/settings.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSettings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="c1"># LangChain Configuration</span>
+    <span class="n">langchain_api_key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">langchain_project</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pili-exercise-chatbot&quot;</span>
+
+    <span class="c1"># LLM Configuration</span>
+    <span class="n">llm_provider</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;openai&quot;</span>
+    <span class="n">openai_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># MCP Configuration</span>
+    <span class="n">mcp_base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;http://192.168.1.98:3005/api/mcp&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+        <span class="n">env_file</span> <span class="o">=</span> <span class="s2">&quot;.env&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="agent-configuration">
+<h2>Agent Configuration<a class="headerlink" href="#agent-configuration" title="Link to this heading"></a></h2>
+<p>Agent-specific settings can be configured in <code class="docutils literal notranslate"><span class="pre">agents/prompts.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Orchestration Agent Settings</span>
+<span class="n">ORCHESTRATION_TEMPERATURE</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">ORCHESTRATION_MAX_TOKENS</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="c1"># Logger Agent Settings</span>
+<span class="n">LOGGER_TEMPERATURE</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">LOGGER_MAX_TOKENS</span> <span class="o">=</span> <span class="mi">300</span>
+
+<span class="c1"># Coach Agent Settings</span>
+<span class="n">COACH_TEMPERATURE</span> <span class="o">=</span> <span class="mf">0.7</span>
+<span class="n">COACH_MAX_TOKENS</span> <span class="o">=</span> <span class="mi">800</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="development-configuration">
+<h1>Development Configuration<a class="headerlink" href="#development-configuration" title="Link to this heading"></a></h1>
+<p>For development environments, you can override default settings:</p>
+<section id="debug-mode">
+<h2>Debug Mode<a class="headerlink" href="#debug-mode" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable debug mode</span>
+<span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG
+
+<span class="c1"># Enable detailed logging</span>
+<span class="nv">LANGCHAIN_VERBOSE</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">LANGCHAIN_DEBUG</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</section>
+<section id="testing-configuration">
+<h2>Testing Configuration<a class="headerlink" href="#testing-configuration" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use test database/services</span>
+<span class="nv">TESTING</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">MCP_BASE_URL</span><span class="o">=</span>http://localhost:3006/api/mcp<span class="w">  </span><span class="c1"># Test MCP server</span>
+
+<span class="c1"># Disable external services for unit tests</span>
+<span class="nv">DISABLE_LANGSMITH</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">LLM_PROVIDER</span><span class="o">=</span>mock
+</pre></div>
+</div>
+</section>
+</section>
+<section id="production-configuration">
+<h1>Production Configuration<a class="headerlink" href="#production-configuration" title="Link to this heading"></a></h1>
+<p>For production deployments:</p>
+<section id="security-settings">
+<h2>Security Settings<a class="headerlink" href="#security-settings" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Security settings</span>
+<span class="nv">SECRET_KEY</span><span class="o">=</span>your-secret-key-here
+<span class="nv">ALLOWED_HOSTS</span><span class="o">=</span>your-domain.com,api.your-domain.com
+
+<span class="c1"># HTTPS settings</span>
+<span class="nv">FORCE_HTTPS</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">SECURE_COOKIES</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-settings">
+<h2>Performance Settings<a class="headerlink" href="#performance-settings" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Performance tuning</span>
+<span class="nv">WORKERS</span><span class="o">=</span><span class="m">4</span>
+<span class="nv">MAX_REQUESTS</span><span class="o">=</span><span class="m">1000</span>
+<span class="nv">MAX_REQUESTS_JITTER</span><span class="o">=</span><span class="m">100</span>
+
+<span class="c1"># Memory optimization</span>
+<span class="nv">MEMORY_MAX_TOKENS</span><span class="o">=</span><span class="m">1000</span>
+<span class="nv">MEMORY_RETURN_MESSAGES</span><span class="o">=</span><span class="m">10</span>
+</pre></div>
+</div>
+</section>
+<section id="monitoring">
+<h2>Monitoring<a class="headerlink" href="#monitoring" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitoring and observability</span>
+<span class="nv">ENABLE_METRICS</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">METRICS_PORT</span><span class="o">=</span><span class="m">9090</span>
+
+<span class="c1"># Health check settings</span>
+<span class="nv">HEALTH_CHECK_INTERVAL</span><span class="o">=</span><span class="m">30</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="docker-configuration">
+<h1>Docker Configuration<a class="headerlink" href="#docker-configuration" title="Link to this heading"></a></h1>
+<p>When using Docker, you can configure Pili through:</p>
+<section id="docker-compose">
+<h2>Docker Compose<a class="headerlink" href="#docker-compose" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># docker-compose.yml</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.8&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pili</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OPENAI_API_KEY=${OPENAI_API_KEY}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MCP_BASE_URL=http://mcp-server:3005/api/mcp</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8000:8000&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="environment-file">
+<h2>Environment File<a class="headerlink" href="#environment-file" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># .env for Docker</span>
+<span class="nv">COMPOSE_PROJECT_NAME</span><span class="o">=</span>pili-chatbot
+<span class="nv">PILI_IMAGE</span><span class="o">=</span>pili:latest
+<span class="nv">PILI_PORT</span><span class="o">=</span><span class="m">8000</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-validation">
+<h1>Configuration Validation<a class="headerlink" href="#configuration-validation" title="Link to this heading"></a></h1>
+<p>Pili validates configuration on startup. Check the logs for configuration errors:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start with verbose logging to see configuration</span>
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG<span class="w"> </span>uvicorn<span class="w"> </span>main:app<span class="w"> </span>--reload
+</pre></div>
+</div>
+<p>Common validation errors:</p>
+<ul class="simple">
+<li><p><strong>Missing API keys</strong>: Ensure all required API keys are set</p></li>
+<li><p><strong>Invalid URLs</strong>: Check MCP server URL format and accessibility</p></li>
+<li><p><strong>Memory settings</strong>: Verify memory limits are within reasonable bounds</p></li>
+</ul>
+</section>
+<section id="configuration-templates">
+<h1>Configuration Templates<a class="headerlink" href="#configuration-templates" title="Link to this heading"></a></h1>
+<p>Sample configurations for different environments:</p>
+<section id="development-template">
+<h2>Development Template<a class="headerlink" href="#development-template" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># .env.development</span>
+<span class="nv">LANGCHAIN_API_KEY</span><span class="o">=</span>your-key
+<span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your-key
+<span class="nv">LLM_PROVIDER</span><span class="o">=</span>openai
+<span class="nv">MCP_BASE_URL</span><span class="o">=</span>http://localhost:3005/api/mcp
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>DEBUG
+<span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</section>
+<section id="production-template">
+<h2>Production Template<a class="headerlink" href="#production-template" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># .env.production</span>
+<span class="nv">LANGCHAIN_API_KEY</span><span class="o">=</span>your-production-key
+<span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your-production-key
+<span class="nv">LLM_PROVIDER</span><span class="o">=</span>openai
+<span class="nv">MCP_BASE_URL</span><span class="o">=</span>https://api.scaffoldyourshape.com/mcp
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>INFO
+<span class="nv">FORCE_HTTPS</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">WORKERS</span><span class="o">=</span><span class="m">4</span>
+</pre></div>
+</div>
+</section>
+<section id="testing-template">
+<h2>Testing Template<a class="headerlink" href="#testing-template" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># .env.test</span>
+<span class="nv">TESTING</span><span class="o">=</span><span class="nb">true</span>
+<span class="nv">LLM_PROVIDER</span><span class="o">=</span>mock
+<span class="nv">MCP_BASE_URL</span><span class="o">=</span>http://localhost:3006/api/mcp
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>WARNING
+<span class="nv">DISABLE_LANGSMITH</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Always use different API keys and endpoints for development, testing, and production environments.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Never commit real API keys to version control. Use environment-specific <code class="docutils literal notranslate"><span class="pre">.env</span></code> files and add them to <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quick Start Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture/overview.html" class="btn btn-neutral float-right" title="Architecture Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

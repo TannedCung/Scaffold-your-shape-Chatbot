@@ -1,0 +1,172 @@
+Scaffold-your-shape-Chatbot.agents.agent
+========================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.agents.agent
+
+.. autoapi-nested-parse::
+
+   Main agent system for Pili fitness chatbot using LangGraph patterns.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.agent.agent_system
+   Scaffold-your-shape-Chatbot.agents.agent.config
+   Scaffold-your-shape-Chatbot.agents.agent.transfer_to_coach_agent
+   Scaffold-your-shape-Chatbot.agents.agent.transfer_to_logger_agent
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.agent.create_agent_swarm
+   Scaffold-your-shape-Chatbot.agents.agent.create_coach_agent
+   Scaffold-your-shape-Chatbot.agents.agent.create_logger_agent
+   Scaffold-your-shape-Chatbot.agents.agent.create_mcp_tools_for_agent
+   Scaffold-your-shape-Chatbot.agents.agent.create_orchestration_agent
+   Scaffold-your-shape-Chatbot.agents.agent.format_user_message_with_context
+   Scaffold-your-shape-Chatbot.agents.agent.get_model
+   Scaffold-your-shape-Chatbot.agents.agent.get_openai_client
+
+
+Module Contents
+---------------
+
+.. py:class:: PiliAgentSystem
+
+   Main agent system for Pili fitness chatbot.
+
+
+   .. py:method:: clear_all_cache()
+      :async:
+
+
+      Clear all cached agents and close all MCP clients.
+
+
+
+   .. py:method:: clear_user_cache(user_id)
+      :async:
+
+
+      Clear cached agent for a specific user and close its MCP client.
+
+
+
+   .. py:method:: clear_user_memory(user_id, session_id = None)
+      :async:
+
+
+      Clear memory for a specific user.
+
+
+
+   .. py:method:: get_agent_for_user(user_id)
+      :async:
+
+
+      Get or create agent system for a specific user.
+
+
+
+   .. py:method:: get_user_memory_stats(user_id)
+      :async:
+
+
+      Get memory statistics for a specific user.
+
+
+
+   .. py:method:: process_request(user_id, message, session_id = 'default')
+      :async:
+
+
+      Process a user request through the orchestration agent system.
+
+
+
+   .. py:attribute:: agent_cache
+
+
+   .. py:attribute:: max_cache_size
+      :value: 100
+
+
+
+   .. py:attribute:: memory_initialized
+      :value: False
+
+
+
+.. py:function:: create_agent_swarm(user_id)
+   :async:
+
+
+   Create the agent swarm for the given user and return (agent_app, mcp_client).
+
+
+.. py:function:: create_coach_agent(mcp_client, user_id)
+   :async:
+
+
+   Create the coach agent with dynamic MCP tools and user-specific prompt.
+
+
+.. py:function:: create_logger_agent(mcp_client, user_id)
+   :async:
+
+
+   Create the logger agent with dynamic MCP tools and user-specific prompt.
+
+
+.. py:function:: create_mcp_tools_for_agent(mcp_client, user_id)
+   :async:
+
+
+   Create MCP tools for use with LangGraph agents using an existing client.
+
+
+.. py:function:: create_orchestration_agent(user_id)
+   :async:
+
+
+   Create the orchestration agent that routes between specialized agents.
+
+
+.. py:function:: format_user_message_with_context(user_id, message)
+
+   Add datetime and user context to the beginning of user message for better LLM understanding.
+
+
+.. py:function:: get_model()
+
+   Get the LLM model with lazy initialization to avoid import-time errors.
+
+
+.. py:function:: get_openai_client()
+
+   Get the OpenAI client with lazy initialization.
+
+
+.. py:data:: agent_system
+
+.. py:data:: config
+
+.. py:data:: transfer_to_coach_agent
+
+.. py:data:: transfer_to_logger_agent
+
