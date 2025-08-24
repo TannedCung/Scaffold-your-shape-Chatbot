@@ -1,0 +1,43 @@
+Scaffold-your-shape-Chatbot.core.chat_handler
+=============================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.core.chat_handler
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.core.chat_handler.chat_handler
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.core.chat_handler.ChatHandler
+
+
+Module Contents
+---------------
+
+.. py:class:: ChatHandler
+
+   Chat handler using the refactored LangGraph agent system.
+
+
+   .. py:method:: process_chat(request)
+      :async:
+
+
+      Process a chat request using the LangGraph agent system.
+
+
+
+   .. py:attribute:: agent_system
+
+
+.. py:data:: chat_handler
+

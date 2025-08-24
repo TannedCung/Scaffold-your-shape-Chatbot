@@ -1,0 +1,326 @@
+Scaffold-your-shape-Chatbot.config.settings
+===========================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.config.settings
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.config.settings.settings
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.config.settings.Configuration
+   Scaffold-your-shape-Chatbot.config.settings.Settings
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.config.settings.get_configuration
+
+
+Module Contents
+---------------
+
+.. py:class:: Configuration(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   The configurable fields for Pili fitness chatbot.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:method:: from_runnable_config(config = None)
+      :classmethod:
+
+
+      Create a Configuration instance from a RunnableConfig.
+
+
+
+   .. py:attribute:: agent_timeout
+      :type:  float
+      :value: None
+
+
+
+   .. py:attribute:: langchain_api_key
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: langchain_project
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: llm_provider
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: local_llm_api_key
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: local_llm_base_url
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: local_llm_model
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: max_conversation_history
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: mcp_base_url
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: memory_cleanup_interval_hours
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: memory_enable_compression
+      :type:  bool
+      :value: None
+
+
+
+   .. py:attribute:: memory_enabled
+      :type:  bool
+      :value: None
+
+
+
+   .. py:attribute:: memory_max_characters_per_message
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: memory_max_conversation_age_days
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: memory_max_messages_per_user
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: memory_storage_backend
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: openai_api_key
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: openai_model
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: orchestrator_mcp_url
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: Settings(_case_sensitive = None, _nested_model_default_partial_update = None, _env_prefix = None, _env_file = ENV_FILE_SENTINEL, _env_file_encoding = None, _env_ignore_empty = None, _env_nested_delimiter = None, _env_nested_max_split = None, _env_parse_none_str = None, _env_parse_enums = None, _cli_prog_name = None, _cli_parse_args = None, _cli_settings_source = None, _cli_parse_none_str = None, _cli_hide_none_type = None, _cli_avoid_json = None, _cli_enforce_required = None, _cli_use_class_docs_for_groups = None, _cli_exit_on_error = None, _cli_prefix = None, _cli_flag_prefix_char = None, _cli_implicit_flags = None, _cli_ignore_unknown_args = None, _cli_kebab_case = None, _cli_shortcuts = None, _secrets_dir = None, **values)
+
+   Bases: :py:obj:`pydantic_settings.BaseSettings`
+
+
+   Settings using pydantic-settings for environment variable loading.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:class:: Config
+
+      .. py:attribute:: env_file
+         :value: '.env'
+
+
+
+      .. py:attribute:: extra
+         :value: 'ignore'
+
+
+
+
+   .. py:attribute:: agent_timeout
+      :type:  float
+      :value: 30.0
+
+
+
+   .. py:attribute:: langchain_api_key
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: langchain_project
+      :type:  str
+      :value: 'pili-exercise-chatbot'
+
+
+
+   .. py:attribute:: llm_provider
+      :type:  str
+      :value: 'openai'
+
+
+
+   .. py:attribute:: local_llm_api_key
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: local_llm_base_url
+      :type:  str
+      :value: 'http://localhost:11434'
+
+
+
+   .. py:attribute:: local_llm_model
+      :type:  str
+      :value: 'llama2'
+
+
+
+   .. py:attribute:: max_conversation_history
+      :type:  int
+      :value: 10
+
+
+
+   .. py:attribute:: mcp_base_url
+      :type:  str
+      :value: 'http://localhost:3005/api/mcp'
+
+
+
+   .. py:attribute:: memory_cleanup_interval_hours
+      :type:  int
+      :value: 24
+
+
+
+   .. py:attribute:: memory_enable_compression
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: memory_enabled
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: memory_max_characters_per_message
+      :type:  int
+      :value: 2000
+
+
+
+   .. py:attribute:: memory_max_conversation_age_days
+      :type:  int
+      :value: 30
+
+
+
+   .. py:attribute:: memory_max_messages_per_user
+      :type:  int
+      :value: 10
+
+
+
+   .. py:attribute:: memory_storage_backend
+      :type:  str
+      :value: 'memory'
+
+
+
+   .. py:attribute:: memory_type
+      :type:  str
+      :value: 'buffer_window'
+
+
+
+   .. py:attribute:: openai_api_key
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: openai_model
+      :type:  str
+      :value: 'gpt-3.5-turbo'
+
+
+
+   .. py:attribute:: orchestrator_mcp_url
+      :type:  str
+      :value: 'http://localhost:8001/mcp'
+
+
+
+.. py:function:: get_configuration()
+
+   Get configuration instance from current settings.
+
+
+.. py:data:: settings
+

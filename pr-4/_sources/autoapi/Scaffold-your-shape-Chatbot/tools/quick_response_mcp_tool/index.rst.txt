@@ -1,0 +1,158 @@
+Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool
+=========================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool
+
+.. autoapi-nested-parse::
+
+   Quick Response MCP Tool for Pili's Orchestrator Agent.
+
+   This tool provides immediate responses for casual queries, comments, and common questions
+   without needing to route to specialized agents or external services.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.tool
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput
+   Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.create_quick_response_tool
+
+
+Module Contents
+---------------
+
+.. py:class:: QuickResponseInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input schema for the quick response tool.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: context
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: query_type
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_query
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: QuickResponseTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for generating quick responses to casual queries and comments.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  Type[pydantic.BaseModel]
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Generate immediate, friendly responses for casual queries, greetings, comments, and general fitness questions.
+             Use this tool for:
+             - Greetings: "Hi", "Hello", "Good morning"
+             - Thanks: "Thank you", "Thanks"
+             - Casual comments: "That's great", "Awesome", "Cool"
+             - General fitness questions: "How to stay motivated?", "Best time to exercise?"
+             - Motivational requests: "I need motivation", "Encourage me"
+             - Simple comments that don't require data or specialized agent routing
+             
+             Do NOT use for:
+             - Activity logging (use Logger Agent)
+             - Progress tracking (use Logger Agent) 
+             - Workout planning (use Coach Agent)
+             - Complex fitness analysis (use Coach Agent)
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'quick_response'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:function:: create_quick_response_tool()
+
+   Factory function to create the quick response tool.
+
+
+.. py:data:: tool
+

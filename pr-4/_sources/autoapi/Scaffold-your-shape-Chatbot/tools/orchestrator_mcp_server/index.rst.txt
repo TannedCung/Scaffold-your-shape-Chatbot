@@ -1,0 +1,169 @@
+Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server
+=========================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server
+
+.. autoapi-nested-parse::
+
+   MCP Server for Orchestrator Agent Quick Response Tool.
+
+   This module provides an MCP server that exposes the quick response tool
+   for the orchestrator agent to handle immediate responses to casual queries.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.app
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.logger
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.orchestrator_mcp_server
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPRequest
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPResponse
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.handle_mcp_request
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.health_check
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.lifespan
+   Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.list_available_tools
+
+
+Module Contents
+---------------
+
+.. py:class:: MCPRequest(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Base MCP request model.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: method
+      :type:  str
+
+
+   .. py:attribute:: params
+      :type:  Dict[str, Any]
+      :value: None
+
+
+
+.. py:class:: MCPResponse(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Base MCP response model.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: error
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+   .. py:attribute:: result
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+.. py:class:: OrchestratorMCPServer
+
+   MCP Server for orchestrator agent tools.
+
+
+   .. py:method:: call_tool(tool_name, arguments)
+      :async:
+
+
+      Call a specific tool with arguments.
+
+
+
+   .. py:method:: handle_request(request)
+      :async:
+
+
+      Handle incoming MCP requests.
+
+
+
+   .. py:method:: list_tools()
+      :async:
+
+
+      List available tools.
+
+
+
+   .. py:attribute:: quick_response_tool
+
+
+   .. py:attribute:: tools_registry
+
+
+.. py:function:: handle_mcp_request(request)
+   :async:
+
+
+   Handle MCP requests.
+
+
+.. py:function:: health_check()
+   :async:
+
+
+   Health check endpoint.
+
+
+.. py:function:: lifespan(app)
+   :async:
+
+
+   Application lifespan management.
+
+
+.. py:function:: list_available_tools()
+   :async:
+
+
+   List available tools (for debugging).
+
+
+.. py:data:: app
+
+.. py:data:: logger
+
+.. py:data:: orchestrator_mcp_server
+

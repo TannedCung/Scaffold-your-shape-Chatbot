@@ -1,0 +1,1275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs"></script>
+      <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+      <script type="module">
+mermaid.initialize({
+    'theme': 'default',
+    'themeVariables': {
+        'fontFamily': '"Helvetica Neue",Helvetica,Arial,sans-serif',
+        'fontSize': '14px'
+    }
+});
+</script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.__aenter__">__aenter__() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.__aexit__">__aexit__() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__class_vars__">__class_vars__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__class_vars__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__class_vars__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__class_vars__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__private_attributes__">__private_attributes__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__private_attributes__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__private_attributes__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__private_attributes__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_complete__">__pydantic_complete__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_complete__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_complete__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_complete__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_computed_fields__">__pydantic_computed_fields__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_computed_fields__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_computed_fields__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_computed_fields__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_core_schema__">__pydantic_core_schema__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_core_schema__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_core_schema__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_core_schema__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_custom_init__">__pydantic_custom_init__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_custom_init__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_custom_init__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_custom_init__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_decorators__">__pydantic_decorators__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_decorators__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_decorators__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_decorators__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_extra__">__pydantic_extra__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_extra__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_extra__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_extra__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_fields__">__pydantic_fields__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_fields__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_fields__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_fields__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_fields_set__">__pydantic_fields_set__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_fields_set__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_fields_set__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_fields_set__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_generic_metadata__">__pydantic_generic_metadata__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_generic_metadata__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_generic_metadata__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_generic_metadata__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_parent_namespace__">__pydantic_parent_namespace__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_parent_namespace__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_parent_namespace__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_parent_namespace__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_post_init__">__pydantic_post_init__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_post_init__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_post_init__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_post_init__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_private__">__pydantic_private__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_private__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_private__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_private__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_root_model__">__pydantic_root_model__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_root_model__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_root_model__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_root_model__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_serializer__">__pydantic_serializer__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_serializer__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_serializer__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_serializer__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_validator__">__pydantic_validator__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_validator__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_validator__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_validator__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__signature__">__signature__ (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__signature__">(Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__signature__">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__signature__">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.action">action (Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.add_exchange">add_exchange() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.add_message">add_message() (Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.agent_cache">agent_cache (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage.agent_name">agent_name (Scaffold-your-shape-Chatbot.models.memory.ConversationMessage attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.agent_system">agent_system (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/core/chat_handler/index.html#Scaffold-your-shape-Chatbot.core.chat_handler.ChatHandler.agent_system">(Scaffold-your-shape-Chatbot.core.chat_handler.ChatHandler attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.agent_timeout">agent_timeout (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.agent_timeout">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.AnyMessage">AnyMessage (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.app">app (in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool.args_schema">args_schema (Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MessageRole.ASSISTANT">ASSISTANT (Scaffold-your-shape-Chatbot.models.memory.MessageRole attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.base_url">base_url (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.call_tool">call_tool() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer.call_tool">(Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/core/chat_handler/index.html#Scaffold-your-shape-Chatbot.core.chat_handler.chat_handler">chat_handler (in module Scaffold-your-shape-Chatbot.core.chat_handler)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/core/chat_handler/index.html#Scaffold-your-shape-Chatbot.core.chat_handler.ChatHandler">ChatHandler (class in Scaffold-your-shape-Chatbot.core.chat_handler)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest">ChatRequest (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse">ChatResponse (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.Checkpointer">Checkpointer (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.choices">choices (Scaffold-your-shape-Chatbot.models.chat.StreamChunk attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.clear_all_cache">clear_all_cache() (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.clear_user_cache">clear_user_cache() (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.clear_user_memory">clear_user_memory() (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.clear_user_memory">(Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.clear_user_memory">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest">ClearMemoryRequest (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.client">client (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.close">close() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.close_httpx_client">close_httpx_client() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.club_id">club_id (Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction">ClubAction (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#Scaffold-your-shape-Chatbot.agents.prompts.coach_prompt">coach_prompt (in module Scaffold-your-shape-Chatbot.agents.prompts)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.config">config (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.config">(Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.config">(Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.config">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService.config">(Scaffold-your-shape-Chatbot.services.tracing_service.TracingService attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration">Configuration (class in Scaffold-your-shape-Chatbot.config.settings)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage.content">content (Scaffold-your-shape-Chatbot.models.memory.ConversationMessage attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput.context">context (Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult.context_messages">context_messages (Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory">ConversationHistory (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage">ConversationMessage (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.conversations">conversations (Scaffold-your-shape-Chatbot.services.memory_service.MemoryService attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.create_agent_swarm">create_agent_swarm() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.create_coach_agent">create_coach_agent() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#Scaffold-your-shape-Chatbot.agents.prompts.create_coach_prompt">create_coach_prompt() (in module Scaffold-your-shape-Chatbot.agents.prompts)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.create_logger_agent">create_logger_agent() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#Scaffold-your-shape-Chatbot.agents.prompts.create_logger_prompt">create_logger_prompt() (in module Scaffold-your-shape-Chatbot.agents.prompts)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.create_mcp_client">create_mcp_client() (in module Scaffold-your-shape-Chatbot.services.mcp_client)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.create_mcp_tools_for_agent">create_mcp_tools_for_agent() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.create_orchestration_agent">create_orchestration_agent() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_command_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_command_tool.create_quick_response_command_tool">create_quick_response_command_tool() (in module Scaffold-your-shape-Chatbot.tools.quick_response_command_tool)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_command_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_command_tool.create_quick_response_tool">create_quick_response_tool() (in module Scaffold-your-shape-Chatbot.tools.quick_response_command_tool)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.create_quick_response_tool">(in module Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.create_react_agent_with_quick_response_termination">create_react_agent_with_quick_response_termination() (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.create_run_metadata">create_run_metadata() (in module Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService.create_run_metadata">(Scaffold-your-shape-Chatbot.services.tracing_service.TracingService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.create_tool_spec_for_llm">create_tool_spec_for_llm() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.created">created (Scaffold-your-shape-Chatbot.models.chat.StreamChunk attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.created_at">created_at (Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery.date_from">date_from (Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery.date_to">date_to (Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChoice.delta">delta (Scaffold-your-shape-Chatbot.models.chat.StreamChoice attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.description">description (Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool.description">(Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.duration">duration (Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration.enable_memory_compression">enable_memory_compression (Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.Config.env_file">env_file (Scaffold-your-shape-Chatbot.config.settings.Settings.Config attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPResponse.error">error (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPResponse attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.execute_mcp_tool">execute_mcp_tool() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.exercise_type">exercise_type (Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog">ExerciseLog (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.Config.extra">extra (Scaffold-your-shape-Chatbot.config.settings.Settings.Config attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.extract_user_id_from_args">extract_user_id_from_args() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChoice.finish_reason">finish_reason (Scaffold-your-shape-Chatbot.models.chat.StreamChoice attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.format_user_message_with_context">format_user_message_with_context() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.from_runnable_config">from_runnable_config() (Scaffold-your-shape-Chatbot.config.settings.Configuration class method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.get_agent_for_user">get_agent_for_user() (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.get_chat_history_for_user">get_chat_history_for_user() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.get_configuration">get_configuration() (in module Scaffold-your-shape-Chatbot.config.settings)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.get_conversation_context">get_conversation_context() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.get_conversation_context">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.get_conversation_history">get_conversation_history() (Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.get_conversation_history_formatted">get_conversation_history_formatted() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.get_global_memory_stats">get_global_memory_stats() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.get_mcp_resources">get_mcp_resources() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.get_mcp_tools">get_mcp_tools() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.get_memory_stats">get_memory_stats() (Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.get_memory_variables">get_memory_variables() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.get_model">get_model() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.get_openai_client">get_openai_client() (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.get_recent_messages">get_recent_messages() (Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.get_tool">get_tool() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.get_tools">get_tools() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.get_tracing_metadata">get_tracing_metadata() (in module Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService.get_tracing_metadata">(Scaffold-your-shape-Chatbot.services.tracing_service.TracingService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.get_user_memory_stats">get_user_memory_stats() (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.get_user_memory_stats">(Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.handle_mcp_request">handle_mcp_request() (in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer.handle_request">handle_request() (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.health_check">health_check() (in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.httpx_client">httpx_client (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.id">id (Scaffold-your-shape-Chatbot.models.chat.StreamChunk attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery.include_content">include_content (Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChoice.index">index (Scaffold-your-shape-Chatbot.models.chat.StreamChoice attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.initialize">initialize() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.initialize">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.initialize_tracing">initialize_tracing() (in module Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService.initialize_tracing">(Scaffold-your-shape-Chatbot.services.tracing_service.TracingService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService.initialized">initialized (Scaffold-your-shape-Chatbot.services.tracing_service.TracingService attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService.is_enabled">is_enabled() (Scaffold-your-shape-Chatbot.services.tracing_service.TracingService method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.is_tracing_enabled">is_tracing_enabled() (in module Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.langchain_api_key">langchain_api_key (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.langchain_api_key">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.langchain_memory_service">langchain_memory_service (in module Scaffold-your-shape-Chatbot.services.langchain_memory_service)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.langchain_project">langchain_project (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.langchain_project">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService">LangChainMemoryService (class in Scaffold-your-shape-Chatbot.services.langchain_memory_service)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.LanguageModelLike">LanguageModelLike (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.lifespan">lifespan() (in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.list_available_tools">list_available_tools() (in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.list_tools">list_tools() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer.list_tools">(Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.llm_provider">llm_provider (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.llm_provider">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.local_llm_api_key">local_llm_api_key (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.local_llm_api_key">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.local_llm_base_url">local_llm_base_url (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.local_llm_base_url">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.local_llm_model">local_llm_model (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.local_llm_model">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.logger">logger (in module Scaffold-your-shape-Chatbot.services.langchain_memory_service)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.logger">(in module Scaffold-your-shape-Chatbot.services.memory_service)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.logger">(in module Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.logger">(in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#Scaffold-your-shape-Chatbot.agents.prompts.logger_prompt">logger_prompt (in module Scaffold-your-shape-Chatbot.agents.prompts)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.logs">logs (Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.max_cache_size">max_cache_size (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration.max_characters_per_message">max_characters_per_message (Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration.max_conversation_age_days">max_conversation_age_days (Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.max_conversation_history">max_conversation_history (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.max_conversation_history">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration.max_messages_per_user">max_messages_per_user (Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery.max_results">max_results (Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.mcp_base_url">mcp_base_url (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.mcp_base_url">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.mcp_client">mcp_client (in module Scaffold-your-shape-Chatbot.services.mcp_client)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPRequest">MCPRequest (class in Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPResponse">MCPResponse (class in Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_cleanup_interval_hours">memory_cleanup_interval_hours (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_cleanup_interval_hours">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration.memory_cleanup_interval_hours">(Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.memory_dir">memory_dir (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.memory_dir">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_enable_compression">memory_enable_compression (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_enable_compression">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_enabled">memory_enabled (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_enabled">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.memory_initialized">memory_initialized (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_max_characters_per_message">memory_max_characters_per_message (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_max_characters_per_message">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_max_conversation_age_days">memory_max_conversation_age_days (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_max_conversation_age_days">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_max_messages_per_user">memory_max_messages_per_user (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_max_messages_per_user">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.memory_service">memory_service (in module Scaffold-your-shape-Chatbot.services.memory_service)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats.memory_size_mb">memory_size_mb (Scaffold-your-shape-Chatbot.models.memory.MemoryStats attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.memory_storage_backend">memory_storage_backend (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_storage_backend">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration.memory_storage_backend">(Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.memory_type">memory_type (Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration">MemoryConfiguration (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery">MemorySearchQuery (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult">MemorySearchResult (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService">MemoryService (class in Scaffold-your-shape-Chatbot.services.memory_service)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats">MemoryStats (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest">MemoryStatsRequest (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.message">message (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult.message">(Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MessageRole">MessageRole (class in Scaffold-your-shape-Chatbot.models.memory)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.messages">messages (Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.metadata">metadata (Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage.metadata">(Scaffold-your-shape-Chatbot.models.memory.ConversationMessage attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPRequest.method">method (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPRequest attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.model">model (Scaffold-your-shape-Chatbot.models.chat.StreamChunk attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.model_config">model_config (Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#module-Scaffold-your-shape-Chatbot.agents.agent">Scaffold-your-shape-Chatbot.agents.agent</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#module-Scaffold-your-shape-Chatbot.agents.custom_react_agent">Scaffold-your-shape-Chatbot.agents.custom_react_agent</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#module-Scaffold-your-shape-Chatbot.agents.prompts">Scaffold-your-shape-Chatbot.agents.prompts</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#module-Scaffold-your-shape-Chatbot.agents.utils">Scaffold-your-shape-Chatbot.agents.utils</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#module-Scaffold-your-shape-Chatbot.config.settings">Scaffold-your-shape-Chatbot.config.settings</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/core/chat_handler/index.html#module-Scaffold-your-shape-Chatbot.core.chat_handler">Scaffold-your-shape-Chatbot.core.chat_handler</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#module-Scaffold-your-shape-Chatbot.models.chat">Scaffold-your-shape-Chatbot.models.chat</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#module-Scaffold-your-shape-Chatbot.models.memory">Scaffold-your-shape-Chatbot.models.memory</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#module-Scaffold-your-shape-Chatbot.services.langchain_memory_service">Scaffold-your-shape-Chatbot.services.langchain_memory_service</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#module-Scaffold-your-shape-Chatbot.services.mcp_client">Scaffold-your-shape-Chatbot.services.mcp_client</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#module-Scaffold-your-shape-Chatbot.services.memory_service">Scaffold-your-shape-Chatbot.services.memory_service</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#module-Scaffold-your-shape-Chatbot.services.tracing_service">Scaffold-your-shape-Chatbot.services.tracing_service</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#module-Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server">Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_command_tool/index.html#module-Scaffold-your-shape-Chatbot.tools.quick_response_command_tool">Scaffold-your-shape-Chatbot.tools.quick_response_command_tool</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#module-Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool">Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool.name">name (Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats.newest_conversation">newest_conversation (Scaffold-your-shape-Chatbot.models.memory.MemoryStats attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.object">object (Scaffold-your-shape-Chatbot.models.chat.StreamChunk attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats.oldest_conversation">oldest_conversation (Scaffold-your-shape-Chatbot.models.memory.MemoryStats attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.openai_api_key">openai_api_key (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.openai_api_key">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.openai_model">openai_model (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.openai_model">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#Scaffold-your-shape-Chatbot.agents.prompts.orchestration_prompt">orchestration_prompt (in module Scaffold-your-shape-Chatbot.agents.prompts)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.orchestrator_mcp_server">orchestrator_mcp_server (in module Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Configuration.orchestrator_mcp_url">orchestrator_mcp_url (Scaffold-your-shape-Chatbot.config.settings.Configuration attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.orchestrator_mcp_url">(Scaffold-your-shape-Chatbot.config.settings.Settings attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer">OrchestratorMCPServer (class in Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPRequest.params">params (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPRequest attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem">PiliAgentSystem (class in Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient">PiliMCPClient (class in Scaffold-your-shape-Chatbot.services.mcp_client)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.print_stream">print_stream() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/core/chat_handler/index.html#Scaffold-your-shape-Chatbot.core.chat_handler.ChatHandler.process_chat">process_chat() (Scaffold-your-shape-Chatbot.core.chat_handler.ChatHandler method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem.process_request">process_request() (Scaffold-your-shape-Chatbot.agents.agent.PiliAgentSystem method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.Prompt">Prompt (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery.query">query (Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput.query_type">query_type (Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer.quick_response_tool">quick_response_tool (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput">QuickResponseInput (class in Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseTool">QuickResponseTool (class in Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult.relevance_score">relevance_score (Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.repetitions">repetitions (Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.response">response (Scaffold-your-shape-Chatbot.models.chat.ChatResponse attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPResponse.result">result (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.MCPResponse attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage.role">role (Scaffold-your-shape-Chatbot.models.memory.ConversationMessage attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    Scaffold-your-shape-Chatbot.agents.agent
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#module-Scaffold-your-shape-Chatbot.agents.agent">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.agents.custom_react_agent
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#module-Scaffold-your-shape-Chatbot.agents.custom_react_agent">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.agents.prompts
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/prompts/index.html#module-Scaffold-your-shape-Chatbot.agents.prompts">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.agents.utils
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#module-Scaffold-your-shape-Chatbot.agents.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.config.settings
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#module-Scaffold-your-shape-Chatbot.config.settings">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.core.chat_handler
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/core/chat_handler/index.html#module-Scaffold-your-shape-Chatbot.core.chat_handler">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.models.chat
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#module-Scaffold-your-shape-Chatbot.models.chat">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.models.memory
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#module-Scaffold-your-shape-Chatbot.models.memory">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.services.langchain_memory_service
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#module-Scaffold-your-shape-Chatbot.services.langchain_memory_service">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.services.mcp_client
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#module-Scaffold-your-shape-Chatbot.services.mcp_client">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.services.memory_service
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#module-Scaffold-your-shape-Chatbot.services.memory_service">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.services.tracing_service
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#module-Scaffold-your-shape-Chatbot.services.tracing_service">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#module-Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.tools.quick_response_command_tool
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_command_tool/index.html#module-Scaffold-your-shape-Chatbot.tools.quick_response_command_tool">module</a>
+</li>
+      </ul></li>
+      <li>
+    Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#module-Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool">module</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.search_conversations">search_conversations() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.search_conversations">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.session_id">session_id (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest.session_id">(Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.session_id">(Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult.session_id">(Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings">Settings (class in Scaffold-your-shape-Chatbot.config.settings)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.settings">settings (in module Scaffold-your-shape-Chatbot.config.settings)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/config/settings/index.html#Scaffold-your-shape-Chatbot.config.settings.Settings.Config">Settings.Config (class in Scaffold-your-shape-Chatbot.config.settings)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.shutdown">shutdown() (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService method)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/memory_service/index.html#Scaffold-your-shape-Chatbot.services.memory_service.MemoryService.shutdown">(Scaffold-your-shape-Chatbot.services.memory_service.MemoryService method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.StateSchemaType">StateSchemaType (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.stream">stream (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChoice">StreamChoice (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.StreamChunk">StreamChunk (class in Scaffold-your-shape-Chatbot.models.chat)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.html#Scaffold-your-shape-Chatbot.agents.utils.structured_agent_stream">structured_agent_stream() (in module Scaffold-your-shape-Chatbot.agents.utils)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/custom_react_agent/index.html#Scaffold-your-shape-Chatbot.agents.custom_react_agent.StructuredResponseSchema">StructuredResponseSchema (in module Scaffold-your-shape-Chatbot.agents.custom_react_agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MessageRole.SYSTEM">SYSTEM (Scaffold-your-shape-Chatbot.models.memory.MessageRole attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/mcp_client/index.html#Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient.test_connection">test_connection() (Scaffold-your-shape-Chatbot.services.mcp_client.PiliMCPClient method)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage.timestamp">timestamp (Scaffold-your-shape-Chatbot.models.memory.ConversationMessage attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.tool">tool (in module Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MessageRole.TOOL">TOOL (Scaffold-your-shape-Chatbot.models.memory.MessageRole attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationMessage.tool_calls">tool_calls (Scaffold-your-shape-Chatbot.models.memory.ConversationMessage attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/orchestrator_mcp_server/index.html#Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer.tools_registry">tools_registry (Scaffold-your-shape-Chatbot.tools.orchestrator_mcp_server.OrchestratorMCPServer attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats.total_conversations">total_conversations (Scaffold-your-shape-Chatbot.models.memory.MemoryStats attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats.total_messages">total_messages (Scaffold-your-shape-Chatbot.models.memory.MemoryStats attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemoryStats.total_users">total_users (Scaffold-your-shape-Chatbot.models.memory.MemoryStats attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.tracing_service">tracing_service (in module Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/tracing_service/index.html#Scaffold-your-shape-Chatbot.services.tracing_service.TracingService">TracingService (class in Scaffold-your-shape-Chatbot.services.tracing_service)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.transfer_to_coach_agent">transfer_to_coach_agent (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/agents/agent/index.html#Scaffold-your-shape-Chatbot.agents.agent.transfer_to_logger_agent">transfer_to_logger_agent (in module Scaffold-your-shape-Chatbot.agents.agent)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.updated_at">updated_at (Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MessageRole.USER">USER (Scaffold-your-shape-Chatbot.models.memory.MessageRole attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.user_id">user_id (Scaffold-your-shape-Chatbot.models.chat.ChatRequest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest.user_id">(Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ClubAction.user_id">(Scaffold-your-shape-Chatbot.models.chat.ClubAction attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.user_id">(Scaffold-your-shape-Chatbot.models.chat.ExerciseLog attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/chat/index.html#Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest.user_id">(Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.ConversationHistory.user_id">(Scaffold-your-shape-Chatbot.models.memory.ConversationHistory attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery.user_id">(Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/models/memory/index.html#Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult.user_id">(Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult attribute)</a>
+</li>
+        <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput.user_id">(Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/services/langchain_memory_service/index.html#Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService.user_memories">user_memories (Scaffold-your-shape-Chatbot.services.langchain_memory_service.LangChainMemoryService attribute)</a>
+</li>
+      <li><a href="autoapi/Scaffold-your-shape-Chatbot/tools/quick_response_mcp_tool/index.html#Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput.user_query">user_query (Scaffold-your-shape-Chatbot.tools.quick_response_mcp_tool.QuickResponseInput attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

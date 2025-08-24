@@ -1,0 +1,36 @@
+Scaffold-your-shape-Chatbot.tools.quick_response_command_tool
+=============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.tools.quick_response_command_tool
+
+.. autoapi-nested-parse::
+
+   Quick Response Tool with Command-based routing to END.
+
+   This tool provides immediate responses for casual queries and uses the Command pattern
+   to route directly to END, similar to how handoff tools route to other agents.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.quick_response_command_tool.create_quick_response_command_tool
+   Scaffold-your-shape-Chatbot.tools.quick_response_command_tool.create_quick_response_tool
+
+
+Module Contents
+---------------
+
+.. py:function:: create_quick_response_command_tool()
+
+   Create a quick response tool that routes to END using Command pattern.
+
+
+.. py:function:: create_quick_response_tool()
+
+   Create quick response tool - now uses Command routing.
+
+

@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Pili’s Documentation! &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation Guide" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to Pili’s Documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-pili-s-documentation">
+<h1>Welcome to Pili’s Documentation!<a class="headerlink" href="#welcome-to-pili-s-documentation" title="Link to this heading"></a></h1>
+<a class="reference external image-reference" href="https://www.python.org/downloads/"><img alt="Python Version" src="https://img.shields.io/badge/Python-3.8+-blue.svg" />
+</a>
+<a class="reference external image-reference" href="https://fastapi.tiangolo.com/"><img alt="FastAPI Version" src="https://img.shields.io/badge/FastAPI-0.116+-green.svg" />
+</a>
+<a class="reference external image-reference" href="https://python.langchain.com/"><img alt="LangChain Version" src="https://img.shields.io/badge/LangChain-0.3+-orange.svg" />
+</a>
+<p><strong>Pili</strong> is a sophisticated multiagent chatbot microservice for exercise tracking, built with FastAPI, LangGraph, and LangSmith.
+It features a <strong>3-agent orchestration architecture</strong> with <strong>intelligent routing</strong> and <strong>MCP server integration</strong> for the Scaffold Your Shape fitness platform.</p>
+</section>
+<section id="architecture-overview">
+<h1>🏗️ Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading"></a></h1>
+<p>Pili implements a cutting-edge 3-agent orchestration system:</p>
+<ul class="simple">
+<li><p><strong>🎯 Orchestration Agent</strong>: Intelligent request routing and response coordination</p></li>
+<li><p><strong>📝 Logger Agent</strong>: Direct MCP server integration for activity tracking</p></li>
+<li><p><strong>🏃‍♀️ Coach Agent</strong>: AI-powered workout planning and progress analysis</p></li>
+</ul>
+</section>
+<section id="key-features">
+<h1>🚀 Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><strong>Intelligent Request Routing</strong>: Advanced NLP-based intent detection</p></li>
+<li><p><strong>Real-time Streaming</strong>: FastAPI streaming responses with orchestration metadata</p></li>
+<li><p><strong>Conversation Memory</strong>: Persistent context across user interactions</p></li>
+<li><p><strong>MCP Server Integration</strong>: Direct connection to Scaffold Your Shape platform</p></li>
+<li><p><strong>Robust Error Handling</strong>: Graceful fallbacks for all components</p></li>
+<li><p><strong>Auto-generated API Documentation</strong>: Interactive Swagger UI</p></li>
+</ul>
+</section>
+<section id="documentation-structure">
+<h1>📚 Documentation Structure<a class="headerlink" href="#documentation-structure" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#system-requirements">System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#quick-installation">Quick Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#environment-configuration">Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker-installation">Docker Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#environment-variables">Environment Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#core-configuration">Core Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#llm-provider-configuration">LLM Provider Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#mcp-server-configuration">MCP Server Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#memory-configuration">Memory Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#application-configuration">Application Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-files">Configuration Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#settings-module">Settings Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#agent-configuration">Agent Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#development-configuration">Development Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#debug-mode">Debug Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#testing-configuration">Testing Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#production-configuration">Production Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#security-settings">Security Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#performance-settings">Performance Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#docker-configuration">Docker Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#docker-compose">Docker Compose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#environment-file">Environment File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-templates">Configuration Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#development-template">Development Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#production-template">Production Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#testing-template">Testing Template</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture/overview.html#simple-request-flow">Simple Request Flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture/overview.html#complex-request-flow">Complex Request Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="what-can-pili-do">
+<h1>🤖 What Can Pili Do?<a class="headerlink" href="#what-can-pili-do" title="Link to this heading"></a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Category</p></th>
+<th class="head"><p>Example Messages</p></th>
+<th class="head"><p>Agent Flow</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Activity Logging</strong></p></td>
+<td><p>“I ran 5 km”, “Did yoga for 45 minutes”</p></td>
+<td><p>Orchestration → Logger → MCP Server</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Club Management</strong></p></td>
+<td><p>“Show me clubs”, “Join club runners”</p></td>
+<td><p>Orchestration → Logger → MCP Server</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Workout Planning</strong></p></td>
+<td><p>“Create a running plan”, “I need a training schedule”</p></td>
+<td><p>Orchestration → Logger (data) + Coach (planning)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Progress Analysis</strong></p></td>
+<td><p>“How am I doing?”, “Analyze my progress”</p></td>
+<td><p>Orchestration → Logger (data) + Coach (analysis)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Motivation</strong></p></td>
+<td><p>“I need motivation”, “Encourage me”</p></td>
+<td><p>Orchestration → Coach with context</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quick-links">
+<h1>🔗 Quick Links<a class="headerlink" href="#quick-links" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><strong>GitHub Repository</strong>: <a class="reference external" href="https://github.com/your-org/Scaffold-your-shape-Chatbot">Scaffold-your-shape-Chatbot</a></p></li>
+<li><p><strong>API Documentation</strong>: <a class="reference external" href="http://localhost:8000/api/docs">http://localhost:8000/api/docs</a></p></li>
+<li><p><strong>LangSmith Dashboard</strong>: <a class="reference external" href="https://smith.langchain.com/">Monitor Conversations</a></p></li>
+<li><p><strong>Scaffold Your Shape</strong>: <a class="reference external" href="http://192.168.1.98:3005">Main Platform</a></p></li>
+</ul>
+</section>
+<section id="support">
+<h1>📧 Support<a class="headerlink" href="#support" title="Link to this heading"></a></h1>
+<p>If you encounter any issues or have questions:</p>
+<ul class="simple">
+<li><p>Check the installation guide</p></li>
+<li><p>Review the quickstart section</p></li>
+<li><p>Open an issue on GitHub</p></li>
+<li><p>Contact the development team</p></li>
+</ul>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<p>—</p>
+<p><strong>Meet Pili</strong> - Your friendly AI fitness companion that makes tracking workouts as easy as having a conversation! 🏃‍♀️💪</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

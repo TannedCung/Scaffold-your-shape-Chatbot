@@ -1,0 +1,332 @@
+Scaffold-your-shape-Chatbot.models.memory
+=========================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.models.memory
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.models.memory.ConversationHistory
+   Scaffold-your-shape-Chatbot.models.memory.ConversationMessage
+   Scaffold-your-shape-Chatbot.models.memory.MemoryConfiguration
+   Scaffold-your-shape-Chatbot.models.memory.MemorySearchQuery
+   Scaffold-your-shape-Chatbot.models.memory.MemorySearchResult
+   Scaffold-your-shape-Chatbot.models.memory.MemoryStats
+   Scaffold-your-shape-Chatbot.models.memory.MessageRole
+
+
+Module Contents
+---------------
+
+.. py:class:: ConversationHistory(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Complete conversation history for a user.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: created_at
+      :type:  datetime.datetime
+      :value: None
+
+
+
+   .. py:attribute:: messages
+      :type:  List[ConversationMessage]
+      :value: None
+
+
+
+   .. py:attribute:: metadata
+      :type:  Dict[str, Any]
+      :value: None
+
+
+
+   .. py:attribute:: model_config
+
+      Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
+
+
+   .. py:attribute:: session_id
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: updated_at
+      :type:  datetime.datetime
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+
+
+.. py:class:: ConversationMessage(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Individual message in a conversation.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: agent_name
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: content
+      :type:  str
+
+
+   .. py:attribute:: metadata
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+   .. py:attribute:: role
+      :type:  MessageRole
+
+
+   .. py:attribute:: timestamp
+      :type:  datetime.datetime
+      :value: None
+
+
+
+   .. py:attribute:: tool_calls
+      :type:  Optional[List[Dict[str, Any]]]
+      :value: None
+
+
+
+.. py:class:: MemoryConfiguration(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Configuration for memory management.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: enable_memory_compression
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: max_characters_per_message
+      :type:  int
+      :value: 2000
+
+
+
+   .. py:attribute:: max_conversation_age_days
+      :type:  int
+      :value: 30
+
+
+
+   .. py:attribute:: max_messages_per_user
+      :type:  int
+      :value: 100
+
+
+
+   .. py:attribute:: memory_cleanup_interval_hours
+      :type:  int
+      :value: 24
+
+
+
+   .. py:attribute:: memory_storage_backend
+      :type:  str
+      :value: 'file'
+
+
+
+.. py:class:: MemorySearchQuery(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Query for searching conversation history.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: date_from
+      :type:  Optional[datetime.datetime]
+      :value: None
+
+
+
+   .. py:attribute:: date_to
+      :type:  Optional[datetime.datetime]
+      :value: None
+
+
+
+   .. py:attribute:: include_content
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: max_results
+      :type:  int
+      :value: 10
+
+
+
+   .. py:attribute:: query
+      :type:  str
+
+
+   .. py:attribute:: user_id
+      :type:  str
+
+
+.. py:class:: MemorySearchResult(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Result from memory search.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: context_messages
+      :type:  List[ConversationMessage]
+      :value: None
+
+
+
+   .. py:attribute:: message
+      :type:  ConversationMessage
+
+
+   .. py:attribute:: relevance_score
+      :type:  float
+
+
+   .. py:attribute:: session_id
+      :type:  str
+
+
+   .. py:attribute:: user_id
+      :type:  str
+
+
+.. py:class:: MemoryStats(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Statistics about memory usage.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: memory_size_mb
+      :type:  float
+
+
+   .. py:attribute:: newest_conversation
+      :type:  Optional[datetime.datetime]
+      :value: None
+
+
+
+   .. py:attribute:: oldest_conversation
+      :type:  Optional[datetime.datetime]
+      :value: None
+
+
+
+   .. py:attribute:: total_conversations
+      :type:  int
+
+
+   .. py:attribute:: total_messages
+      :type:  int
+
+
+   .. py:attribute:: total_users
+      :type:  int
+
+
+.. py:class:: MessageRole
+
+   Bases: :py:obj:`str`, :py:obj:`enum.Enum`
+
+
+   Enum for message roles in conversation.
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+   .. py:attribute:: ASSISTANT
+      :value: 'assistant'
+
+
+
+   .. py:attribute:: SYSTEM
+      :value: 'system'
+
+
+
+   .. py:attribute:: TOOL
+      :value: 'tool'
+
+
+
+   .. py:attribute:: USER
+      :value: 'user'
+
+
+
