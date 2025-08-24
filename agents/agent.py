@@ -7,25 +7,24 @@ import langchain_core
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from langgraph_swarm import create_handoff_tool, create_swarm
+# Removed unused imports - using custom react agent directly
 from typing import Dict, Any, List, Optional, Tuple
 import json
 from langsmith import traceable
 
-# Fix langchain globals issue
-import langchain
+# Fix langchain globals issue - remove deprecated attribute access
 import os
 
-# Set environment variables to disable problematic features
-os.environ['LANGCHAIN_TRACING_V2'] = 'false'
+# Set environment variables to control LangChain behavior
 os.environ['LANGCHAIN_DEBUG'] = 'false'
 
-# Monkey patch langchain to fix missing attributes
-if not hasattr(langchain, 'debug'):
-    langchain.debug = False
-if not hasattr(langchain, 'verbose'):
-    langchain.verbose = False
-if not hasattr(langchain, 'llm_cache'):
-    langchain.llm_cache = None
+# Note: The langchain.debug, langchain.verbose, and langchain.llm_cache attributes
+# are deprecated and should not be accessed. Instead, use environment variables
+# and proper LangChain configuration.
+
+# Initialize tracing service
+from services.tracing_service import initialize_tracing, is_tracing_enabled, create_run_metadata
+initialize_tracing()
 
 
 from .prompts import create_logger_prompt, create_coach_prompt, orchestration_prompt
@@ -40,6 +39,9 @@ def format_user_message_with_context(user_id: str, message: str) -> str:
     """Add datetime and user context to the beginning of user message for better LLM understanding."""
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return f"[Time: {current_time}][UserId: {user_id}] {message}"
+
+
+# Note: OrchestrationState no longer needed since we use custom react agent directly
 
 
 # Initialize LLM based on configuration
@@ -142,16 +144,29 @@ async def create_coach_agent(mcp_client, user_id: str):
 
 
 async def create_orchestration_agent(user_id: str):
-    """Create the orchestration agent that routes between specialized agents."""
-    # Use the same handoff tools as other agents for consistency
-    orchestration_agent = create_react_agent(
+    """Create the orchestration agent with built-in quick_response termination."""
+    # Import quick response tool and custom react agent
+    from tools.quick_response_mcp_tool import create_quick_response_tool
+    from .custom_react_agent import create_react_agent_with_quick_response_termination
+    
+    # Create quick response tool for immediate responses
+    quick_response_tool = create_quick_response_tool()
+    
+    # Combine handoff tools with quick response tool
+    all_tools = [transfer_to_logger_agent, transfer_to_coach_agent, quick_response_tool]
+    
+    # Create the custom react agent with built-in quick_response termination
+    orchestration_agent = create_react_agent_with_quick_response_termination(
         get_model(),
+        tools=all_tools,
         prompt=orchestration_prompt,
-        tools=[transfer_to_logger_agent, transfer_to_coach_agent],
         name="orchestration_agent",
     )
     
     return orchestration_agent
+
+
+# Note: Termination logic now built into custom react agent
 
 
 async def create_agent_swarm(user_id: str) -> Tuple[Any, Any]:
@@ -160,7 +175,7 @@ async def create_agent_swarm(user_id: str) -> Tuple[Any, Any]:
     mcp_client = create_mcp_client()
     
     try:
-        # Create orchestration agent first (the main coordinator)
+        # Create orchestration agent first (the main coordinator with built-in termination)
         orchestration_agent = await create_orchestration_agent(user_id)
         
         # Create specialized agents
@@ -239,7 +254,7 @@ class PiliAgentSystem:
 
 
     @traceable(
-        name="process_request",
+        name="pili_process_request",
         metadata={
             "component": "pili_agent_system",
             "operation": "full_request_processing"
@@ -248,16 +263,23 @@ class PiliAgentSystem:
     async def process_request(self, user_id: str, message: str, session_id: str = "default") -> Dict[str, Any]:
         """Process a user request through the orchestration agent system."""
         try:
-            # Add initial tracing metadata
-            from langsmith import get_current_run_tree
-            run = get_current_run_tree()
-            if run:
-                run.add_metadata({
-                    "user_id": user_id,
-                    "session_id": session_id,
-                    "message_length": len(message),
-                    "user_cached": user_id in self.agent_cache
-                })
+            # Create comprehensive tracing metadata
+            initial_metadata = create_run_metadata(
+                user_id=user_id,
+                operation="process_request",
+                session_id=session_id,
+                message_length=len(message),
+                user_cached=user_id in self.agent_cache,
+                tracing_enabled=is_tracing_enabled()
+            )
+            
+            # Add initial tracing metadata if tracing is enabled
+            if is_tracing_enabled():
+                from langsmith import get_current_run_tree
+                run = get_current_run_tree()
+                if run:
+                    run.add_metadata(initial_metadata)
+                    run.add_tags(["pili-fitness-chatbot", "agent-orchestration", f"user-{user_id}"])
             
             # Ensure memory is initialized
             await self._ensure_memory_initialized()
@@ -352,16 +374,21 @@ class PiliAgentSystem:
                 execution_summary = ["No agent response generated"]
             
             # Add execution results to trace
-            if run:
-                run.add_metadata({
-                    "agent_execution_complete": True,
-                    "message_count": len(messages),
-                    "execution_summary_length": len(execution_summary),
-                    "response_length": len(response),
-                    "agents_used": len(agent_names) if 'agent_names' in locals() else 0,
-                    "tools_called": len(tool_calls) if 'tool_calls' in locals() else 0,
-                    "ai_messages_count": len(ai_messages) if 'ai_messages' in locals() else 0
-                })
+            if is_tracing_enabled():
+                from langsmith import get_current_run_tree
+                run = get_current_run_tree()
+                if run:
+                    execution_metadata = create_run_metadata(
+                        user_id=user_id,
+                        operation="agent_execution_complete",
+                        message_count=len(messages),
+                        execution_summary_length=len(execution_summary),
+                        response_length=len(response),
+                        agents_used=len(agent_names) if 'agent_names' in locals() else 0,
+                        tools_called=len(tool_calls) if 'tool_calls' in locals() else 0,
+                        ai_messages_count=len(ai_messages) if 'ai_messages' in locals() else 0
+                    )
+                    run.add_metadata(execution_metadata)
             
             # Prepare final result directly from orchestration agent
             final_result = {
@@ -387,13 +414,19 @@ class PiliAgentSystem:
                 )
             
             # Add final result metadata to trace
-            if run:
-                run.add_metadata({
-                    "orchestration_complete": True,
-                    "final_response_length": len(final_result["response"]),
-                    "memory_enabled": app_config.memory_enabled,
-                    "using_orchestration_agent": True
-                })
+            if is_tracing_enabled():
+                from langsmith import get_current_run_tree
+                run = get_current_run_tree()
+                if run:
+                    final_metadata = create_run_metadata(
+                        user_id=user_id,
+                        operation="orchestration_complete",
+                        final_response_length=len(final_result["response"]),
+                        memory_enabled=app_config.memory_enabled,
+                        using_orchestration_agent=True,
+                        success=True
+                    )
+                    run.add_metadata(final_metadata)
             
             return final_result
             
@@ -401,15 +434,18 @@ class PiliAgentSystem:
             print(f"Error in agent system for user {user_id}: {e}")
             
             # Add error to trace
-            from langsmith import get_current_run_tree
-            run = get_current_run_tree()
-            if run:
-                run.add_metadata({
-                    "process_request_success": False,
-                    "error": str(e),
-                    "error_type": type(e).__name__,
-                    "user_id": user_id
-                })
+            if is_tracing_enabled():
+                from langsmith import get_current_run_tree
+                run = get_current_run_tree()
+                if run:
+                    error_metadata = create_run_metadata(
+                        user_id=user_id,
+                        operation="process_request_error",
+                        success=False,
+                        error=str(e),
+                        error_type=type(e).__name__
+                    )
+                    run.add_metadata(error_metadata)
             
             error_summary = [f"Error: {str(e)}"]
             return {
