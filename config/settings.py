@@ -65,6 +65,12 @@ class Configuration(BaseModel):
         title="MCP Base URL",
         description="Base URL for Scaffold Your Shape MCP server"
     )
+    
+    orchestrator_mcp_url: str = Field(
+        default="http://localhost:8001/mcp",
+        title="Orchestrator MCP URL", 
+        description="Base URL for Pili's orchestrator MCP server"
+    )
 
     # Agent Configuration
     max_conversation_history: int = Field(
@@ -156,6 +162,7 @@ class Settings(BaseSettings):
     
     # MCP Server Configuration
     mcp_base_url: str = "http://localhost:3005/api/mcp"  # Scaffold Your Shape MCP server
+    orchestrator_mcp_url: str = "http://localhost:8001/mcp"  # Pili's orchestrator MCP server
     
     # Agent Configuration
     max_conversation_history: int = 10
@@ -192,6 +199,7 @@ def get_configuration() -> Configuration:
         local_llm_model=settings.local_llm_model,
         local_llm_api_key=settings.local_llm_api_key,
         mcp_base_url=settings.mcp_base_url,
+        orchestrator_mcp_url=settings.orchestrator_mcp_url,
         max_conversation_history=settings.max_conversation_history,
         agent_timeout=settings.agent_timeout,
         memory_enabled=settings.memory_enabled,
