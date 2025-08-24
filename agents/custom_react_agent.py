@@ -289,41 +289,21 @@ def create_react_agent_with_quick_response_termination(
         messages = _get_state_value(state, "messages")
         last_message = messages[-1]
         
-        # CUSTOM: Check for quick_response termination
-        # Check if quick_response was called AND executed (has corresponding ToolMessage)
-        
-        # First, find any quick_response tool calls in recent AI messages
-        quick_response_tool_call_ids = []
-        for message in reversed(messages[-5:]):  # Check last 5 messages
-            if isinstance(message, AIMessage) and message.tool_calls:
-                for tool_call in message.tool_calls:
-                    tool_name = None
-                    tool_call_id = None
-                    
-                    if hasattr(tool_call, 'name'):
-                        tool_name = tool_call.name
-                        tool_call_id = getattr(tool_call, 'id', None)
-                    elif isinstance(tool_call, dict):
-                        tool_name = tool_call.get('name')
-                        tool_call_id = tool_call.get('id')
-                    
-                    if tool_name == 'quick_response' and tool_call_id:
-                        quick_response_tool_call_ids.append(tool_call_id)
-        
-        # Then, check if any of these tool calls have been executed (have ToolMessage responses)
-        if quick_response_tool_call_ids:
-            executed_tool_call_ids = []
-            for message in reversed(messages[-10:]):  # Check more messages for tool responses
-                if isinstance(message, ToolMessage):
-                    if hasattr(message, 'tool_call_id') and message.tool_call_id in quick_response_tool_call_ids:
-                        executed_tool_call_ids.append(message.tool_call_id)
-                    elif hasattr(message, 'name') and message.name == 'quick_response':
-                        # Fallback: if tool message is named quick_response
-                        executed_tool_call_ids.append('quick_response_executed')
-            
-            # If any quick_response tool call has been executed, terminate
-            if executed_tool_call_ids:
-                return END
+        # CUSTOM: Check for quick_response routing (like transfer_to_* tools)
+        # If quick_response is called, route directly to END (just like transfer tools route to agents)
+        if isinstance(last_message, AIMessage) and last_message.tool_calls:
+            for tool_call in last_message.tool_calls:
+                tool_name = None
+                if hasattr(tool_call, 'name'):
+                    tool_name = tool_call.name
+                elif isinstance(tool_call, dict):
+                    tool_name = tool_call.get('name')
+                elif hasattr(tool_call, 'get'):
+                    tool_name = tool_call.get('name')
+                
+                if tool_name == 'quick_response':
+                    # Route directly to END (same pattern as transfer_to_* → other agents)
+                    return END
         
         # Original logic continues...
         # If there is no function call, then we finish

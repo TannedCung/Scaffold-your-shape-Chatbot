@@ -144,19 +144,18 @@ async def create_coach_agent(mcp_client, user_id: str):
 
 
 async def create_orchestration_agent(user_id: str):
-    """Create the orchestration agent with built-in quick_response termination."""
-    # Import quick response tool and custom react agent
-    from tools.quick_response_mcp_tool import create_quick_response_tool
-    from .custom_react_agent import create_react_agent_with_quick_response_termination
+    """Create the orchestration agent using vanilla react agent with Command-based quick_response."""
+    # Import command-based quick response tool
+    from tools.quick_response_command_tool import create_quick_response_command_tool
     
-    # Create quick response tool for immediate responses
-    quick_response_tool = create_quick_response_tool()
+    # Create quick response tool that uses Command to route to END
+    quick_response_tool = create_quick_response_command_tool()
     
-    # Combine handoff tools with quick response tool
+    # Combine handoff tools with command-based quick response tool
     all_tools = [transfer_to_logger_agent, transfer_to_coach_agent, quick_response_tool]
     
-    # Create the custom react agent with built-in quick_response termination
-    orchestration_agent = create_react_agent_with_quick_response_termination(
+    # Use vanilla create_react_agent - the quick_response tool handles routing to END
+    orchestration_agent = create_react_agent(
         get_model(),
         tools=all_tools,
         prompt=orchestration_prompt,
