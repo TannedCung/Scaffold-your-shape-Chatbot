@@ -12,15 +12,22 @@ from typing import Dict, Any, List, Optional, Tuple
 import json
 from langsmith import traceable
 
-# Fix langchain globals issue - remove deprecated attribute access
+# Fix langchain globals issue - add missing attributes for compatibility
 import os
+import langchain
 
 # Set environment variables to control LangChain behavior
 os.environ['LANGCHAIN_DEBUG'] = 'false'
 
-# Note: The langchain.debug, langchain.verbose, and langchain.llm_cache attributes
-# are deprecated and should not be accessed. Instead, use environment variables
-# and proper LangChain configuration.
+# Fix compatibility issue - add missing debug attributes
+if not hasattr(langchain, 'debug'):
+    langchain.debug = False
+if not hasattr(langchain, 'verbose'):
+    langchain.verbose = False
+if not hasattr(langchain, 'llm_cache'):
+    langchain.llm_cache = None
+
+# Note: These attributes are deprecated but needed for compatibility
 
 # Initialize tracing service
 from services.tracing_service import initialize_tracing, is_tracing_enabled, create_run_metadata
@@ -95,6 +102,17 @@ transfer_to_coach_agent = create_handoff_tool(
     description="Transfer to the coach agent for workout planning, progress analysis, and personalized coaching advice."
 )
 
+# Create a handoff tool that routes to complete response node
+transfer_to_complete_response = create_handoff_tool(
+    agent_name="complete_response_node",
+    description="Complete the conversation with a final response after task completion."
+)
+
+transfer_to_orchestration_agent = create_handoff_tool(
+    agent_name="orchestration_agent",
+    description="Transfer back to the orchestration agent for routing decisions, handling new queries, or when the current task is complete."
+)
+
 
 async def create_mcp_tools_for_agent(mcp_client, user_id: str) -> List:
     """Create MCP tools for use with LangGraph agents using an existing client."""
@@ -107,8 +125,8 @@ async def create_logger_agent(mcp_client, user_id: str):
     """Create the logger agent with dynamic MCP tools and user-specific prompt."""
     mcp_tools = await create_mcp_tools_for_agent(mcp_client, user_id)
     
-    # Add handoff tool to coach agent
-    all_tools = mcp_tools + [transfer_to_coach_agent]
+    # Add handoff tools to coach and complete response
+    all_tools = mcp_tools + [transfer_to_coach_agent, transfer_to_complete_response]
     
     # Create user-specific prompt
     logger_prompt = create_logger_prompt(user_id)
@@ -127,8 +145,8 @@ async def create_coach_agent(mcp_client, user_id: str):
     """Create the coach agent with dynamic MCP tools and user-specific prompt."""
     mcp_tools = await create_mcp_tools_for_agent(mcp_client, user_id)
     
-    # Add handoff tool to logger agent  
-    all_tools = mcp_tools + [transfer_to_logger_agent]
+    # Add handoff tools to logger and complete response
+    all_tools = mcp_tools + [transfer_to_logger_agent, transfer_to_complete_response]
     
     # Create user-specific prompt
     coach_prompt = create_coach_prompt(user_id)
@@ -145,13 +163,13 @@ async def create_coach_agent(mcp_client, user_id: str):
 
 async def create_orchestration_agent(user_id: str):
     """Create the orchestration agent using vanilla react agent with Command-based quick_response."""
-    # Import command-based quick response tool
+    # Import command-based quick response tool only
     from tools.quick_response_command_tool import create_quick_response_command_tool
     
-    # Create quick response tool that uses Command to route to END
+    # Create tools that use Command to route to END
     quick_response_tool = create_quick_response_command_tool()
     
-    # Combine handoff tools with command-based quick response tool
+    # Combine handoff tools with command-based response tools
     all_tools = [transfer_to_logger_agent, transfer_to_coach_agent, quick_response_tool]
     
     # Use vanilla create_react_agent - the quick_response tool handles routing to END
@@ -181,9 +199,14 @@ async def create_agent_swarm(user_id: str) -> Tuple[Any, Any]:
         logger_agent = await create_logger_agent(mcp_client, user_id)
         coach_agent = await create_coach_agent(mcp_client, user_id)
         
+        # Create complete response node as a pseudo-agent
+        from agents.complete_response_node import create_complete_response_node
+        complete_response_node = create_complete_response_node()
+        
         # Create swarm with orchestration agent as default (routes to others)
+        # Include the complete response node as part of the swarm
         agent_swarm = create_swarm(
-            [orchestration_agent, logger_agent, coach_agent], 
+            [orchestration_agent, logger_agent, coach_agent, complete_response_node], 
             default_active_agent="orchestration_agent"
         )
         
@@ -322,7 +345,29 @@ class PiliAgentSystem:
             messages = result.get("messages", [])
             if messages:
                 final_message = messages[-1]
-                response = final_message.content if hasattr(final_message, 'content') else str(final_message)
+                
+                # Handle different message types for response extraction
+                if hasattr(final_message, 'content'):
+                    content = final_message.content
+                    
+                    # If it's a ToolMessage from quick_response, use content directly
+                    if hasattr(final_message, 'name') and final_message.name == 'quick_response':
+                        response = content
+                    # If it's structured content, try to parse it
+                    elif isinstance(content, str) and content.startswith('{"name"'):
+                        try:
+                            import json
+                            parsed = json.loads(content)
+                            if "parameters" in parsed and "response" in parsed["parameters"]:
+                                response = parsed["parameters"]["response"]
+                            else:
+                                response = content
+                        except:
+                            response = content
+                    else:
+                        response = content
+                else:
+                    response = str(final_message)
                 
                 # Analyze what actually happened during execution
                 agent_names = set()
