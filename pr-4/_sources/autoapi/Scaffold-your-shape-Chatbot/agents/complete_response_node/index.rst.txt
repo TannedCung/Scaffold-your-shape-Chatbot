@@ -1,0 +1,30 @@
+Scaffold-your-shape-Chatbot.agents.complete_response_node
+=========================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.agents.complete_response_node
+
+.. autoapi-nested-parse::
+
+   Complete Response Node for the LangGraph workflow.
+
+   This module provides the complete response node that replaces the completion response tool.
+   It's executed as a node in the graph after logger and coach agents complete their work.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.complete_response_node.create_complete_response_node
+
+
+Module Contents
+---------------
+
+.. py:function:: create_complete_response_node()
+
+   Create a complete response agent that behaves like other agents in langgraph_swarm.
+
+

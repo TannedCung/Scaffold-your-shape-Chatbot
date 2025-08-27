@@ -17,7 +17,9 @@ Attributes
    Scaffold-your-shape-Chatbot.agents.agent.agent_system
    Scaffold-your-shape-Chatbot.agents.agent.config
    Scaffold-your-shape-Chatbot.agents.agent.transfer_to_coach_agent
+   Scaffold-your-shape-Chatbot.agents.agent.transfer_to_complete_response
    Scaffold-your-shape-Chatbot.agents.agent.transfer_to_logger_agent
+   Scaffold-your-shape-Chatbot.agents.agent.transfer_to_orchestration_agent
 
 
 Classes
@@ -168,5 +170,9 @@ Module Contents
 
 .. py:data:: transfer_to_coach_agent
 
+.. py:data:: transfer_to_complete_response
+
 .. py:data:: transfer_to_logger_agent
+
+.. py:data:: transfer_to_orchestration_agent
 
