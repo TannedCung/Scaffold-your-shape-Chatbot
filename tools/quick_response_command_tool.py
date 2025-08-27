@@ -1,20 +1,19 @@
-"""Quick Response Tool with Command-based routing to END.
+"""Quick Response Tool for immediate responses.
 
-This tool provides immediate responses for casual queries and uses the Command pattern
-to route directly to END, similar to how handoff tools route to other agents.
+This tool provides immediate responses for casual queries and automatically 
+terminates the conversation flow through the custom react agent.
 """
 
 from typing import Optional
 from langchain_core.tools import tool, InjectedToolCallId
 from langchain_core.messages import ToolMessage
-from langgraph.types import Command
 from langgraph.prebuilt import InjectedState
 from typing_extensions import Annotated
 import random
 
 
 def create_quick_response_command_tool():
-    """Create a quick response tool that routes to END using Command pattern."""
+    """Create a quick response tool that terminates conversation flow."""
     
     @tool("quick_response", description="""
     Provides immediate, casual responses for common queries like greetings, thanks, simple comments,
@@ -113,14 +112,9 @@ def create_quick_response_command_tool():
             tool_call_id=actual_tool_call_id,
         )
         
-        return Command(
-            goto="__end__",
-            graph=Command.PARENT,
-            update={
-                "messages": state["messages"] + [tool_message],
-                "active_agent": "END",
-            },
-        )
+        # For langgraph_swarm, we just return the tool message
+        # The custom react agent will handle the termination logic
+        return tool_message
 
         # # Return Command that routes to END (like handoff tools route to agents)
         # return Command(
@@ -135,3 +129,5 @@ def create_quick_response_command_tool():
 def create_quick_response_tool():
     """Create quick response tool - now uses Command routing."""
     return create_quick_response_command_tool()
+
+
