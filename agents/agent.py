@@ -172,8 +172,9 @@ async def create_orchestration_agent(user_id: str):
     # Combine handoff tools with command-based response tools
     all_tools = [transfer_to_logger_agent, transfer_to_coach_agent, quick_response_tool]
     
-    # Use vanilla create_react_agent - the quick_response tool handles routing to END
-    orchestration_agent = create_react_agent(
+    # Use custom react agent with quick_response termination logic
+    from agents.custom_react_agent import create_react_agent_with_quick_response_termination
+    orchestration_agent = create_react_agent_with_quick_response_termination(
         get_model(),
         tools=all_tools,
         prompt=orchestration_prompt,
@@ -347,27 +348,68 @@ class PiliAgentSystem:
                 final_message = messages[-1]
                 
                 # Handle different message types for response extraction
-                if hasattr(final_message, 'content'):
-                    content = final_message.content
-                    
-                    # If it's a ToolMessage from quick_response, use content directly
-                    if hasattr(final_message, 'name') and final_message.name == 'quick_response':
-                        response = content
-                    # If it's structured content, try to parse it
-                    elif isinstance(content, str) and content.startswith('{"name"'):
-                        try:
-                            import json
-                            parsed = json.loads(content)
-                            if "parameters" in parsed and "response" in parsed["parameters"]:
-                                response = parsed["parameters"]["response"]
-                            else:
+                response = None
+                
+                # Check if final message has quick_response tool call (terminated by custom react agent)
+                if hasattr(final_message, 'tool_calls') and final_message.tool_calls:
+                    for tool_call in final_message.tool_calls:
+                        if tool_call.get('name') == 'quick_response':
+                            # Simulate quick_response execution to get the response
+                            args = tool_call.get('args', {})
+                            query_type = args.get('query_type', 'casual')
+                            user_query = args.get('user_query', '')
+                            user_id = args.get('user_id', 'test_user')
+                            
+                            # Import and execute quick_response tool logic
+                            from tools.quick_response_command_tool import create_quick_response_command_tool
+                            quick_response_tool = create_quick_response_command_tool()
+                            
+                            # Execute the tool to get the response
+                            try:
+                                # Call the tool directly with proper parameters
+                                tool_result = quick_response_tool.func(
+                                    query_type=query_type,
+                                    user_query=user_query,
+                                    user_id=user_id,
+                                    state={'messages': messages},
+                                    tool_call_id='quick_response_sim'
+                                )
+                                response = tool_result.content
+                            except Exception as e:
+                                print(f"Quick response tool error: {e}")
+                                response = f"Hello! 👋 Ready to help you achieve your fitness goals!"
+                            break
+                
+                # If no quick_response tool call found, handle normally
+                if response is None:
+                    if hasattr(final_message, 'content'):
+                        content = final_message.content
+                        
+                        # If it's a ToolMessage from quick_response, use content directly
+                        if hasattr(final_message, 'name') and final_message.name == 'quick_response':
+                            response = content
+                        # Check for quick_response anywhere in the messages (should be final)
+                        elif any(hasattr(msg, 'name') and msg.name == 'quick_response' for msg in messages[-5:]):
+                            # Find the last quick_response message
+                            for msg in reversed(messages):
+                                if hasattr(msg, 'name') and msg.name == 'quick_response':
+                                    response = msg.content
+                                    break
+                        # If it's structured content, try to parse it
+                        elif isinstance(content, str) and content.startswith('{"name"'):
+                            try:
+                                import json
+                                parsed = json.loads(content)
+                                if "parameters" in parsed and "response" in parsed["parameters"]:
+                                    response = parsed["parameters"]["response"]
+                                else:
+                                    response = content
+                            except:
                                 response = content
-                        except:
+                        else:
                             response = content
                     else:
-                        response = content
-                else:
-                    response = str(final_message)
+                        response = str(final_message)
                 
                 # Analyze what actually happened during execution
                 agent_names = set()

@@ -131,3 +131,4 @@ def create_quick_response_tool():
     return create_quick_response_command_tool()
 
 
+
