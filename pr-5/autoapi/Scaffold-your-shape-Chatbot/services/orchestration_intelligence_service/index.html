@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/Scaffold-your-shape-Chatbot/services/orchestration_intelligence_service/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service">
+<span id="scaffold-your-shape-chatbot-services-orchestration-intelligence-service"></span><h1>Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service<a class="headerlink" href="#module-Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service" title="Link to this heading"></a></h1>
+<p>Orchestration Intelligence Service for Multi-Intent Recognition and Dynamic Coordination.</p>
+<p>This service provides advanced orchestration capabilities including:
+- Multi-intent recognition and parsing
+- Dynamic agent coordination and parallel execution
+- Context-aware request routing
+- Response synthesis and aggregation
+- Intelligent workflow management</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.orchestration_intelligence_service" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.orchestration_intelligence_service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">orchestration_intelligence_service</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AgentType</span></code></a></p></td>
+<td><p>Types of agents available for task execution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionPlan</span></code></a></p></td>
+<td><p>Plan for executing multiple intents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionResult</span></code></a></p></td>
+<td><p>Result of executing an intent or plan.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExecutionStrategy</span></code></a></p></td>
+<td><p>Strategies for executing multi-intent requests.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Intent</span></code></a></p></td>
+<td><p>Represents a single user intent.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IntentType</span></code></a></p></td>
+<td><p>Types of user intents that can be recognized.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OrchestrationIntelligenceService</span></code></a></p></td>
+<td><p>Advanced service for intelligent orchestration and multi-intent handling.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OrchestrationResponse</span></code></a></p></td>
+<td><p>Complete orchestration response with synthesis.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">AgentType</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Types of agents available for task execution.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType.COACH">
+<span class="sig-name descname"><span class="pre">COACH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'coach_agent'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType.COACH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType.LOGGER">
+<span class="sig-name descname"><span class="pre">LOGGER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'logger_agent'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType.LOGGER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType.ORCHESTRATION">
+<span class="sig-name descname"><span class="pre">ORCHESTRATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'orchestration_agent'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType.ORCHESTRATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">ExecutionPlan</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan" title="Link to this definition"></a></dt>
+<dd><p>Plan for executing multiple intents.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.complexity_score">
+<span class="sig-name descname"><span class="pre">complexity_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.complexity_score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.estimated_duration">
+<span class="sig-name descname"><span class="pre">estimated_duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.estimated_duration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.execution_order">
+<span class="sig-name descname"><span class="pre">execution_order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.execution_order" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.intents">
+<span class="sig-name descname"><span class="pre">intents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent"><span class="pre">Intent</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.intents" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.parallel_groups">
+<span class="sig-name descname"><span class="pre">parallel_groups</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.parallel_groups" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.strategy">
+<span class="sig-name descname"><span class="pre">strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy"><span class="pre">ExecutionStrategy</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan.strategy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">ExecutionResult</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult" title="Link to this definition"></a></dt>
+<dd><p>Result of executing an intent or plan.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.agent_used">
+<span class="sig-name descname"><span class="pre">agent_used</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType"><span class="pre">AgentType</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.agent_used" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.confidence">
+<span class="sig-name descname"><span class="pre">confidence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.execution_time">
+<span class="sig-name descname"><span class="pre">execution_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.execution_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.intent_type">
+<span class="sig-name descname"><span class="pre">intent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType"><span class="pre">IntentType</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.intent_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.metadata" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.response">
+<span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.response" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.success">
+<span class="sig-name descname"><span class="pre">success</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult.success" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">ExecutionStrategy</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Strategies for executing multi-intent requests.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.CONDITIONAL">
+<span class="sig-name descname"><span class="pre">CONDITIONAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'conditional'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.CONDITIONAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.HYBRID">
+<span class="sig-name descname"><span class="pre">HYBRID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'hybrid'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.HYBRID" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.PARALLEL">
+<span class="sig-name descname"><span class="pre">PARALLEL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'parallel'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.PARALLEL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.SEQUENTIAL">
+<span class="sig-name descname"><span class="pre">SEQUENTIAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sequential'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy.SEQUENTIAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">Intent</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent" title="Link to this definition"></a></dt>
+<dd><p>Represents a single user intent.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.agent_preference">
+<span class="sig-name descname"><span class="pre">agent_preference</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType"><span class="pre">AgentType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.agent_preference" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.confidence">
+<span class="sig-name descname"><span class="pre">confidence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.context">
+<span class="sig-name descname"><span class="pre">context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.context" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.dependencies">
+<span class="sig-name descname"><span class="pre">dependencies</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.priority" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType"><span class="pre">IntentType</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent.type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">IntentType</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Types of user intents that can be recognized.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.ACTIVITY_LOGGING">
+<span class="sig-name descname"><span class="pre">ACTIVITY_LOGGING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'activity_logging'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.ACTIVITY_LOGGING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.BEHAVIORAL_ANALYSIS">
+<span class="sig-name descname"><span class="pre">BEHAVIORAL_ANALYSIS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'behavioral_analysis'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.BEHAVIORAL_ANALYSIS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.CASUAL_CHAT">
+<span class="sig-name descname"><span class="pre">CASUAL_CHAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'casual_chat'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.CASUAL_CHAT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.GENERAL_FITNESS">
+<span class="sig-name descname"><span class="pre">GENERAL_FITNESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'general_fitness'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.GENERAL_FITNESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.GOAL_SETTING">
+<span class="sig-name descname"><span class="pre">GOAL_SETTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'goal_setting'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.GOAL_SETTING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.HABIT_FORMATION">
+<span class="sig-name descname"><span class="pre">HABIT_FORMATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'habit_formation'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.HABIT_FORMATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.MOTIVATION_SEEKING">
+<span class="sig-name descname"><span class="pre">MOTIVATION_SEEKING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'motivation_seeking'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.MOTIVATION_SEEKING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.PERFORMANCE_ANALYSIS">
+<span class="sig-name descname"><span class="pre">PERFORMANCE_ANALYSIS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'performance_analysis'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.PERFORMANCE_ANALYSIS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.PROGRESS_INQUIRY">
+<span class="sig-name descname"><span class="pre">PROGRESS_INQUIRY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'progress_inquiry'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.PROGRESS_INQUIRY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.WORKOUT_PLANNING">
+<span class="sig-name descname"><span class="pre">WORKOUT_PLANNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'workout_planning'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType.WORKOUT_PLANNING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">OrchestrationIntelligenceService</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService" title="Link to this definition"></a></dt>
+<dd><p>Advanced service for intelligent orchestration and multi-intent handling.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.analyze_multi_intent">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analyze_multi_intent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.analyze_multi_intent" title="Link to this definition"></a></dt>
+<dd><p>Analyze user message for multiple intents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – User’s input message</p></li>
+<li><p><strong>context</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em><em>]</em>) – Additional context (conversation history, user profile, etc.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of recognized intents with confidence scores</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent">Intent</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.create_execution_plan">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_execution_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intents</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.create_execution_plan" title="Link to this definition"></a></dt>
+<dd><p>Create an execution plan for multiple intents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>intents</strong> (<em>List</em><em>[</em><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent"><em>Intent</em></a><em>]</em>) – List of intents to execute</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ExecutionPlan with strategy and execution order</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan">ExecutionPlan</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.synthesize_responses">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">synthesize_responses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">execution_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.synthesize_responses" title="Link to this definition"></a></dt>
+<dd><p>Synthesize multiple execution results into a coherent response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>execution_results</strong> (<em>List</em><em>[</em><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult"><em>ExecutionResult</em></a><em>]</em>) – Results from executing multiple intents</p></li>
+<li><p><strong>original_message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Original user message for context</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>OrchestrationResponse with synthesized content</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse">OrchestrationResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.agent_capabilities">
+<span class="sig-name descname"><span class="pre">agent_capabilities</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.agent_capabilities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.execution_strategies">
+<span class="sig-name descname"><span class="pre">execution_strategies</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.execution_strategies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.intent_patterns">
+<span class="sig-name descname"><span class="pre">intent_patterns</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.intent_patterns" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.synthesis_rules">
+<span class="sig-name descname"><span class="pre">synthesis_rules</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService.synthesis_rules" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">OrchestrationResponse</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse" title="Link to this definition"></a></dt>
+<dd><p>Complete orchestration response with synthesis.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.execution_results">
+<span class="sig-name descname"><span class="pre">execution_results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult"><span class="pre">ExecutionResult</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.execution_results" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.intents_processed">
+<span class="sig-name descname"><span class="pre">intents_processed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.intents_processed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.primary_response">
+<span class="sig-name descname"><span class="pre">primary_response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.primary_response" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.strategy_used">
+<span class="sig-name descname"><span class="pre">strategy_used</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy" title="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy"><span class="pre">ExecutionStrategy</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.strategy_used" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.synthesis_confidence">
+<span class="sig-name descname"><span class="pre">synthesis_confidence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.synthesis_confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.total_execution_time">
+<span class="sig-name descname"><span class="pre">total_execution_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse.total_execution_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.orchestration_intelligence_service">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.</span></span><span class="sig-name descname"><span class="pre">orchestration_intelligence_service</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.orchestration_intelligence_service" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

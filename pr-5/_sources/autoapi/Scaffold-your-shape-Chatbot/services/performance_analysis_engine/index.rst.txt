@@ -1,0 +1,328 @@
+Scaffold-your-shape-Chatbot.services.performance_analysis_engine
+================================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.performance_analysis_engine
+
+.. autoapi-nested-parse::
+
+   Advanced Performance Analysis Engine for Pili Coach Agent.
+
+   This service provides sophisticated performance analysis including:
+   - Multi-dimensional fitness assessment
+   - Predictive performance modeling
+   - Comparative benchmarking
+   - Weakness identification and improvement recommendations
+   - Performance optimization strategies
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.performance_analysis_engine
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.AnalysisPeriod
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.PerformanceAnalysisEngine
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.PerformanceInsight
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.PerformanceLevel
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.PerformanceMetric
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.PerformanceReport
+   Scaffold-your-shape-Chatbot.services.performance_analysis_engine.PerformanceScore
+
+
+Module Contents
+---------------
+
+.. py:class:: AnalysisPeriod
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Time periods for performance analysis.
+
+
+   .. py:attribute:: ALL_TIME
+      :value: 'all_time'
+
+
+
+   .. py:attribute:: MONTHLY
+      :value: 'monthly'
+
+
+
+   .. py:attribute:: QUARTERLY
+      :value: 'quarterly'
+
+
+
+   .. py:attribute:: WEEKLY
+      :value: 'weekly'
+
+
+
+   .. py:attribute:: YEARLY
+      :value: 'yearly'
+
+
+
+.. py:class:: PerformanceAnalysisEngine
+
+   Advanced engine for analyzing fitness performance.
+
+
+   .. py:method:: generate_performance_report(user_id, activity_history, analysis_period = AnalysisPeriod.MONTHLY, user_demographics = None)
+      :async:
+
+
+      Generate comprehensive performance analysis report.
+
+      :param user_id: User ID for the analysis
+      :param activity_history: Historical activity data
+      :param analysis_period: Time period to analyze
+      :param user_demographics: Age, gender, experience level, etc.
+
+      :returns: PerformanceReport with detailed analysis and insights
+
+
+
+   .. py:attribute:: analysis_models
+
+
+   .. py:attribute:: benchmarks
+
+
+   .. py:attribute:: insight_rules
+
+
+.. py:class:: PerformanceInsight
+
+   Actionable insight about performance.
+
+
+   .. py:attribute:: actionable_steps
+      :type:  List[str]
+
+
+   .. py:attribute:: category
+      :type:  str
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: description
+      :type:  str
+
+
+   .. py:attribute:: expected_improvement
+      :type:  str
+
+
+   .. py:attribute:: impact_level
+      :type:  str
+
+
+   .. py:attribute:: insight_type
+      :type:  str
+
+
+   .. py:attribute:: supporting_data
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: title
+      :type:  str
+
+
+.. py:class:: PerformanceLevel
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Performance level classifications.
+
+
+   .. py:attribute:: ADVANCED
+      :value: 'advanced'
+
+
+
+   .. py:attribute:: BEGINNER
+      :value: 'beginner'
+
+
+
+   .. py:attribute:: ELITE
+      :value: 'elite'
+
+
+
+   .. py:attribute:: INTERMEDIATE
+      :value: 'intermediate'
+
+
+
+   .. py:attribute:: NOVICE
+      :value: 'novice'
+
+
+
+.. py:class:: PerformanceMetric
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of performance metrics to analyze.
+
+
+   .. py:attribute:: CONSISTENCY
+      :value: 'consistency'
+
+
+
+   .. py:attribute:: ENDURANCE
+      :value: 'endurance'
+
+
+
+   .. py:attribute:: FLEXIBILITY
+      :value: 'flexibility'
+
+
+
+   .. py:attribute:: INTENSITY
+      :value: 'intensity'
+
+
+
+   .. py:attribute:: POWER
+      :value: 'power'
+
+
+
+   .. py:attribute:: RECOVERY
+      :value: 'recovery'
+
+
+
+   .. py:attribute:: SPEED
+      :value: 'speed'
+
+
+
+   .. py:attribute:: STRENGTH
+      :value: 'strength'
+
+
+
+   .. py:attribute:: VOLUME
+      :value: 'volume'
+
+
+
+.. py:class:: PerformanceReport
+
+   Comprehensive performance analysis report.
+
+
+   .. py:attribute:: analysis_period
+      :type:  AnalysisPeriod
+
+
+   .. py:attribute:: benchmarking_data
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: improvement_opportunities
+      :type:  List[str]
+
+
+   .. py:attribute:: key_insights
+      :type:  List[PerformanceInsight]
+
+
+   .. py:attribute:: metric_scores
+      :type:  List[PerformanceScore]
+
+
+   .. py:attribute:: overall_performance_score
+      :type:  float
+
+
+   .. py:attribute:: performance_level
+      :type:  PerformanceLevel
+
+
+   .. py:attribute:: predicted_outcomes
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: recommended_focus_areas
+      :type:  List[str]
+
+
+   .. py:attribute:: report_date
+      :type:  datetime.datetime
+
+
+   .. py:attribute:: risk_factors
+      :type:  List[str]
+
+
+   .. py:attribute:: strengths
+      :type:  List[str]
+
+
+   .. py:attribute:: user_id
+      :type:  str
+
+
+   .. py:attribute:: weaknesses
+      :type:  List[str]
+
+
+.. py:class:: PerformanceScore
+
+   Individual performance score for a specific metric.
+
+
+   .. py:attribute:: benchmark_comparison
+      :type:  Dict[str, float]
+
+
+   .. py:attribute:: confidence_interval
+      :type:  Tuple[float, float]
+
+
+   .. py:attribute:: current_score
+      :type:  float
+
+
+   .. py:attribute:: metric
+      :type:  PerformanceMetric
+
+
+   .. py:attribute:: percentile_rank
+      :type:  float
+
+
+   .. py:attribute:: trend_direction
+      :type:  str
+
+
+   .. py:attribute:: trend_magnitude
+      :type:  float
+
+
+.. py:data:: performance_analysis_engine
+

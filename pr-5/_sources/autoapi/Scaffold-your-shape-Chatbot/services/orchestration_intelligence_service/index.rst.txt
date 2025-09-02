@@ -1,0 +1,346 @@
+Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service
+=======================================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service
+
+.. autoapi-nested-parse::
+
+   Orchestration Intelligence Service for Multi-Intent Recognition and Dynamic Coordination.
+
+   This service provides advanced orchestration capabilities including:
+   - Multi-intent recognition and parsing
+   - Dynamic agent coordination and parallel execution
+   - Context-aware request routing
+   - Response synthesis and aggregation
+   - Intelligent workflow management
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.orchestration_intelligence_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.AgentType
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionPlan
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionResult
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.ExecutionStrategy
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.Intent
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.IntentType
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationIntelligenceService
+   Scaffold-your-shape-Chatbot.services.orchestration_intelligence_service.OrchestrationResponse
+
+
+Module Contents
+---------------
+
+.. py:class:: AgentType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of agents available for task execution.
+
+
+   .. py:attribute:: COACH
+      :value: 'coach_agent'
+
+
+
+   .. py:attribute:: LOGGER
+      :value: 'logger_agent'
+
+
+
+   .. py:attribute:: ORCHESTRATION
+      :value: 'orchestration_agent'
+
+
+
+.. py:class:: ExecutionPlan
+
+   Plan for executing multiple intents.
+
+
+   .. py:attribute:: complexity_score
+      :type:  float
+      :value: 0.0
+
+
+
+   .. py:attribute:: estimated_duration
+      :type:  float
+      :value: 0.0
+
+
+
+   .. py:attribute:: execution_order
+      :type:  List[int]
+
+
+   .. py:attribute:: intents
+      :type:  List[Intent]
+
+
+   .. py:attribute:: parallel_groups
+      :type:  List[List[int]]
+      :value: []
+
+
+
+   .. py:attribute:: strategy
+      :type:  ExecutionStrategy
+
+
+.. py:class:: ExecutionResult
+
+   Result of executing an intent or plan.
+
+
+   .. py:attribute:: agent_used
+      :type:  AgentType
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: execution_time
+      :type:  float
+
+
+   .. py:attribute:: intent_type
+      :type:  IntentType
+
+
+   .. py:attribute:: metadata
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: response
+      :type:  str
+
+
+   .. py:attribute:: success
+      :type:  bool
+
+
+.. py:class:: ExecutionStrategy
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Strategies for executing multi-intent requests.
+
+
+   .. py:attribute:: CONDITIONAL
+      :value: 'conditional'
+
+
+
+   .. py:attribute:: HYBRID
+      :value: 'hybrid'
+
+
+
+   .. py:attribute:: PARALLEL
+      :value: 'parallel'
+
+
+
+   .. py:attribute:: SEQUENTIAL
+      :value: 'sequential'
+
+
+
+.. py:class:: Intent
+
+   Represents a single user intent.
+
+
+   .. py:attribute:: agent_preference
+      :type:  Optional[AgentType]
+      :value: None
+
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: context
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: dependencies
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: parameters
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: priority
+      :type:  int
+      :value: 1
+
+
+
+   .. py:attribute:: type
+      :type:  IntentType
+
+
+.. py:class:: IntentType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of user intents that can be recognized.
+
+
+   .. py:attribute:: ACTIVITY_LOGGING
+      :value: 'activity_logging'
+
+
+
+   .. py:attribute:: BEHAVIORAL_ANALYSIS
+      :value: 'behavioral_analysis'
+
+
+
+   .. py:attribute:: CASUAL_CHAT
+      :value: 'casual_chat'
+
+
+
+   .. py:attribute:: GENERAL_FITNESS
+      :value: 'general_fitness'
+
+
+
+   .. py:attribute:: GOAL_SETTING
+      :value: 'goal_setting'
+
+
+
+   .. py:attribute:: HABIT_FORMATION
+      :value: 'habit_formation'
+
+
+
+   .. py:attribute:: MOTIVATION_SEEKING
+      :value: 'motivation_seeking'
+
+
+
+   .. py:attribute:: PERFORMANCE_ANALYSIS
+      :value: 'performance_analysis'
+
+
+
+   .. py:attribute:: PROGRESS_INQUIRY
+      :value: 'progress_inquiry'
+
+
+
+   .. py:attribute:: WORKOUT_PLANNING
+      :value: 'workout_planning'
+
+
+
+.. py:class:: OrchestrationIntelligenceService
+
+   Advanced service for intelligent orchestration and multi-intent handling.
+
+
+   .. py:method:: analyze_multi_intent(user_message, context = None)
+      :async:
+
+
+      Analyze user message for multiple intents.
+
+      :param user_message: User's input message
+      :param context: Additional context (conversation history, user profile, etc.)
+
+      :returns: List of recognized intents with confidence scores
+
+
+
+   .. py:method:: create_execution_plan(intents)
+      :async:
+
+
+      Create an execution plan for multiple intents.
+
+      :param intents: List of intents to execute
+
+      :returns: ExecutionPlan with strategy and execution order
+
+
+
+   .. py:method:: synthesize_responses(execution_results, original_message)
+      :async:
+
+
+      Synthesize multiple execution results into a coherent response.
+
+      :param execution_results: Results from executing multiple intents
+      :param original_message: Original user message for context
+
+      :returns: OrchestrationResponse with synthesized content
+
+
+
+   .. py:attribute:: agent_capabilities
+
+
+   .. py:attribute:: execution_strategies
+
+
+   .. py:attribute:: intent_patterns
+
+
+   .. py:attribute:: synthesis_rules
+
+
+.. py:class:: OrchestrationResponse
+
+   Complete orchestration response with synthesis.
+
+
+   .. py:attribute:: execution_results
+      :type:  List[ExecutionResult]
+
+
+   .. py:attribute:: intents_processed
+      :type:  int
+
+
+   .. py:attribute:: primary_response
+      :type:  str
+
+
+   .. py:attribute:: strategy_used
+      :type:  ExecutionStrategy
+
+
+   .. py:attribute:: synthesis_confidence
+      :type:  float
+
+
+   .. py:attribute:: total_execution_time
+      :type:  float
+
+
+.. py:data:: orchestration_intelligence_service
+

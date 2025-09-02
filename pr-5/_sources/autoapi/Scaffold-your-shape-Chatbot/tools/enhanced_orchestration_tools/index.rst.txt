@@ -1,0 +1,150 @@
+Scaffold-your-shape-Chatbot.tools.enhanced_orchestration_tools
+==============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.tools.enhanced_orchestration_tools
+
+.. autoapi-nested-parse::
+
+   Enhanced Orchestration Tools with Multi-Intent Recognition and Dynamic Coordination.
+
+   This module provides advanced orchestration capabilities for handling complex,
+   multi-intent user requests with intelligent agent coordination.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.enhanced_orchestration_tools.multi_intent_orchestration_tool
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.enhanced_orchestration_tools.MultiIntentOrchestrationInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_orchestration_tools.MultiIntentOrchestrationTool
+
+
+Module Contents
+---------------
+
+.. py:class:: MultiIntentOrchestrationInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for multi-intent orchestration.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: context
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+   .. py:attribute:: enable_parallel_execution
+      :type:  bool
+      :value: None
+
+
+
+   .. py:attribute:: max_intents
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_message
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: MultiIntentOrchestrationTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for handling complex multi-intent requests with intelligent coordination.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Advanced orchestration tool for handling complex user requests with multiple intents.
+             
+             This tool can:
+             - Recognize multiple intents in a single user message
+             - Create optimal execution plans (sequential, parallel, or hybrid)
+             - Coordinate between different agents dynamically
+             - Synthesize responses from multiple agents into coherent output
+             - Handle dependencies between different intents
+             
+             Use this for complex requests like:
+             - "Log my 5km run and show me my progress this week"
+             - "Create a workout plan and motivate me to do it"
+             - "Analyze my performance and tell me what I should focus on"
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'multi_intent_orchestration'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:data:: multi_intent_orchestration_tool
+
