@@ -1,0 +1,332 @@
+Scaffold-your-shape-Chatbot.services.behavioral_psychology_service
+==================================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.behavioral_psychology_service
+
+.. autoapi-nested-parse::
+
+   Behavioral Psychology Service for Pili Coach Agent.
+
+   This service applies behavioral psychology principles to improve user
+   motivation, adherence, and long-term fitness success through:
+   - Habit formation strategies
+   - Motivation enhancement techniques
+   - Behavioral change interventions
+   - Personalized coaching approaches
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.behavioral_psychology_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.BehaviorStage
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.BehavioralIntervention
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.BehavioralProfile
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.BehavioralPsychologyService
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.MotivationType
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.MotivationalMessage
+   Scaffold-your-shape-Chatbot.services.behavioral_psychology_service.PersonalityType
+
+
+Module Contents
+---------------
+
+.. py:class:: BehaviorStage
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Stages of behavior change (Transtheoretical Model).
+
+
+   .. py:attribute:: ACTION
+      :value: 'action'
+
+
+
+   .. py:attribute:: CONTEMPLATION
+      :value: 'contemplation'
+
+
+
+   .. py:attribute:: MAINTENANCE
+      :value: 'maintenance'
+
+
+
+   .. py:attribute:: PRECONTEMPLATION
+      :value: 'precontemplation'
+
+
+
+   .. py:attribute:: PREPARATION
+      :value: 'preparation'
+
+
+
+   .. py:attribute:: RELAPSE
+      :value: 'relapse'
+
+
+
+.. py:class:: BehavioralIntervention
+
+   Specific behavioral intervention recommendation.
+
+
+   .. py:attribute:: description
+      :type:  str
+
+
+   .. py:attribute:: duration_weeks
+      :type:  int
+
+
+   .. py:attribute:: expected_outcome
+      :type:  str
+
+
+   .. py:attribute:: implementation
+      :type:  str
+
+
+   .. py:attribute:: personalization_notes
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: success_metrics
+      :type:  List[str]
+
+
+   .. py:attribute:: technique
+      :type:  str
+
+
+.. py:class:: BehavioralProfile
+
+   User's behavioral and psychological profile.
+
+
+   .. py:attribute:: autonomy_preference
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: barriers
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: behavior_stage
+      :type:  BehaviorStage
+
+
+   .. py:attribute:: challenge_tolerance
+      :type:  float
+      :value: 0.6
+
+
+
+   .. py:attribute:: confidence_level
+      :type:  float
+      :value: 0.7
+
+
+
+   .. py:attribute:: feedback_sensitivity
+      :type:  float
+      :value: 0.5
+
+
+
+   .. py:attribute:: motivation_type
+      :type:  MotivationType
+
+
+   .. py:attribute:: motivators
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: past_adherence_rate
+      :type:  float
+      :value: 0.6
+
+
+
+   .. py:attribute:: personality_type
+      :type:  PersonalityType
+
+
+   .. py:attribute:: preferred_rewards
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: routine_preference
+      :type:  float
+      :value: 0.6
+
+
+
+   .. py:attribute:: social_support_need
+      :type:  float
+      :value: 0.5
+
+
+
+.. py:class:: BehavioralPsychologyService
+
+   Service for applying behavioral psychology to fitness coaching.
+
+
+   .. py:method:: analyze_behavioral_profile(user_data, conversation_history = None)
+      :async:
+
+
+      Analyze user data to create behavioral profile.
+
+      :param user_data: User information including goals, preferences, history
+      :param conversation_history: Recent conversation messages for analysis
+
+      :returns: BehavioralProfile with psychological insights
+
+
+
+   .. py:method:: create_habit_formation_plan(behavioral_profile, target_behavior)
+      :async:
+
+
+      Create a personalized habit formation plan.
+
+
+
+   .. py:method:: generate_motivational_message(behavioral_profile, context = None)
+      :async:
+
+
+      Generate personalized motivational message.
+
+
+
+   .. py:method:: recommend_interventions(behavioral_profile, current_challenges = None)
+      :async:
+
+
+      Recommend specific behavioral interventions based on profile.
+
+
+
+   .. py:attribute:: habit_formation_rules
+
+
+   .. py:attribute:: intervention_strategies
+
+
+   .. py:attribute:: motivational_frameworks
+
+
+.. py:class:: MotivationType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of motivation based on Self-Determination Theory.
+
+
+   .. py:attribute:: EXTERNAL
+      :value: 'external'
+
+
+
+   .. py:attribute:: IDENTIFIED
+      :value: 'identified'
+
+
+
+   .. py:attribute:: INTRINSIC
+      :value: 'intrinsic'
+
+
+
+   .. py:attribute:: INTROJECTED
+      :value: 'introjected'
+
+
+
+.. py:class:: MotivationalMessage
+
+   Personalized motivational message.
+
+
+   .. py:attribute:: message
+      :type:  str
+
+
+   .. py:attribute:: message_type
+      :type:  str
+
+
+   .. py:attribute:: personalization_factors
+      :type:  List[str]
+
+
+   .. py:attribute:: psychological_principle
+      :type:  str
+
+
+   .. py:attribute:: timing
+      :type:  str
+
+
+.. py:class:: PersonalityType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Simplified personality types for coaching adaptation.
+
+
+   .. py:attribute:: ACHIEVER
+      :value: 'achiever'
+
+
+
+   .. py:attribute:: COMPETITOR
+      :value: 'competitor'
+
+
+
+   .. py:attribute:: EXPLORER
+      :value: 'explorer'
+
+
+
+   .. py:attribute:: SOCIALIZER
+      :value: 'socializer'
+
+
+
+   .. py:attribute:: SUPPORTER
+      :value: 'supporter'
+
+
+
+.. py:data:: behavioral_psychology_service
+

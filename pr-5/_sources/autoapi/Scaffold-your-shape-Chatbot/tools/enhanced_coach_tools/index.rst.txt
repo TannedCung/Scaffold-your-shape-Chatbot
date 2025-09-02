@@ -1,0 +1,471 @@
+Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools
+======================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools
+
+.. autoapi-nested-parse::
+
+   Enhanced Coach Agent Tools with Adaptive Workout Generation and Behavioral Psychology.
+
+   This module provides advanced tools for the Coach Agent that integrate:
+   - Adaptive workout generation based on user profile
+   - Behavioral psychology interventions
+   - Personalized motivational messaging
+   - Habit formation strategies
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.adaptive_workout_tool
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.behavioral_analysis_tool
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.enhanced_coach_tools
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.habit_formation_tool
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.motivational_message_tool
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.AdaptiveWorkoutInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.AdaptiveWorkoutTool
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.BehavioralAnalysisInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.BehavioralAnalysisTool
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.HabitFormationInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.HabitFormationTool
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.MotivationalMessageInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_coach_tools.MotivationalMessageTool
+
+
+Module Contents
+---------------
+
+.. py:class:: AdaptiveWorkoutInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for adaptive workout generation.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: available_equipment
+      :type:  List[str]
+      :value: None
+
+
+
+   .. py:attribute:: duration_minutes
+      :type:  int
+      :value: None
+
+
+
+   .. py:attribute:: fitness_goal
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: fitness_level
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: workout_context
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+.. py:class:: AdaptiveWorkoutTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for generating personalized, adaptive workouts.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Generate a personalized workout plan using advanced adaptation algorithms.
+             
+             This tool creates workouts that adapt to:
+             - User's fitness level and goals
+             - Available equipment and time constraints
+             - Personal preferences and workout history
+             - Current context (mood, energy, recent activities)
+             
+             The generated workout includes:
+             - Warm-up, main exercises, and cool-down
+             - Exercise modifications for different fitness levels
+             - Coaching notes and progression suggestions
+             - Estimated calories and duration
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'generate_adaptive_workout'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:class:: BehavioralAnalysisInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for behavioral psychology analysis.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: current_challenges
+      :type:  List[str]
+      :value: None
+
+
+
+   .. py:attribute:: include_interventions
+      :type:  bool
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: BehavioralAnalysisTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for analyzing user behavior and recommending psychology-based interventions.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Analyze user's behavioral patterns and psychology to provide personalized coaching.
+             
+             This tool provides:
+             - Behavioral profile analysis (motivation type, personality, confidence)
+             - Evidence-based intervention recommendations
+             - Habit formation strategies
+             - Personalized coaching approaches
+             
+             Use this when users need motivation, have adherence issues, or want behavioral insights.
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'analyze_user_behavior'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:class:: HabitFormationInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for habit formation planning.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: current_barriers
+      :type:  List[str]
+      :value: None
+
+
+
+   .. py:attribute:: target_habit
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: HabitFormationTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for creating personalized habit formation plans.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Create a personalized habit formation plan using behavioral psychology.
+             
+             This tool provides:
+             - Evidence-based habit formation strategies
+             - Implementation intentions (if-then plans)
+             - Cue-routine-reward loops
+             - Personalized approach based on user psychology
+             
+             Use this when users want to build sustainable exercise habits.
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'create_habit_plan'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:class:: MotivationalMessageInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for generating motivational messages.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: context
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: current_mood
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: MotivationalMessageTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for generating personalized motivational messages.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Generate personalized motivational messages based on user psychology.
+             
+             This tool creates messages that:
+             - Match user's personality type and motivation style
+             - Consider current context and mood
+             - Apply behavioral psychology principles
+             - Adapt to user's confidence level and preferences
+             
+             Use this for encouragement, pre/post workout motivation, or overcoming barriers.
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'generate_motivational_message'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:data:: adaptive_workout_tool
+
+.. py:data:: behavioral_analysis_tool
+
+.. py:data:: enhanced_coach_tools
+
+.. py:data:: habit_formation_tool
+
+.. py:data:: motivational_message_tool
+

@@ -125,7 +125,7 @@ Module Contents
    :async:
 
 
-   Create the enhanced coach agent with semantic understanding and personalized coaching.
+   Create the enhanced coach agent with adaptive workouts and behavioral psychology.
 
 
 .. py:function:: create_logger_agent(mcp_client, user_id)

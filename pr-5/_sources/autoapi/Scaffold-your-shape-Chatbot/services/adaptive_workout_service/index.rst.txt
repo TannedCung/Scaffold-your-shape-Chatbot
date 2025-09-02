@@ -1,0 +1,408 @@
+Scaffold-your-shape-Chatbot.services.adaptive_workout_service
+=============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.adaptive_workout_service
+
+.. autoapi-nested-parse::
+
+   Adaptive Workout Generation Service for Pili Coach Agent.
+
+   This service provides intelligent, personalized workout generation based on:
+   - User fitness goals and preferences
+   - Current fitness level and progress
+   - Available time and equipment constraints
+   - Historical performance data
+   - Behavioral psychology principles
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.adaptive_workout_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.AdaptiveWorkoutService
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.Exercise
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.FitnessGoal
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.IntensityLevel
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.UserFitnessProfile
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.WorkoutPlan
+   Scaffold-your-shape-Chatbot.services.adaptive_workout_service.WorkoutType
+
+
+Module Contents
+---------------
+
+.. py:class:: AdaptiveWorkoutService
+
+   Service for generating personalized, adaptive workouts.
+
+
+   .. py:method:: generate_adaptive_workout(user_profile, workout_context = None)
+      :async:
+
+
+      Generate a personalized workout based on user profile and context.
+
+      :param user_profile: User's fitness profile and preferences
+      :param workout_context: Additional context (recent workouts, mood, etc.)
+
+      :returns: WorkoutPlan tailored to the user's needs
+
+
+
+   .. py:attribute:: adaptation_rules
+
+
+   .. py:attribute:: exercise_database
+
+
+   .. py:attribute:: workout_templates
+
+
+.. py:class:: Exercise
+
+   Individual exercise specification.
+
+
+   .. py:method:: __eq__(other)
+
+      Equality based on name and type.
+
+
+
+   .. py:method:: __hash__()
+
+      Make Exercise hashable based on name and type.
+
+
+
+   .. py:attribute:: calories_per_minute
+      :type:  float
+      :value: 5.0
+
+
+
+   .. py:attribute:: duration_minutes
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:attribute:: equipment_needed
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: instructions
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: intensity
+      :type:  IntensityLevel
+
+
+   .. py:attribute:: modifications
+      :type:  Dict[str, str]
+
+
+   .. py:attribute:: muscle_groups
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: reps
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: rest_seconds
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:attribute:: sets
+      :type:  Optional[int]
+      :value: None
+
+
+
+   .. py:attribute:: type
+      :type:  str
+
+
+.. py:class:: FitnessGoal
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   User fitness goals.
+
+
+   .. py:attribute:: ENDURANCE
+      :value: 'endurance'
+
+
+
+   .. py:attribute:: FLEXIBILITY
+      :value: 'flexibility'
+
+
+
+   .. py:attribute:: GENERAL_FITNESS
+      :value: 'general_fitness'
+
+
+
+   .. py:attribute:: MUSCLE_GAIN
+      :value: 'muscle_gain'
+
+
+
+   .. py:attribute:: SPORT_SPECIFIC
+      :value: 'sport_specific'
+
+
+
+   .. py:attribute:: STRENGTH
+      :value: 'strength'
+
+
+
+   .. py:attribute:: WEIGHT_LOSS
+      :value: 'weight_loss'
+
+
+
+.. py:class:: IntensityLevel
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Workout intensity levels.
+
+
+   .. py:attribute:: HIGH
+      :value: 'high'
+
+
+
+   .. py:attribute:: LOW
+      :value: 'low'
+
+
+
+   .. py:attribute:: MODERATE
+      :value: 'moderate'
+
+
+
+   .. py:attribute:: VERY_HIGH
+      :value: 'very_high'
+
+
+
+.. py:class:: UserFitnessProfile
+
+   User's fitness profile for workout adaptation.
+
+
+   .. py:attribute:: available_equipment
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: current_activity_level
+      :type:  str
+      :value: 'moderate'
+
+
+
+   .. py:attribute:: fitness_level
+      :type:  str
+      :value: 'intermediate'
+
+
+
+   .. py:attribute:: injury_history
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: motivation_level
+      :type:  str
+      :value: 'medium'
+
+
+
+   .. py:attribute:: physical_limitations
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: preferred_activities
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: primary_goals
+      :type:  List[FitnessGoal]
+      :value: []
+
+
+
+   .. py:attribute:: time_constraints
+      :type:  Dict[str, int]
+
+
+   .. py:attribute:: workout_frequency
+      :type:  int
+      :value: 3
+
+
+
+.. py:class:: WorkoutPlan
+
+   Complete workout plan specification.
+
+
+   .. py:attribute:: coaching_notes
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: cool_down
+      :type:  List[Exercise]
+      :value: []
+
+
+
+   .. py:attribute:: difficulty_level
+      :type:  str
+      :value: 'intermediate'
+
+
+
+   .. py:attribute:: equipment_needed
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: estimated_calories
+      :type:  int
+      :value: 0
+
+
+
+   .. py:attribute:: exercises
+      :type:  List[Exercise]
+
+
+   .. py:attribute:: intensity
+      :type:  IntensityLevel
+
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: progression_suggestions
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: target_goals
+      :type:  List[FitnessGoal]
+      :value: []
+
+
+
+   .. py:attribute:: total_duration_minutes
+      :type:  int
+
+
+   .. py:attribute:: type
+      :type:  WorkoutType
+
+
+   .. py:attribute:: warm_up
+      :type:  List[Exercise]
+      :value: []
+
+
+
+.. py:class:: WorkoutType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of workouts that can be generated.
+
+
+   .. py:attribute:: CARDIO
+      :value: 'cardio'
+
+
+
+   .. py:attribute:: FLEXIBILITY
+      :value: 'flexibility'
+
+
+
+   .. py:attribute:: HIIT
+      :value: 'hiit'
+
+
+
+   .. py:attribute:: MIXED
+      :value: 'mixed'
+
+
+
+   .. py:attribute:: RECOVERY
+      :value: 'recovery'
+
+
+
+   .. py:attribute:: SPORTS
+      :value: 'sports'
+
+
+
+   .. py:attribute:: STRENGTH
+      :value: 'strength'
+
+
+
+   .. py:attribute:: YOGA
+      :value: 'yoga'
+
+
+
+.. py:data:: adaptive_workout_service
+
