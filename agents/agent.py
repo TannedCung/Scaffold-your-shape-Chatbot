@@ -201,11 +201,12 @@ async def create_orchestration_agent(user_id: str):
     # Create tools that use Command to route to END
     quick_response_tool = create_quick_response_command_tool()
     
-    # Import enhanced orchestration tools
+    # Import enhanced orchestration tools and input optimization
     from tools.enhanced_orchestration_tools import multi_intent_orchestration_tool
+    from tools.input_optimization_tools import query_rephrase_and_optimize_tool
     
-    # Combine handoff tools with command-based response tools and enhanced orchestration
-    all_tools = [transfer_to_logger_agent, transfer_to_coach_agent, quick_response_tool, multi_intent_orchestration_tool]
+    # Combine handoff tools with command-based response tools, enhanced orchestration, and input optimization
+    all_tools = [transfer_to_logger_agent, transfer_to_coach_agent, quick_response_tool, multi_intent_orchestration_tool, query_rephrase_and_optimize_tool]
     
     # Use custom react agent with quick_response termination logic
     from agents.custom_react_agent import create_react_agent_with_quick_response_termination
