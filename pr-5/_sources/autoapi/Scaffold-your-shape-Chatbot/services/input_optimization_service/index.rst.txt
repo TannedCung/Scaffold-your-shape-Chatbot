@@ -1,0 +1,245 @@
+Scaffold-your-shape-Chatbot.services.input_optimization_service
+===============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.input_optimization_service
+
+.. autoapi-nested-parse::
+
+   Input Optimization Service for Query Rephrasing and Enhancement.
+
+   This service processes user inputs before they reach specialist agents to:
+   - Rephrase unclear or ambiguous queries
+   - Extract and structure key information
+   - Add missing context from conversation history
+   - Optimize queries for better agent performance
+   - Standardize terminology and formats
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.input_optimization_service.input_optimization_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService
+   Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel
+   Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery
+   Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis
+   Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType
+
+
+Module Contents
+---------------
+
+.. py:class:: InputOptimizationService
+
+   Service for optimizing user inputs before agent processing.
+
+
+   .. py:method:: analyze_query(user_query, conversation_context = None)
+      :async:
+
+
+      Analyze a user query to understand its type and characteristics.
+
+      :param user_query: The user's input query
+      :param conversation_context: Recent conversation messages for context
+
+      :returns: QueryAnalysis with detailed analysis of the query
+
+
+
+   .. py:method:: optimize_query(user_query, optimization_level = OptimizationLevel.STANDARD, conversation_context = None, user_profile = None)
+      :async:
+
+
+      Optimize a user query for better agent processing.
+
+      :param user_query: Original user query
+      :param optimization_level: Level of optimization to apply
+      :param conversation_context: Recent conversation for context
+      :param user_profile: User profile for personalization
+
+      :returns: OptimizedQuery with improvements and extracted information
+
+
+
+   .. py:attribute:: clarification_rules
+
+
+   .. py:attribute:: context_enhancers
+
+
+   .. py:attribute:: entity_extractors
+
+
+   .. py:attribute:: rephrasing_patterns
+
+
+.. py:class:: OptimizationLevel
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Levels of optimization to apply.
+
+
+   .. py:attribute:: ENHANCED
+      :value: 'enhanced'
+
+
+
+   .. py:attribute:: MINIMAL
+      :value: 'minimal'
+
+
+
+   .. py:attribute:: STANDARD
+      :value: 'standard'
+
+
+
+.. py:class:: OptimizedQuery
+
+   Optimized version of a user query.
+
+
+   .. py:attribute:: clarification_questions
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: confidence_score
+      :type:  float
+      :value: 0.0
+
+
+
+   .. py:attribute:: extracted_entities
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: improvements_made
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: optimization_level
+      :type:  OptimizationLevel
+
+
+   .. py:attribute:: optimized_query
+      :type:  str
+
+
+   .. py:attribute:: original_query
+      :type:  str
+
+
+   .. py:attribute:: query_type
+      :type:  QueryType
+
+
+   .. py:attribute:: requires_clarification
+      :type:  bool
+      :value: False
+
+
+
+.. py:class:: QueryAnalysis
+
+   Analysis of a user query.
+
+
+   .. py:attribute:: ambiguities
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: complexity_score
+      :type:  float
+      :value: 0.0
+
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: context_needed
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: key_entities
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: missing_info
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: original_query
+      :type:  str
+
+
+   .. py:attribute:: query_type
+      :type:  QueryType
+
+
+.. py:class:: QueryType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of queries that can be optimized.
+
+
+   .. py:attribute:: ACTIVITY_LOGGING
+      :value: 'activity_logging'
+
+
+
+   .. py:attribute:: COACHING_REQUEST
+      :value: 'coaching_request'
+
+
+
+   .. py:attribute:: GENERAL_FITNESS
+      :value: 'general_fitness'
+
+
+
+   .. py:attribute:: PROGRESS_INQUIRY
+      :value: 'progress_inquiry'
+
+
+
+   .. py:attribute:: UNCLEAR
+      :value: 'unclear'
+
+
+
+   .. py:attribute:: WORKOUT_PLANNING
+      :value: 'workout_planning'
+
+
+
+.. py:data:: input_optimization_service
+

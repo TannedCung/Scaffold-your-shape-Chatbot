@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaffold-your-shape-Chatbot.services.input_optimization_service &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scaffold-your-shape-Chatbot.services.input_optimization_service</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/Scaffold-your-shape-Chatbot/services/input_optimization_service/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Scaffold-your-shape-Chatbot.services.input_optimization_service">
+<span id="scaffold-your-shape-chatbot-services-input-optimization-service"></span><h1>Scaffold-your-shape-Chatbot.services.input_optimization_service<a class="headerlink" href="#module-Scaffold-your-shape-Chatbot.services.input_optimization_service" title="Link to this heading"></a></h1>
+<p>Input Optimization Service for Query Rephrasing and Enhancement.</p>
+<p>This service processes user inputs before they reach specialist agents to:
+- Rephrase unclear or ambiguous queries
+- Extract and structure key information
+- Add missing context from conversation history
+- Optimize queries for better agent performance
+- Standardize terminology and formats</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.input_optimization_service" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.input_optimization_service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_optimization_service</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InputOptimizationService</span></code></a></p></td>
+<td><p>Service for optimizing user inputs before agent processing.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizationLevel</span></code></a></p></td>
+<td><p>Levels of optimization to apply.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OptimizedQuery</span></code></a></p></td>
+<td><p>Optimized version of a user query.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QueryAnalysis</span></code></a></p></td>
+<td><p>Analysis of a user query.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QueryType</span></code></a></p></td>
+<td><p>Types of queries that can be optimized.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.input_optimization_service.</span></span><span class="sig-name descname"><span class="pre">InputOptimizationService</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService" title="Link to this definition"></a></dt>
+<dd><p>Service for optimizing user inputs before agent processing.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.analyze_query">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analyze_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversation_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.analyze_query" title="Link to this definition"></a></dt>
+<dd><p>Analyze a user query to understand its type and characteristics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_query</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The user’s input query</p></li>
+<li><p><strong>conversation_context</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – Recent conversation messages for context</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>QueryAnalysis with detailed analysis of the query</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis">QueryAnalysis</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.optimize_query">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">optimize_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">OptimizationLevel.STANDARD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversation_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.optimize_query" title="Link to this definition"></a></dt>
+<dd><p>Optimize a user query for better agent processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_query</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Original user query</p></li>
+<li><p><strong>optimization_level</strong> (<a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel"><em>OptimizationLevel</em></a>) – Level of optimization to apply</p></li>
+<li><p><strong>conversation_context</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em>) – Recent conversation for context</p></li>
+<li><p><strong>user_profile</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em><em>]</em>) – User profile for personalization</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>OptimizedQuery with improvements and extracted information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery">OptimizedQuery</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.clarification_rules">
+<span class="sig-name descname"><span class="pre">clarification_rules</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.clarification_rules" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.context_enhancers">
+<span class="sig-name descname"><span class="pre">context_enhancers</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.context_enhancers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.entity_extractors">
+<span class="sig-name descname"><span class="pre">entity_extractors</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.entity_extractors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.rephrasing_patterns">
+<span class="sig-name descname"><span class="pre">rephrasing_patterns</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.InputOptimizationService.rephrasing_patterns" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.input_optimization_service.</span></span><span class="sig-name descname"><span class="pre">OptimizationLevel</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Levels of optimization to apply.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel.ENHANCED">
+<span class="sig-name descname"><span class="pre">ENHANCED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'enhanced'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel.ENHANCED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel.MINIMAL">
+<span class="sig-name descname"><span class="pre">MINIMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'minimal'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel.MINIMAL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel.STANDARD">
+<span class="sig-name descname"><span class="pre">STANDARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'standard'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel.STANDARD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.input_optimization_service.</span></span><span class="sig-name descname"><span class="pre">OptimizedQuery</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery" title="Link to this definition"></a></dt>
+<dd><p>Optimized version of a user query.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.clarification_questions">
+<span class="sig-name descname"><span class="pre">clarification_questions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.clarification_questions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.confidence_score">
+<span class="sig-name descname"><span class="pre">confidence_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.confidence_score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.extracted_entities">
+<span class="sig-name descname"><span class="pre">extracted_entities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.extracted_entities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.improvements_made">
+<span class="sig-name descname"><span class="pre">improvements_made</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.improvements_made" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.optimization_level">
+<span class="sig-name descname"><span class="pre">optimization_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizationLevel"><span class="pre">OptimizationLevel</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.optimization_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.optimized_query">
+<span class="sig-name descname"><span class="pre">optimized_query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.optimized_query" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.original_query">
+<span class="sig-name descname"><span class="pre">original_query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.original_query" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.query_type">
+<span class="sig-name descname"><span class="pre">query_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType"><span class="pre">QueryType</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.query_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.requires_clarification">
+<span class="sig-name descname"><span class="pre">requires_clarification</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.OptimizedQuery.requires_clarification" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.input_optimization_service.</span></span><span class="sig-name descname"><span class="pre">QueryAnalysis</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis" title="Link to this definition"></a></dt>
+<dd><p>Analysis of a user query.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.ambiguities">
+<span class="sig-name descname"><span class="pre">ambiguities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.ambiguities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.complexity_score">
+<span class="sig-name descname"><span class="pre">complexity_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.complexity_score" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.confidence">
+<span class="sig-name descname"><span class="pre">confidence</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.confidence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.context_needed">
+<span class="sig-name descname"><span class="pre">context_needed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.context_needed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.key_entities">
+<span class="sig-name descname"><span class="pre">key_entities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.key_entities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.missing_info">
+<span class="sig-name descname"><span class="pre">missing_info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.missing_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.original_query">
+<span class="sig-name descname"><span class="pre">original_query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.original_query" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.query_type">
+<span class="sig-name descname"><span class="pre">query_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType" title="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType"><span class="pre">QueryType</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryAnalysis.query_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.input_optimization_service.</span></span><span class="sig-name descname"><span class="pre">QueryType</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Types of queries that can be optimized.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.ACTIVITY_LOGGING">
+<span class="sig-name descname"><span class="pre">ACTIVITY_LOGGING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'activity_logging'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.ACTIVITY_LOGGING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.COACHING_REQUEST">
+<span class="sig-name descname"><span class="pre">COACHING_REQUEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'coaching_request'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.COACHING_REQUEST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.GENERAL_FITNESS">
+<span class="sig-name descname"><span class="pre">GENERAL_FITNESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'general_fitness'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.GENERAL_FITNESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.PROGRESS_INQUIRY">
+<span class="sig-name descname"><span class="pre">PROGRESS_INQUIRY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'progress_inquiry'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.PROGRESS_INQUIRY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.UNCLEAR">
+<span class="sig-name descname"><span class="pre">UNCLEAR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'unclear'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.UNCLEAR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.WORKOUT_PLANNING">
+<span class="sig-name descname"><span class="pre">WORKOUT_PLANNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'workout_planning'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.QueryType.WORKOUT_PLANNING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.input_optimization_service.input_optimization_service">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.input_optimization_service.</span></span><span class="sig-name descname"><span class="pre">input_optimization_service</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.input_optimization_service.input_optimization_service" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
