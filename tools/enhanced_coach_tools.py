@@ -626,10 +626,202 @@ behavioral_analysis_tool = BehavioralAnalysisTool()
 motivational_message_tool = MotivationalMessageTool()
 habit_formation_tool = HabitFormationTool()
 
+class PerformanceAnalysisTool(BaseTool):
+    """Tool for advanced performance analysis and insights."""
+    
+    name: str = "analyze_performance"
+    description: str = """
+    Generate comprehensive performance analysis with advanced insights.
+    
+    This tool provides:
+    - Multi-dimensional fitness assessment (endurance, strength, consistency, etc.)
+    - Performance benchmarking against peers and personal bests
+    - Trend analysis and predictive modeling
+    - Weakness identification and improvement recommendations
+    - Performance optimization strategies
+    
+    Use this when users ask about their progress, performance, or need detailed analysis.
+    """
+    
+    class PerformanceAnalysisInput(BaseModel):
+        user_id: str = Field(description="User ID for analysis")
+        analysis_period: str = Field(
+            default="monthly",
+            description="Analysis period (weekly, monthly, quarterly, yearly, all_time)"
+        )
+        include_predictions: bool = Field(
+            default=True,
+            description="Whether to include performance predictions"
+        )
+        include_benchmarking: bool = Field(
+            default=True,
+            description="Whether to include peer benchmarking"
+        )
+    
+    args_schema: type = PerformanceAnalysisInput
+    
+    def _run(self, user_id: str, analysis_period: str = "monthly",
+             include_predictions: bool = True, include_benchmarking: bool = True) -> str:
+        """Synchronous wrapper for async implementation."""
+        import asyncio
+        return asyncio.run(self._arun(user_id, analysis_period, include_predictions, include_benchmarking))
+    
+    async def _arun(self, user_id: str, analysis_period: str = "monthly",
+                   include_predictions: bool = True, include_benchmarking: bool = True) -> str:
+        """Generate comprehensive performance analysis."""
+        try:
+            from services.performance_analysis_engine import (
+                performance_analysis_engine, 
+                AnalysisPeriod
+            )
+            
+            # Convert period string to enum
+            period_map = {
+                "weekly": AnalysisPeriod.WEEKLY,
+                "monthly": AnalysisPeriod.MONTHLY,
+                "quarterly": AnalysisPeriod.QUARTERLY,
+                "yearly": AnalysisPeriod.YEARLY,
+                "all_time": AnalysisPeriod.ALL_TIME
+            }
+            period = period_map.get(analysis_period, AnalysisPeriod.MONTHLY)
+            
+            # Get user's activity history (placeholder - would integrate with actual data)
+            activity_history = await self._get_user_activity_history(user_id)
+            
+            # Get user demographics (placeholder)
+            demographics = {"age": 30, "gender": "unspecified", "experience": "intermediate"}
+            
+            # Generate performance report
+            report = await performance_analysis_engine.generate_performance_report(
+                user_id=user_id,
+                activity_history=activity_history,
+                analysis_period=period,
+                user_demographics=demographics
+            )
+            
+            # Format response
+            response_parts = []
+            
+            # Header
+            response_parts.append(f"📊 **Performance Analysis Report**")
+            response_parts.append(f"Period: {analysis_period.title()} | Date: {report.report_date.strftime('%Y-%m-%d')}")
+            response_parts.append("=" * 50)
+            
+            # Overall performance
+            response_parts.append(f"🎯 **Overall Performance Score:** {report.overall_performance_score:.1f}/100")
+            response_parts.append(f"🏆 **Performance Level:** {report.performance_level.value.title()}")
+            
+            # Metric scores
+            if report.metric_scores:
+                response_parts.append(f"\n📈 **Performance Metrics:**")
+                for score in report.metric_scores[:5]:  # Top 5 metrics
+                    trend_emoji = {"improving": "📈", "stable": "➡️", "declining": "📉"}.get(score.trend_direction, "➡️")
+                    response_parts.append(
+                        f"  • **{score.metric.value.title()}**: {score.current_score:.1f} "
+                        f"({score.percentile_rank:.0f}th percentile) {trend_emoji}"
+                    )
+            
+            # Key insights
+            if report.key_insights:
+                response_parts.append(f"\n💡 **Key Insights:**")
+                for insight in report.key_insights[:3]:  # Top 3 insights
+                    impact_emoji = {"high": "🔥", "medium": "⚡", "low": "💡"}.get(insight.impact_level, "💡")
+                    response_parts.append(f"**{impact_emoji} {insight.title}**")
+                    response_parts.append(f"  {insight.description}")
+                    if insight.actionable_steps:
+                        response_parts.append(f"  💪 Action: {insight.actionable_steps[0]}")
+                    response_parts.append("")
+            
+            # Strengths and weaknesses
+            if report.strengths:
+                response_parts.append(f"✅ **Strengths:**")
+                for strength in report.strengths[:3]:
+                    response_parts.append(f"  • {strength}")
+            
+            if report.weaknesses:
+                response_parts.append(f"\n⚠️ **Areas for Improvement:**")
+                for weakness in report.weaknesses[:3]:
+                    response_parts.append(f"  • {weakness}")
+            
+            # Focus areas
+            if report.recommended_focus_areas:
+                response_parts.append(f"\n🎯 **Recommended Focus Areas:**")
+                for i, area in enumerate(report.recommended_focus_areas, 1):
+                    response_parts.append(f"  {i}. {area}")
+            
+            # Predictions
+            if include_predictions and report.predicted_outcomes:
+                response_parts.append(f"\n🔮 **Performance Predictions:**")
+                response_parts.append("Based on current trends:")
+                
+                for metric, prediction in list(report.predicted_outcomes.items())[:3]:
+                    if "4_weeks" in metric:
+                        metric_name = metric.replace("_4_weeks", "").replace("_", " ").title()
+                        response_parts.append(f"  • {metric_name} in 4 weeks: {prediction:.1f}")
+            
+            # Benchmarking
+            if include_benchmarking and report.benchmarking_data:
+                response_parts.append(f"\n📊 **Benchmarking Summary:**")
+                for metric, data in list(report.benchmarking_data.items())[:3]:
+                    percentile = data.get("current_percentile", 0)
+                    gap = data.get("performance_gap", 0)
+                    response_parts.append(
+                        f"  • {metric.title()}: {percentile:.0f}th percentile "
+                        f"({'Above average' if percentile >= 50 else 'Below average'})"
+                    )
+            
+            return "\n".join(response_parts)
+            
+        except Exception as e:
+            return f"❌ Error generating performance analysis: {str(e)}"
+    
+    async def _get_user_activity_history(self, user_id: str) -> List[Dict[str, Any]]:
+        """Get user's activity history (placeholder implementation)."""
+        # This would integrate with the actual activity logging system
+        # For now, return sample data for testing
+        from datetime import datetime, timedelta
+        
+        sample_activities = []
+        base_date = datetime.now() - timedelta(days=30)
+        
+        for i in range(15):  # 15 sample activities over 30 days
+            activity_date = base_date + timedelta(days=i * 2)
+            
+            if i % 3 == 0:  # Running
+                sample_activities.append({
+                    "type": "running",
+                    "value": 5 + (i * 0.2),  # Progressive improvement
+                    "unit": "km",
+                    "duration": 30 + (i * 1),
+                    "date": activity_date.isoformat()
+                })
+            elif i % 3 == 1:  # Strength
+                sample_activities.append({
+                    "type": "strength",
+                    "duration": 45,
+                    "date": activity_date.isoformat(),
+                    "notes": "Upper body workout"
+                })
+            else:  # Cycling
+                sample_activities.append({
+                    "type": "cycling",
+                    "value": 15 + (i * 0.5),
+                    "unit": "km",
+                    "duration": 60,
+                    "date": activity_date.isoformat()
+                })
+        
+        return sample_activities
+
+
+# Create tool instance
+performance_analysis_tool = PerformanceAnalysisTool()
+
 # Export list of all enhanced coach tools
 enhanced_coach_tools = [
     adaptive_workout_tool,
     behavioral_analysis_tool,
     motivational_message_tool,
-    habit_formation_tool
+    habit_formation_tool,
+    performance_analysis_tool
 ]
