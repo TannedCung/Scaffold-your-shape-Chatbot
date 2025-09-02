@@ -1,0 +1,143 @@
+Scaffold-your-shape-Chatbot.services.activity_extraction_service
+================================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.activity_extraction_service
+
+.. autoapi-nested-parse::
+
+   Advanced Activity Data Extraction Service for Pili Logger Agent.
+
+   This service provides intelligent extraction and parsing of activity data
+   from natural language input using NLP techniques and pattern matching.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.activity_extraction_service.activity_extraction_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.activity_extraction_service.ActivityExtractionService
+   Scaffold-your-shape-Chatbot.services.activity_extraction_service.ExtractedField
+   Scaffold-your-shape-Chatbot.services.activity_extraction_service.ExtractionConfidence
+   Scaffold-your-shape-Chatbot.services.activity_extraction_service.ExtractionResult
+
+
+Module Contents
+---------------
+
+.. py:class:: ActivityExtractionService
+
+   Service for extracting structured activity data from natural language.
+
+
+   .. py:method:: extract_activity_data(text, context = None)
+      :async:
+
+
+      Extract structured activity data from natural language text.
+
+      :param text: Natural language description of activity
+      :param context: Additional context (user profile, previous activities, etc.)
+
+      :returns: ExtractionResult with extracted fields and structured data
+
+
+
+   .. py:attribute:: patterns
+
+
+   .. py:attribute:: time_patterns
+
+
+   .. py:attribute:: unit_patterns
+
+
+.. py:class:: ExtractedField
+
+   Represents an extracted data field.
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: extraction_method
+      :type:  str
+
+
+   .. py:attribute:: field_name
+      :type:  str
+
+
+   .. py:attribute:: source_text
+      :type:  str
+
+
+   .. py:attribute:: value
+      :type:  Any
+
+
+.. py:class:: ExtractionConfidence
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Confidence levels for extracted data.
+
+
+   .. py:attribute:: HIGH
+      :value: 'high'
+
+
+
+   .. py:attribute:: LOW
+      :value: 'low'
+
+
+
+   .. py:attribute:: MEDIUM
+      :value: 'medium'
+
+
+
+   .. py:attribute:: UNCERTAIN
+      :value: 'uncertain'
+
+
+
+.. py:class:: ExtractionResult
+
+   Result of activity data extraction.
+
+
+   .. py:attribute:: confidence_score
+      :type:  float
+
+
+   .. py:attribute:: extracted_fields
+      :type:  List[ExtractedField]
+
+
+   .. py:attribute:: missing_fields
+      :type:  List[str]
+
+
+   .. py:attribute:: structured_data
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: suggestions
+      :type:  List[str]
+
+
+.. py:data:: activity_extraction_service
+

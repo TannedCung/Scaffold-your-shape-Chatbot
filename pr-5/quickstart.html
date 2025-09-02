@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start Guide &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration Guide" href="configuration.html" />
+    <link rel="prev" title="Installation Guide" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start-guide">
+<h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Link to this heading"></a></h1>
+<p>This guide will get you up and running with Pili in just a few minutes!</p>
+</section>
+<section id="minute-setup">
+<h1>🚀 5-Minute Setup<a class="headerlink" href="#minute-setup" title="Link to this heading"></a></h1>
+<p>Assuming you have already completed the <a class="reference internal" href="installation.html"><span class="doc">Installation Guide</span></a>, let’s get Pili chatting:</p>
+<ol class="arabic">
+<li><p><strong>Start the Server</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>Pili
+uvicorn<span class="w"> </span>main:app<span class="w"> </span>--reload
+</pre></div>
+</div>
+<p>You should see output like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>INFO:     Will watch for changes in these directories: [&#39;/path/to/project&#39;]
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [12345] using StatReload
+</pre></div>
+</div>
+</li>
+<li><p><strong>Test the API</strong></p>
+<p>Open your browser and go to <a class="reference external" href="http://localhost:8000/api/docs">http://localhost:8000/api/docs</a> to see the interactive API documentation.</p>
+</li>
+<li><p><strong>Send Your First Message</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user_id&quot;: &quot;quickstart_user&quot;,</span>
+<span class="s1">       &quot;message&quot;: &quot;Hello Pili!&quot;</span>
+<span class="s1">     }&#39;</span>
+</pre></div>
+</div>
+<p>You should get a response like:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello! I&#39;m Pili, your fitness companion! 🏃‍♀️ How can I help you today?&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;logs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="first-interactions">
+<h1>🎯 First Interactions<a class="headerlink" href="#first-interactions" title="Link to this heading"></a></h1>
+<p>Let’s try some basic interactions to understand what Pili can do:</p>
+<p><strong>Log a Workout</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user_id&quot;: &quot;quickstart_user&quot;,</span>
+<span class="s1">       &quot;message&quot;: &quot;I ran 5 kilometers this morning in 30 minutes&quot;</span>
+<span class="s1">     }&#39;</span>
+</pre></div>
+</div>
+<p><strong>Ask for Motivation</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user_id&quot;: &quot;quickstart_user&quot;,</span>
+<span class="s1">       &quot;message&quot;: &quot;I need some motivation to keep exercising&quot;</span>
+<span class="s1">     }&#39;</span>
+</pre></div>
+</div>
+<p><strong>Request a Workout Plan</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user_id&quot;: &quot;quickstart_user&quot;,</span>
+<span class="s1">       &quot;message&quot;: &quot;Can you create a beginner running plan for me?&quot;</span>
+<span class="s1">     }&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="using-the-interactive-api">
+<h1>📱 Using the Interactive API<a class="headerlink" href="#using-the-interactive-api" title="Link to this heading"></a></h1>
+<p>The easiest way to test Pili is through the interactive API documentation:</p>
+<ol class="arabic">
+<li><p><strong>Open Swagger UI</strong>: <a class="reference external" href="http://localhost:8000/api/docs">http://localhost:8000/api/docs</a></p></li>
+<li><p><strong>Click on POST /api/chat</strong></p></li>
+<li><p><strong>Click “Try it out”</strong></p></li>
+<li><p><strong>Enter your test data</strong>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test_user_123&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Show me my workout progress this week&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Click “Execute”</strong></p></li>
+</ol>
+</section>
+<section id="understanding-pili-s-responses">
+<h1>🧠 Understanding Pili’s Responses<a class="headerlink" href="#understanding-pili-s-responses" title="Link to this heading"></a></h1>
+<p>Pili’s responses include several components:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Main response text from Pili&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;logs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;orchestration&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;route_request&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Routed to Logger Agent for activity logging&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response Components:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">response</span></code>: The main message from Pili to the user</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logs</span></code>: Debug information showing which agents were involved</p></li>
+</ul>
+</section>
+<section id="configuration-check">
+<h1>🔧 Configuration Check<a class="headerlink" href="#configuration-check" title="Link to this heading"></a></h1>
+<p>Let’s verify your configuration is working:</p>
+<p><strong>Health Check</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://localhost:8000/api/health
+</pre></div>
+</div>
+<p><strong>Memory Status</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>http://localhost:8000/api/memory/stats/quickstart_user
+</pre></div>
+</div>
+<p><strong>Available Endpoints</strong></p>
+<p>Visit <a class="reference external" href="http://localhost:8000/api/docs">http://localhost:8000/api/docs</a> to see all available endpoints.</p>
+</section>
+<section id="agent-system-demo">
+<h1>🎭 Agent System Demo<a class="headerlink" href="#agent-system-demo" title="Link to this heading"></a></h1>
+<p>Pili uses a 3-agent orchestration system. Here’s how to see it in action:</p>
+<p><strong>Simple Logging (Uses Logger Agent)</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;demo_user&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;I did 50 push-ups today&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Complex Planning (Uses Logger + Coach Agents)</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;demo_user&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Analyze my running progress and suggest improvements&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Motivational Support (Uses Coach Agent)</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;demo_user&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;I&#39;m feeling unmotivated. Help me get back on track.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Watch the <code class="docutils literal notranslate"><span class="pre">logs</span></code> field in responses to see which agents are activated!</p>
+</section>
+<section id="mcp-server-integration">
+<h1>🔌 MCP Server Integration<a class="headerlink" href="#mcp-server-integration" title="Link to this heading"></a></h1>
+<p>If you have the Scaffold Your Shape MCP server running, test the integration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test MCP connectivity</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">       &quot;user_id&quot;: &quot;mcp_test_user&quot;,</span>
+<span class="s1">       &quot;message&quot;: &quot;Show me available fitness clubs&quot;</span>
+<span class="s1">     }&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The MCP server should be running at <code class="docutils literal notranslate"><span class="pre">http://192.168.1.98:3005</span></code> (configurable via <code class="docutils literal notranslate"><span class="pre">MCP_BASE_URL</span></code>).</p>
+</div>
+</section>
+<section id="common-issues-solutions">
+<h1>🚨 Common Issues &amp; Solutions<a class="headerlink" href="#common-issues-solutions" title="Link to this heading"></a></h1>
+<p><strong>Server Won’t Start</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if port 8000 is in use</span>
+lsof<span class="w"> </span>-i<span class="w"> </span>:8000
+
+<span class="c1"># Use a different port</span>
+uvicorn<span class="w"> </span>main:app<span class="w"> </span>--reload<span class="w"> </span>--port<span class="w"> </span><span class="m">8001</span>
+</pre></div>
+</div>
+<p><strong>Memory Errors</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clear user memory if needed</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/memory/clear&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;your_user_id&quot;}&#39;</span>
+</pre></div>
+</div>
+<p><strong>API Key Issues</strong></p>
+<p>Check your <code class="docutils literal notranslate"><span class="pre">.env</span></code> file has valid keys:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>.env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;(OPENAI_API_KEY|LANGCHAIN_API_KEY)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h1>🎉 Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h1>
+<p>Now that Pili is running:</p>
+<ol class="arabic simple">
+<li><p><strong>Learn about Architecture</strong>: <a class="reference internal" href="architecture/overview.html"><span class="doc">Architecture Overview</span></a></p></li>
+<li><p><strong>Explore Configuration</strong>: <a class="reference internal" href="configuration.html"><span class="doc">Configuration Guide</span></a></p></li>
+<li><p><strong>Try More Examples</strong>: <a class="reference internal" href="examples/basic_usage.html"><span class="doc">Basic Usage Examples</span></a></p></li>
+</ol>
+</section>
+<section id="pro-tips">
+<h1>💡 Pro Tips<a class="headerlink" href="#pro-tips" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><strong>Use descriptive user_ids</strong>: This helps with debugging and memory management</p></li>
+<li><p><strong>Check the logs</strong>: The <code class="docutils literal notranslate"><span class="pre">logs</span></code> field shows you what’s happening under the hood</p></li>
+<li><p><strong>Try conversational flow</strong>: Send multiple messages with the same <code class="docutils literal notranslate"><span class="pre">user_id</span></code> to test memory</p></li>
+<li><p><strong>Monitor with LangSmith</strong>: If configured, check your LangSmith dashboard for detailed traces</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For production use, make sure to review the configuration guide carefully!</p>
+</div>
+<p>Happy chatting with Pili! 🏃‍♀️💪</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

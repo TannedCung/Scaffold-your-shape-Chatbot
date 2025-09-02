@@ -1,0 +1,102 @@
+Scaffold-your-shape-Chatbot.agents.utils
+========================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.agents.utils
+
+.. autoapi-nested-parse::
+
+   Utility functions for Pili fitness agents.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.utils.httpx_client
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.utils.close_httpx_client
+   Scaffold-your-shape-Chatbot.agents.utils.create_tool_spec_for_llm
+   Scaffold-your-shape-Chatbot.agents.utils.execute_mcp_tool
+   Scaffold-your-shape-Chatbot.agents.utils.extract_user_id_from_args
+   Scaffold-your-shape-Chatbot.agents.utils.get_mcp_resources
+   Scaffold-your-shape-Chatbot.agents.utils.get_mcp_tools
+   Scaffold-your-shape-Chatbot.agents.utils.print_stream
+   Scaffold-your-shape-Chatbot.agents.utils.structured_agent_stream
+
+
+Module Contents
+---------------
+
+.. py:function:: close_httpx_client()
+   :async:
+
+
+   Close the HTTP client connection.
+
+
+.. py:function:: create_tool_spec_for_llm(tool)
+
+   Convert MCP tool to LangChain-compatible format for LLM use.
+
+
+.. py:function:: execute_mcp_tool(tool_name, tool_args)
+   :async:
+
+
+   Execute a tool via MCP server and return the result.
+
+
+.. py:function:: extract_user_id_from_args(tool_args, user_id)
+
+   Ensure user_id is present in tool arguments.
+
+
+.. py:function:: get_mcp_resources()
+   :async:
+
+
+   Fetch available resources from MCP server.
+
+
+.. py:function:: get_mcp_tools()
+   :async:
+
+
+   Fetch available tools from MCP server.
+
+
+.. py:function:: print_stream(stream)
+
+   Print LangGraph stream updates for debugging.
+
+
+.. py:function:: structured_agent_stream(agent_app, initial_state, config, chat_id = None, user_id = None, session_id = 'default', user_message = None)
+   :async:
+
+
+   Create a structured streaming response from agent execution.
+
+   Processes real-time agent updates and formats them for easy client consumption.
+   Returns structured JSON chunks that clients can easily parse and display.
+
+   :param agent_app: The compiled LangGraph agent application
+   :param initial_state: Initial state for agent execution
+   :param config: Agent configuration
+   :param chat_id: Optional chat completion ID
+   :param user_id: User ID for context
+   :param session_id: Session ID for memory management
+   :param user_message: Original user message for memory storage
+
+   :Yields: Formatted JSON strings for streaming response
+
+
+.. py:data:: httpx_client
+

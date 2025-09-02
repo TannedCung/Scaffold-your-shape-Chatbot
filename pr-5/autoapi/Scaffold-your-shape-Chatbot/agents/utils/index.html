@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaffold-your-shape-Chatbot.agents.utils &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scaffold-your-shape-Chatbot.agents.utils</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/Scaffold-your-shape-Chatbot/agents/utils/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Scaffold-your-shape-Chatbot.agents.utils">
+<span id="scaffold-your-shape-chatbot-agents-utils"></span><h1>Scaffold-your-shape-Chatbot.agents.utils<a class="headerlink" href="#module-Scaffold-your-shape-Chatbot.agents.utils" title="Link to this heading"></a></h1>
+<p>Utility functions for Pili fitness agents.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.httpx_client" title="Scaffold-your-shape-Chatbot.agents.utils.httpx_client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">httpx_client</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.close_httpx_client" title="Scaffold-your-shape-Chatbot.agents.utils.close_httpx_client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close_httpx_client</span></code></a>()</p></td>
+<td><p>Close the HTTP client connection.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.create_tool_spec_for_llm" title="Scaffold-your-shape-Chatbot.agents.utils.create_tool_spec_for_llm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_tool_spec_for_llm</span></code></a>(tool)</p></td>
+<td><p>Convert MCP tool to LangChain-compatible format for LLM use.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.execute_mcp_tool" title="Scaffold-your-shape-Chatbot.agents.utils.execute_mcp_tool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execute_mcp_tool</span></code></a>(tool_name, tool_args)</p></td>
+<td><p>Execute a tool via MCP server and return the result.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.extract_user_id_from_args" title="Scaffold-your-shape-Chatbot.agents.utils.extract_user_id_from_args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_user_id_from_args</span></code></a>(tool_args, user_id)</p></td>
+<td><p>Ensure user_id is present in tool arguments.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.get_mcp_resources" title="Scaffold-your-shape-Chatbot.agents.utils.get_mcp_resources"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mcp_resources</span></code></a>()</p></td>
+<td><p>Fetch available resources from MCP server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.get_mcp_tools" title="Scaffold-your-shape-Chatbot.agents.utils.get_mcp_tools"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mcp_tools</span></code></a>()</p></td>
+<td><p>Fetch available tools from MCP server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.print_stream" title="Scaffold-your-shape-Chatbot.agents.utils.print_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_stream</span></code></a>(stream)</p></td>
+<td><p>Print LangGraph stream updates for debugging.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.agents.utils.structured_agent_stream" title="Scaffold-your-shape-Chatbot.agents.utils.structured_agent_stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">structured_agent_stream</span></code></a>(agent_app, initial_state, config)</p></td>
+<td><p>Create a structured streaming response from agent execution.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.close_httpx_client">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">close_httpx_client</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.close_httpx_client" title="Link to this definition"></a></dt>
+<dd><p>Close the HTTP client connection.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.create_tool_spec_for_llm">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">create_tool_spec_for_llm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.create_tool_spec_for_llm" title="Link to this definition"></a></dt>
+<dd><p>Convert MCP tool to LangChain-compatible format for LLM use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tool</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.execute_mcp_tool">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">execute_mcp_tool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.execute_mcp_tool" title="Link to this definition"></a></dt>
+<dd><p>Execute a tool via MCP server and return the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+<li><p><strong>tool_args</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.extract_user_id_from_args">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">extract_user_id_from_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tool_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.extract_user_id_from_args" title="Link to this definition"></a></dt>
+<dd><p>Ensure user_id is present in tool arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tool_args</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>)</p></li>
+<li><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.get_mcp_resources">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">get_mcp_resources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.get_mcp_resources" title="Link to this definition"></a></dt>
+<dd><p>Fetch available resources from MCP server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.get_mcp_tools">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">get_mcp_tools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.get_mcp_tools" title="Link to this definition"></a></dt>
+<dd><p>Fetch available tools from MCP server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.print_stream">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">print_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.print_stream" title="Link to this definition"></a></dt>
+<dd><p>Print LangGraph stream updates for debugging.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.structured_agent_stream">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">structured_agent_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chat_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.structured_agent_stream" title="Link to this definition"></a></dt>
+<dd><p>Create a structured streaming response from agent execution.</p>
+<p>Processes real-time agent updates and formats them for easy client consumption.
+Returns structured JSON chunks that clients can easily parse and display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent_app</strong> – The compiled LangGraph agent application</p></li>
+<li><p><strong>initial_state</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – Initial state for agent execution</p></li>
+<li><p><strong>config</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – Agent configuration</p></li>
+<li><p><strong>chat_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Optional chat completion ID</p></li>
+<li><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – User ID for context</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Session ID for memory management</p></li>
+<li><p><strong>user_message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Original user message for memory storage</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted JSON strings for streaming response</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AsyncGenerator[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.agents.utils.httpx_client">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.agents.utils.</span></span><span class="sig-name descname"><span class="pre">httpx_client</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.agents.utils.httpx_client" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

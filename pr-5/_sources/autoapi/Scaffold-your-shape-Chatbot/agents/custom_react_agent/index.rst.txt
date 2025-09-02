@@ -1,0 +1,62 @@
+Scaffold-your-shape-Chatbot.agents.custom_react_agent
+=====================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.agents.custom_react_agent
+
+.. autoapi-nested-parse::
+
+   Custom React Agent with built-in quick_response termination logic.
+
+   This module provides a custom implementation of create_react_agent that includes
+   automatic termination when the quick_response tool is called.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.AnyMessage
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.Checkpointer
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.LanguageModelLike
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.Prompt
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.StateSchemaType
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.StructuredResponseSchema
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.agents.custom_react_agent.create_react_agent_with_quick_response_termination
+
+
+Module Contents
+---------------
+
+.. py:function:: create_react_agent_with_quick_response_termination(model, tools, *, prompt = None, response_format = None, pre_model_hook = None, post_model_hook = None, state_schema = None, config_schema = None, checkpointer = None, store = None, interrupt_before = None, interrupt_after = None, debug = False, version = 'v2', name = None)
+
+   Create a react agent with built-in quick_response termination logic.
+
+   This is a custom version of create_react_agent that automatically terminates
+   when the quick_response tool is called, preventing further agent processing.
+
+   :param Same as create_react_agent from langgraph.prebuilt:
+
+   :returns: A compiled state graph with quick_response termination logic
+
+
+.. py:data:: AnyMessage
+
+.. py:data:: Checkpointer
+
+.. py:data:: LanguageModelLike
+
+.. py:data:: Prompt
+
+.. py:data:: StateSchemaType
+
+.. py:data:: StructuredResponseSchema
+

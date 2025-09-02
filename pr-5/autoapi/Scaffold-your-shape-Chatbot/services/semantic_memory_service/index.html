@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaffold-your-shape-Chatbot.services.semantic_memory_service &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scaffold-your-shape-Chatbot.services.semantic_memory_service</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/Scaffold-your-shape-Chatbot/services/semantic_memory_service/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Scaffold-your-shape-Chatbot.services.semantic_memory_service">
+<span id="scaffold-your-shape-chatbot-services-semantic-memory-service"></span><h1>Scaffold-your-shape-Chatbot.services.semantic_memory_service<a class="headerlink" href="#module-Scaffold-your-shape-Chatbot.services.semantic_memory_service" title="Link to this heading"></a></h1>
+<p>Semantic Memory Service for Enhanced Conversation Understanding.</p>
+<p>This service extends the basic memory system with semantic understanding,
+context analysis, and intelligent conversation management.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.semantic_memory_service" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.semantic_memory_service"><code class="xref py py-obj docutils literal notranslate"><span class="pre">semantic_memory_service</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversationContext</span></code></a></p></td>
+<td><p>Context categories for conversations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversationIntent</span></code></a></p></td>
+<td><p>Types of conversation intents.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversationSummary</span></code></a></p></td>
+<td><p>Summary of conversation patterns and insights.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SemanticContext</span></code></a></p></td>
+<td><p>Semantic context extracted from conversations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SemanticMemoryService</span></code></a></p></td>
+<td><p>Enhanced memory service with semantic understanding.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.semantic_memory_service.</span></span><span class="sig-name descname"><span class="pre">ConversationContext</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Context categories for conversations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.CASUAL_FITNESS">
+<span class="sig-name descname"><span class="pre">CASUAL_FITNESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'casual_fitness'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.CASUAL_FITNESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.FIRST_TIME_USER">
+<span class="sig-name descname"><span class="pre">FIRST_TIME_USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'first_time_user'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.FIRST_TIME_USER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.GOAL_ORIENTED">
+<span class="sig-name descname"><span class="pre">GOAL_ORIENTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'goal_oriented'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.GOAL_ORIENTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.MOTIVATED_USER">
+<span class="sig-name descname"><span class="pre">MOTIVATED_USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'motivated_user'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.MOTIVATED_USER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.RETURNING_USER">
+<span class="sig-name descname"><span class="pre">RETURNING_USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'returning_user'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.RETURNING_USER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.STRUGGLING_USER">
+<span class="sig-name descname"><span class="pre">STRUGGLING_USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'struggling_user'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext.STRUGGLING_USER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.semantic_memory_service.</span></span><span class="sig-name descname"><span class="pre">ConversationIntent</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Types of conversation intents.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.ACTIVITY_LOGGING">
+<span class="sig-name descname"><span class="pre">ACTIVITY_LOGGING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'activity_logging'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.ACTIVITY_LOGGING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.CASUAL_CHAT">
+<span class="sig-name descname"><span class="pre">CASUAL_CHAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'casual_chat'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.CASUAL_CHAT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.GENERAL_FITNESS">
+<span class="sig-name descname"><span class="pre">GENERAL_FITNESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'general_fitness'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.GENERAL_FITNESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.GOAL_SETTING">
+<span class="sig-name descname"><span class="pre">GOAL_SETTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'goal_setting'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.GOAL_SETTING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.MOTIVATION_SEEKING">
+<span class="sig-name descname"><span class="pre">MOTIVATION_SEEKING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'motivation_seeking'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.MOTIVATION_SEEKING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.PROBLEM_SOLVING">
+<span class="sig-name descname"><span class="pre">PROBLEM_SOLVING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'problem_solving'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.PROBLEM_SOLVING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.PROGRESS_INQUIRY">
+<span class="sig-name descname"><span class="pre">PROGRESS_INQUIRY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'progress_inquiry'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.PROGRESS_INQUIRY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.WORKOUT_PLANNING">
+<span class="sig-name descname"><span class="pre">WORKOUT_PLANNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'workout_planning'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent.WORKOUT_PLANNING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.semantic_memory_service.</span></span><span class="sig-name descname"><span class="pre">ConversationSummary</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary" title="Link to this definition"></a></dt>
+<dd><p>Summary of conversation patterns and insights.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.consistency_pattern">
+<span class="sig-name descname"><span class="pre">consistency_pattern</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.consistency_pattern" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.engagement_level">
+<span class="sig-name descname"><span class="pre">engagement_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.engagement_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.key_topics">
+<span class="sig-name descname"><span class="pre">key_topics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.key_topics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.last_updated">
+<span class="sig-name descname"><span class="pre">last_updated</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.13)"><span class="pre">datetime.datetime</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.last_updated" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.most_common_intents">
+<span class="sig-name descname"><span class="pre">most_common_intents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.most_common_intents" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.semantic_context">
+<span class="sig-name descname"><span class="pre">semantic_context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext"><span class="pre">SemanticContext</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.semantic_context" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.total_conversations">
+<span class="sig-name descname"><span class="pre">total_conversations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.total_conversations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.semantic_memory_service.</span></span><span class="sig-name descname"><span class="pre">SemanticContext</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext" title="Link to this definition"></a></dt>
+<dd><p>Semantic context extracted from conversations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.challenges">
+<span class="sig-name descname"><span class="pre">challenges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.challenges" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.constraints">
+<span class="sig-name descname"><span class="pre">constraints</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.constraints" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.conversation_context">
+<span class="sig-name descname"><span class="pre">conversation_context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext"><span class="pre">ConversationContext</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.conversation_context" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.current_mood">
+<span class="sig-name descname"><span class="pre">current_mood</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.current_mood" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.fitness_level">
+<span class="sig-name descname"><span class="pre">fitness_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.fitness_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.motivations">
+<span class="sig-name descname"><span class="pre">motivations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.motivations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.personality_traits">
+<span class="sig-name descname"><span class="pre">personality_traits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.personality_traits" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.preferred_activities">
+<span class="sig-name descname"><span class="pre">preferred_activities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.preferred_activities" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.recent_achievements">
+<span class="sig-name descname"><span class="pre">recent_achievements</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.recent_achievements" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.user_goals">
+<span class="sig-name descname"><span class="pre">user_goals</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext.user_goals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.semantic_memory_service.</span></span><span class="sig-name descname"><span class="pre">SemanticMemoryService</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService" title="Link to this definition"></a></dt>
+<dd><p>Enhanced memory service with semantic understanding.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.analyze_conversation_intent">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analyze_conversation_intent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.analyze_conversation_intent" title="Link to this definition"></a></dt>
+<dd><p>Analyze the intent of a conversation message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent">ConversationIntent</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.analyze_conversation_semantics">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">analyze_conversation_semantics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recent_messages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.analyze_conversation_semantics" title="Link to this definition"></a></dt>
+<dd><p>Analyze conversation semantics to extract deeper context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – User ID</p></li>
+<li><p><strong>recent_messages</strong> (<em>List</em><em>[</em><em>langchain_core.messages.BaseMessage</em><em>]</em>) – Recent conversation messages</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Session ID</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SemanticContext with extracted insights</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext">SemanticContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.clear_semantic_cache">
+<span class="sig-name descname"><span class="pre">clear_semantic_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.clear_semantic_cache" title="Link to this definition"></a></dt>
+<dd><p>Clear semantic cache for a user or all users.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.generate_contextual_prompt_enhancement">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_contextual_prompt_enhancement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_prompt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.generate_contextual_prompt_enhancement" title="Link to this definition"></a></dt>
+<dd><p>Enhance agent prompts with semantic context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – User ID</p></li>
+<li><p><strong>base_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Base agent prompt</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Session ID</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Enhanced prompt with contextual information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.generate_conversation_summary">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_conversation_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.generate_conversation_summary" title="Link to this definition"></a></dt>
+<dd><p>Generate a comprehensive conversation summary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary" title="Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary">ConversationSummary</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.get_personalized_suggestions">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_personalized_suggestions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'general'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.get_personalized_suggestions" title="Link to this definition"></a></dt>
+<dd><p>Generate personalized suggestions based on semantic context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+<li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.context_analyzers">
+<span class="sig-name descname"><span class="pre">context_analyzers</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.context_analyzers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.intent_patterns">
+<span class="sig-name descname"><span class="pre">intent_patterns</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.intent_patterns" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.semantic_cache">
+<span class="sig-name descname"><span class="pre">semantic_cache</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService.semantic_cache" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.services.semantic_memory_service.semantic_memory_service">
+<span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.services.semantic_memory_service.</span></span><span class="sig-name descname"><span class="pre">semantic_memory_service</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.services.semantic_memory_service.semantic_memory_service" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

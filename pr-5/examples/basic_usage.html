@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Usage Examples &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Architecture Overview" href="../architecture/overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Basic Usage Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/basic_usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="basic-usage-examples">
+<h1>Basic Usage Examples<a class="headerlink" href="#basic-usage-examples" title="Link to this heading"></a></h1>
+</section>
+<section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>Start Pili:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>Pili
+uvicorn<span class="w"> </span>main:app<span class="w"> </span>--reload
+</pre></div>
+</div>
+</section>
+<section id="basic-examples">
+<h1>Basic Examples<a class="headerlink" href="#basic-examples" title="Link to this heading"></a></h1>
+<p><strong>Simple Greeting</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;demo&quot;, &quot;message&quot;: &quot;Hello Pili!&quot;}&#39;</span>
+</pre></div>
+</div>
+<p><strong>Log Activity</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;demo&quot;, &quot;message&quot;: &quot;I ran 5km in 30 minutes&quot;}&#39;</span>
+</pre></div>
+</div>
+<p><strong>Request Plan</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;demo&quot;, &quot;message&quot;: &quot;Create a beginner running plan&quot;}&#39;</span>
+</pre></div>
+</div>
+<p><strong>Get Motivation</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/api/chat&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;demo&quot;, &quot;message&quot;: &quot;I need motivation to exercise&quot;}&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="api-endpoints">
+<h1>API Endpoints<a class="headerlink" href="#api-endpoints" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/api/chat</span></code> - Main chat interface</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/health</span></code> - Health check</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/memory/stats/{user_id}</span></code> - Memory statistics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/api/memory/clear</span></code> - Clear user memory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/docs</span></code> - Interactive API documentation</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h1>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h1>
+<ol class="arabic simple">
+<li><p>Learn about the <a class="reference internal" href="../architecture/overview.html"><span class="doc">Architecture Overview</span></a> to understand how it works</p></li>
+<li><p>Explore the configuration options in <a class="reference internal" href="../configuration.html"><span class="doc">Configuration Guide</span></a></p></li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use descriptive user IDs to help with debugging and conversation management.</p>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../architecture/overview.html" class="btn btn-neutral float-left" title="Architecture Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

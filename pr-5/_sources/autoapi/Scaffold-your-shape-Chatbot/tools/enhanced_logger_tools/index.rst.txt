@@ -1,0 +1,605 @@
+Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools
+=======================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools
+
+.. autoapi-nested-parse::
+
+   Enhanced Logger Agent Tools with Smart Validation and Extraction.
+
+   This module provides advanced tools for the Logger Agent that integrate
+   intelligent activity validation and data extraction capabilities.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.activity_validation_tool
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.enhanced_logger_tools
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.progress_analytics_tool
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.smart_activity_log_tool
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.smart_extraction_tool
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.ActivityValidationInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.ActivityValidationTool
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.ProgressAnalyticsTool
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.SmartActivityLogInput
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.SmartActivityLogTool
+   Scaffold-your-shape-Chatbot.tools.enhanced_logger_tools.SmartExtractionTool
+
+
+Module Contents
+---------------
+
+.. py:class:: ActivityValidationInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for activity validation only.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: activity_data
+      :type:  Dict[str, Any]
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_profile
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+.. py:class:: ActivityValidationTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for validating activity data without logging.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Validate activity data for accuracy and completeness without logging it.
+             
+             Useful for:
+             - Checking data quality before logging
+             - Getting confidence scores for extracted data
+             - Identifying missing or unusual information
+             - Getting suggestions for improvement
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'validate_activity_data'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:class:: ProgressAnalyticsTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for generating progress analytics and insights.
+
+   Initialize the tool.
+
+
+   .. py:class:: ProgressAnalyticsInput(/, **data)
+
+      Bases: :py:obj:`pydantic.BaseModel`
+
+
+      Usage docs: https://docs.pydantic.dev/2.10/concepts/models/
+
+      A base class for creating Pydantic models.
+
+      .. attribute:: __class_vars__
+
+         The names of the class variables defined on the model.
+
+      .. attribute:: __private_attributes__
+
+         Metadata about the private attributes of the model.
+
+      .. attribute:: __signature__
+
+         The synthesized `__init__` [`Signature`][inspect.Signature] of the model.
+
+      .. attribute:: __pydantic_complete__
+
+         Whether model building is completed, or if there are still undefined fields.
+
+      .. attribute:: __pydantic_core_schema__
+
+         The core schema of the model.
+
+      .. attribute:: __pydantic_custom_init__
+
+         Whether the model has a custom `__init__` function.
+
+      .. attribute:: __pydantic_decorators__
+
+         Metadata containing the decorators defined on the model.
+         This replaces `Model.__validators__` and `Model.__root_validators__` from Pydantic V1.
+
+      .. attribute:: __pydantic_generic_metadata__
+
+         Metadata for generic models; contains data used for a similar purpose to
+         __args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.
+
+      .. attribute:: __pydantic_parent_namespace__
+
+         Parent namespace of the model, used for automatic rebuilding of models.
+
+      .. attribute:: __pydantic_post_init__
+
+         The name of the post-init method for the model, if defined.
+
+      .. attribute:: __pydantic_root_model__
+
+         Whether the model is a [`RootModel`][pydantic.root_model.RootModel].
+
+      .. attribute:: __pydantic_serializer__
+
+         The `pydantic-core` `SchemaSerializer` used to dump instances of the model.
+
+      .. attribute:: __pydantic_validator__
+
+         The `pydantic-core` `SchemaValidator` used to validate instances of the model.
+
+      .. attribute:: __pydantic_fields__
+
+         A dictionary of field names and their corresponding [`FieldInfo`][pydantic.fields.FieldInfo] objects.
+
+      .. attribute:: __pydantic_computed_fields__
+
+         A dictionary of computed field names and their corresponding [`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] objects.
+
+      .. attribute:: __pydantic_extra__
+
+         A dictionary containing extra values, if [`extra`][pydantic.config.ConfigDict.extra]
+         is set to `'allow'`.
+
+      .. attribute:: __pydantic_fields_set__
+
+         The names of fields explicitly set during instantiation.
+
+      .. attribute:: __pydantic_private__
+
+         Values of private attributes set on the model instance.
+
+      Create a new model by parsing and validating input data from keyword arguments.
+
+      Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+      validated to form a valid model.
+
+      `self` is explicitly positional-only to allow `self` as a field name.
+
+
+      .. py:attribute:: include_achievements
+         :type:  bool
+         :value: None
+
+
+
+      .. py:attribute:: include_trends
+         :type:  bool
+         :value: None
+
+
+
+      .. py:attribute:: period_days
+         :type:  int
+         :value: None
+
+
+
+      .. py:attribute:: user_id
+         :type:  str
+         :value: None
+
+
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Generate comprehensive progress analytics and insights for a user.
+             
+             This tool provides:
+             - Progress summary over specified period
+             - Trend analysis (improving/declining/stable)
+             - Achievement detection (PRs, streaks, milestones)
+             - Personalized insights and recommendations
+             - Consistency, variety, and improvement scores
+             
+             Use this when users ask about their progress, trends, or "how am I doing?"
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'generate_progress_analytics'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:class:: SmartActivityLogInput(/, **data)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Input for smart activity logging with validation.
+
+   Create a new model by parsing and validating input data from keyword arguments.
+
+   Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+   validated to form a valid model.
+
+   `self` is explicitly positional-only to allow `self` as a field name.
+
+
+   .. py:attribute:: additional_context
+      :type:  Optional[Dict[str, Any]]
+      :value: None
+
+
+
+   .. py:attribute:: force_log
+      :type:  bool
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: user_input
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: SmartActivityLogTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Enhanced activity logging tool with smart extraction and validation.
+
+   Initialize the tool.
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Log activities using intelligent extraction and validation.
+             
+             This tool automatically:
+             - Extracts structured data from natural language
+             - Validates activity data for accuracy and completeness  
+             - Enhances data with derived metrics (pace, calories, etc.)
+             - Provides confidence scores and suggestions
+             - Handles missing information gracefully
+             
+             Use this for any activity logging request from users.
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'smart_activity_log'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:class:: SmartExtractionTool(**kwargs)
+
+   Bases: :py:obj:`langchain_core.tools.BaseTool`
+
+
+   Tool for extracting structured data from natural language.
+
+   Initialize the tool.
+
+
+   .. py:class:: SmartExtractionInput(/, **data)
+
+      Bases: :py:obj:`pydantic.BaseModel`
+
+
+      Usage docs: https://docs.pydantic.dev/2.10/concepts/models/
+
+      A base class for creating Pydantic models.
+
+      .. attribute:: __class_vars__
+
+         The names of the class variables defined on the model.
+
+      .. attribute:: __private_attributes__
+
+         Metadata about the private attributes of the model.
+
+      .. attribute:: __signature__
+
+         The synthesized `__init__` [`Signature`][inspect.Signature] of the model.
+
+      .. attribute:: __pydantic_complete__
+
+         Whether model building is completed, or if there are still undefined fields.
+
+      .. attribute:: __pydantic_core_schema__
+
+         The core schema of the model.
+
+      .. attribute:: __pydantic_custom_init__
+
+         Whether the model has a custom `__init__` function.
+
+      .. attribute:: __pydantic_decorators__
+
+         Metadata containing the decorators defined on the model.
+         This replaces `Model.__validators__` and `Model.__root_validators__` from Pydantic V1.
+
+      .. attribute:: __pydantic_generic_metadata__
+
+         Metadata for generic models; contains data used for a similar purpose to
+         __args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.
+
+      .. attribute:: __pydantic_parent_namespace__
+
+         Parent namespace of the model, used for automatic rebuilding of models.
+
+      .. attribute:: __pydantic_post_init__
+
+         The name of the post-init method for the model, if defined.
+
+      .. attribute:: __pydantic_root_model__
+
+         Whether the model is a [`RootModel`][pydantic.root_model.RootModel].
+
+      .. attribute:: __pydantic_serializer__
+
+         The `pydantic-core` `SchemaSerializer` used to dump instances of the model.
+
+      .. attribute:: __pydantic_validator__
+
+         The `pydantic-core` `SchemaValidator` used to validate instances of the model.
+
+      .. attribute:: __pydantic_fields__
+
+         A dictionary of field names and their corresponding [`FieldInfo`][pydantic.fields.FieldInfo] objects.
+
+      .. attribute:: __pydantic_computed_fields__
+
+         A dictionary of computed field names and their corresponding [`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] objects.
+
+      .. attribute:: __pydantic_extra__
+
+         A dictionary containing extra values, if [`extra`][pydantic.config.ConfigDict.extra]
+         is set to `'allow'`.
+
+      .. attribute:: __pydantic_fields_set__
+
+         The names of fields explicitly set during instantiation.
+
+      .. attribute:: __pydantic_private__
+
+         Values of private attributes set on the model instance.
+
+      Create a new model by parsing and validating input data from keyword arguments.
+
+      Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+      validated to form a valid model.
+
+      `self` is explicitly positional-only to allow `self` as a field name.
+
+
+      .. py:attribute:: context
+         :type:  Optional[Dict[str, Any]]
+         :value: None
+
+
+
+      .. py:attribute:: user_input
+         :type:  str
+         :value: None
+
+
+
+
+   .. py:attribute:: args_schema
+      :type:  type
+
+      Pydantic model class to validate and parse the tool's input arguments.
+
+      Args schema should be either:
+
+      - A subclass of pydantic.BaseModel.
+      or
+      - A subclass of pydantic.v1.BaseModel if accessing v1 namespace in pydantic 2
+      or
+      - a JSON schema dict
+
+
+   .. py:attribute:: description
+      :type:  str
+      :value: Multiline-String
+
+      .. raw:: html
+
+         <details><summary>Show Value</summary>
+
+      .. code-block:: python
+
+         """
+             Extract structured activity data from natural language descriptions.
+             
+             This tool intelligently parses user input to identify:
+             - Activity type (running, cycling, etc.)
+             - Distance, duration, repetitions
+             - Time/date information
+             - Location details
+             - Additional notes and context
+             """
+
+      .. raw:: html
+
+         </details>
+
+
+
+      Used to tell the model how/when/why to use the tool.
+
+      You can provide few-shot examples as a part of the description.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'extract_activity_data'
+
+
+      The unique name of the tool that clearly communicates its purpose.
+
+
+.. py:data:: activity_validation_tool
+
+.. py:data:: enhanced_logger_tools
+
+.. py:data:: progress_analytics_tool
+
+.. py:data:: smart_activity_log_tool
+
+.. py:data:: smart_extraction_tool
+

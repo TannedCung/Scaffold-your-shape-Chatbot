@@ -1,0 +1,105 @@
+Scaffold-your-shape-Chatbot.services.tracing_service
+====================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.tracing_service
+
+.. autoapi-nested-parse::
+
+   LangSmith tracing service for Pili fitness chatbot.
+
+   This module provides centralized LangSmith tracing configuration and utilities.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.tracing_service.logger
+   Scaffold-your-shape-Chatbot.services.tracing_service.tracing_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.tracing_service.TracingService
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.tracing_service.create_run_metadata
+   Scaffold-your-shape-Chatbot.services.tracing_service.get_tracing_metadata
+   Scaffold-your-shape-Chatbot.services.tracing_service.initialize_tracing
+   Scaffold-your-shape-Chatbot.services.tracing_service.is_tracing_enabled
+
+
+Module Contents
+---------------
+
+.. py:class:: TracingService
+
+   Service for managing LangSmith tracing configuration.
+
+
+   .. py:method:: create_run_metadata(user_id, operation, **kwargs)
+
+      Create standardized metadata for LangSmith runs.
+
+
+
+   .. py:method:: get_tracing_metadata()
+
+      Get metadata about current tracing configuration.
+
+
+
+   .. py:method:: initialize_tracing()
+
+      Initialize LangSmith tracing using default environment variables.
+
+
+
+   .. py:method:: is_enabled()
+
+      Check if tracing is enabled and working.
+
+
+
+   .. py:attribute:: config
+
+
+   .. py:attribute:: initialized
+      :value: False
+
+
+
+.. py:function:: create_run_metadata(user_id, operation, **kwargs)
+
+   Create run metadata.
+
+
+.. py:function:: get_tracing_metadata()
+
+   Get tracing metadata.
+
+
+.. py:function:: initialize_tracing()
+
+   Initialize tracing service.
+
+
+.. py:function:: is_tracing_enabled()
+
+   Check if tracing is enabled.
+
+
+.. py:data:: logger
+
+.. py:data:: tracing_service
+

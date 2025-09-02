@@ -1,0 +1,299 @@
+Scaffold-your-shape-Chatbot.services.semantic_memory_service
+============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.semantic_memory_service
+
+.. autoapi-nested-parse::
+
+   Semantic Memory Service for Enhanced Conversation Understanding.
+
+   This service extends the basic memory system with semantic understanding,
+   context analysis, and intelligent conversation management.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.semantic_memory_service.semantic_memory_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationContext
+   Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationIntent
+   Scaffold-your-shape-Chatbot.services.semantic_memory_service.ConversationSummary
+   Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticContext
+   Scaffold-your-shape-Chatbot.services.semantic_memory_service.SemanticMemoryService
+
+
+Module Contents
+---------------
+
+.. py:class:: ConversationContext
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Context categories for conversations.
+
+
+   .. py:attribute:: CASUAL_FITNESS
+      :value: 'casual_fitness'
+
+
+
+   .. py:attribute:: FIRST_TIME_USER
+      :value: 'first_time_user'
+
+
+
+   .. py:attribute:: GOAL_ORIENTED
+      :value: 'goal_oriented'
+
+
+
+   .. py:attribute:: MOTIVATED_USER
+      :value: 'motivated_user'
+
+
+
+   .. py:attribute:: RETURNING_USER
+      :value: 'returning_user'
+
+
+
+   .. py:attribute:: STRUGGLING_USER
+      :value: 'struggling_user'
+
+
+
+.. py:class:: ConversationIntent
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of conversation intents.
+
+
+   .. py:attribute:: ACTIVITY_LOGGING
+      :value: 'activity_logging'
+
+
+
+   .. py:attribute:: CASUAL_CHAT
+      :value: 'casual_chat'
+
+
+
+   .. py:attribute:: GENERAL_FITNESS
+      :value: 'general_fitness'
+
+
+
+   .. py:attribute:: GOAL_SETTING
+      :value: 'goal_setting'
+
+
+
+   .. py:attribute:: MOTIVATION_SEEKING
+      :value: 'motivation_seeking'
+
+
+
+   .. py:attribute:: PROBLEM_SOLVING
+      :value: 'problem_solving'
+
+
+
+   .. py:attribute:: PROGRESS_INQUIRY
+      :value: 'progress_inquiry'
+
+
+
+   .. py:attribute:: WORKOUT_PLANNING
+      :value: 'workout_planning'
+
+
+
+.. py:class:: ConversationSummary
+
+   Summary of conversation patterns and insights.
+
+
+   .. py:attribute:: consistency_pattern
+      :type:  str
+
+
+   .. py:attribute:: engagement_level
+      :type:  float
+
+
+   .. py:attribute:: key_topics
+      :type:  List[str]
+
+
+   .. py:attribute:: last_updated
+      :type:  datetime.datetime
+
+
+   .. py:attribute:: most_common_intents
+      :type:  List[str]
+
+
+   .. py:attribute:: semantic_context
+      :type:  SemanticContext
+
+
+   .. py:attribute:: total_conversations
+      :type:  int
+
+
+   .. py:attribute:: user_id
+      :type:  str
+
+
+.. py:class:: SemanticContext
+
+   Semantic context extracted from conversations.
+
+
+   .. py:attribute:: challenges
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: constraints
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: conversation_context
+      :type:  Optional[ConversationContext]
+      :value: None
+
+
+
+   .. py:attribute:: current_mood
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: fitness_level
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: motivations
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: personality_traits
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: preferred_activities
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: recent_achievements
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: user_goals
+      :type:  List[str]
+      :value: []
+
+
+
+.. py:class:: SemanticMemoryService
+
+   Enhanced memory service with semantic understanding.
+
+
+   .. py:method:: analyze_conversation_intent(message)
+      :async:
+
+
+      Analyze the intent of a conversation message.
+
+
+
+   .. py:method:: analyze_conversation_semantics(user_id, recent_messages, session_id = 'default')
+      :async:
+
+
+      Analyze conversation semantics to extract deeper context.
+
+      :param user_id: User ID
+      :param recent_messages: Recent conversation messages
+      :param session_id: Session ID
+
+      :returns: SemanticContext with extracted insights
+
+
+
+   .. py:method:: clear_semantic_cache(user_id = None)
+
+      Clear semantic cache for a user or all users.
+
+
+
+   .. py:method:: generate_contextual_prompt_enhancement(user_id, base_prompt, session_id = 'default')
+      :async:
+
+
+      Enhance agent prompts with semantic context.
+
+      :param user_id: User ID
+      :param base_prompt: Base agent prompt
+      :param session_id: Session ID
+
+      :returns: Enhanced prompt with contextual information
+
+
+
+   .. py:method:: generate_conversation_summary(user_id, session_id = 'default')
+      :async:
+
+
+      Generate a comprehensive conversation summary.
+
+
+
+   .. py:method:: get_personalized_suggestions(user_id, context = 'general', session_id = 'default')
+      :async:
+
+
+      Generate personalized suggestions based on semantic context.
+
+
+
+   .. py:attribute:: context_analyzers
+
+
+   .. py:attribute:: intent_patterns
+
+
+   .. py:attribute:: semantic_cache
+
+
+.. py:data:: semantic_memory_service
+

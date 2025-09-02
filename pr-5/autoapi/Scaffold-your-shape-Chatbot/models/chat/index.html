@@ -1,0 +1,885 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaffold-your-shape-Chatbot.models.chat &mdash; Pili - Exercise Tracker Chatbot 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=5bdc10f5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980b9" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Pili - Exercise Tracker Chatbot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#minute-setup">🚀 5-Minute Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#first-interactions">🎯 First Interactions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#using-the-interactive-api">📱 Using the Interactive API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#understanding-pili-s-responses">🧠 Understanding Pili’s Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#configuration-check">🔧 Configuration Check</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#agent-system-demo">🎭 Agent System Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#mcp-server-integration">🔌 MCP Server Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#common-issues-solutions">🚨 Common Issues &amp; Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#next-steps">🎉 Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html#pro-tips">💡 Pro Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html">Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#development-configuration">Development Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#production-configuration">Production Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#docker-configuration">Docker Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-validation">Configuration Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../configuration.html#configuration-templates">Configuration Templates</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#system-architecture">System Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#core-components">Core Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#agent-interaction-patterns">Agent Interaction Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#request-routing-logic">Request Routing Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#technology-stack">Technology Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#data-flow-architecture">Data Flow Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#scalability-considerations">Scalability Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#security-architecture">Security Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#deployment-architecture">Deployment Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture/overview.html#future-architecture-considerations">Future Architecture Considerations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html">Basic Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#getting-started">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#api-endpoints">API Endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/basic_usage.html#next-steps">Next Steps</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980b9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Pili - Exercise Tracker Chatbot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scaffold-your-shape-Chatbot.models.chat</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/Scaffold-your-shape-Chatbot/models/chat/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Scaffold-your-shape-Chatbot.models.chat">
+<span id="scaffold-your-shape-chatbot-models-chat"></span><h1>Scaffold-your-shape-Chatbot.models.chat<a class="headerlink" href="#module-Scaffold-your-shape-Chatbot.models.chat" title="Link to this heading"></a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest" title="Scaffold-your-shape-Chatbot.models.chat.ChatRequest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChatRequest</span></code></a></p></td>
+<td><p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse" title="Scaffold-your-shape-Chatbot.models.chat.ChatResponse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChatResponse</span></code></a></p></td>
+<td><p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest" title="Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClearMemoryRequest</span></code></a></p></td>
+<td><p>Request model for clearing memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction" title="Scaffold-your-shape-Chatbot.models.chat.ClubAction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ClubAction</span></code></a></p></td>
+<td><p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog" title="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExerciseLog</span></code></a></p></td>
+<td><p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest" title="Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MemoryStatsRequest</span></code></a></p></td>
+<td><p>Request model for memory statistics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChoice" title="Scaffold-your-shape-Chatbot.models.chat.StreamChoice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StreamChoice</span></code></a></p></td>
+<td><p>Model for streaming choice data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk" title="Scaffold-your-shape-Chatbot.models.chat.StreamChunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StreamChunk</span></code></a></p></td>
+<td><p>Model for streaming response chunks.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">ChatRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p>
+<p>A base class for creating Pydantic models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__class_vars__">
+<span class="sig-name descname"><span class="pre">__class_vars__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__class_vars__" title="Link to this definition"></a></dt>
+<dd><p>The names of the class variables defined on the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__private_attributes__">
+<span class="sig-name descname"><span class="pre">__private_attributes__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__private_attributes__" title="Link to this definition"></a></dt>
+<dd><p>Metadata about the private attributes of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__signature__">
+<span class="sig-name descname"><span class="pre">__signature__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__signature__" title="Link to this definition"></a></dt>
+<dd><p>The synthesized <cite>__init__</cite> [<cite>Signature</cite>][inspect.Signature] of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_complete__">
+<span class="sig-name descname"><span class="pre">__pydantic_complete__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_complete__" title="Link to this definition"></a></dt>
+<dd><p>Whether model building is completed, or if there are still undefined fields.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_core_schema__">
+<span class="sig-name descname"><span class="pre">__pydantic_core_schema__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_core_schema__" title="Link to this definition"></a></dt>
+<dd><p>The core schema of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_custom_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_custom_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_custom_init__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model has a custom <cite>__init__</cite> function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_decorators__">
+<span class="sig-name descname"><span class="pre">__pydantic_decorators__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_decorators__" title="Link to this definition"></a></dt>
+<dd><p>Metadata containing the decorators defined on the model.
+This replaces <cite>Model.__validators__</cite> and <cite>Model.__root_validators__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_generic_metadata__">
+<span class="sig-name descname"><span class="pre">__pydantic_generic_metadata__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_generic_metadata__" title="Link to this definition"></a></dt>
+<dd><p>Metadata for generic models; contains data used for a similar purpose to
+__args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_parent_namespace__">
+<span class="sig-name descname"><span class="pre">__pydantic_parent_namespace__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_parent_namespace__" title="Link to this definition"></a></dt>
+<dd><p>Parent namespace of the model, used for automatic rebuilding of models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_post_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_post_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_post_init__" title="Link to this definition"></a></dt>
+<dd><p>The name of the post-init method for the model, if defined.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_root_model__">
+<span class="sig-name descname"><span class="pre">__pydantic_root_model__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_root_model__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model is a [<cite>RootModel</cite>][pydantic.root_model.RootModel].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_serializer__">
+<span class="sig-name descname"><span class="pre">__pydantic_serializer__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_serializer__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaSerializer</cite> used to dump instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_validator__">
+<span class="sig-name descname"><span class="pre">__pydantic_validator__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_validator__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaValidator</cite> used to validate instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of field names and their corresponding [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_computed_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_computed_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_computed_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding [<cite>ComputedFieldInfo</cite>][pydantic.fields.ComputedFieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_extra__">
+<span class="sig-name descname"><span class="pre">__pydantic_extra__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_extra__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing extra values, if [<cite>extra</cite>][pydantic.config.ConfigDict.extra]
+is set to <cite>‘allow’</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_fields_set__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields_set__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_fields_set__" title="Link to this definition"></a></dt>
+<dd><p>The names of fields explicitly set during instantiation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_private__">
+<span class="sig-name descname"><span class="pre">__pydantic_private__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.__pydantic_private__" title="Link to this definition"></a></dt>
+<dd><p>Values of private attributes set on the model instance.</p>
+</dd></dl>
+
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.session_id">
+<span class="sig-name descname"><span class="pre">session_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'default'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.session_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.stream">
+<span class="sig-name descname"><span class="pre">stream</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.stream" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatRequest.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatRequest.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">ChatResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p>
+<p>A base class for creating Pydantic models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__class_vars__">
+<span class="sig-name descname"><span class="pre">__class_vars__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__class_vars__" title="Link to this definition"></a></dt>
+<dd><p>The names of the class variables defined on the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__private_attributes__">
+<span class="sig-name descname"><span class="pre">__private_attributes__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__private_attributes__" title="Link to this definition"></a></dt>
+<dd><p>Metadata about the private attributes of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__signature__">
+<span class="sig-name descname"><span class="pre">__signature__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__signature__" title="Link to this definition"></a></dt>
+<dd><p>The synthesized <cite>__init__</cite> [<cite>Signature</cite>][inspect.Signature] of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_complete__">
+<span class="sig-name descname"><span class="pre">__pydantic_complete__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_complete__" title="Link to this definition"></a></dt>
+<dd><p>Whether model building is completed, or if there are still undefined fields.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_core_schema__">
+<span class="sig-name descname"><span class="pre">__pydantic_core_schema__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_core_schema__" title="Link to this definition"></a></dt>
+<dd><p>The core schema of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_custom_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_custom_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_custom_init__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model has a custom <cite>__init__</cite> function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_decorators__">
+<span class="sig-name descname"><span class="pre">__pydantic_decorators__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_decorators__" title="Link to this definition"></a></dt>
+<dd><p>Metadata containing the decorators defined on the model.
+This replaces <cite>Model.__validators__</cite> and <cite>Model.__root_validators__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_generic_metadata__">
+<span class="sig-name descname"><span class="pre">__pydantic_generic_metadata__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_generic_metadata__" title="Link to this definition"></a></dt>
+<dd><p>Metadata for generic models; contains data used for a similar purpose to
+__args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_parent_namespace__">
+<span class="sig-name descname"><span class="pre">__pydantic_parent_namespace__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_parent_namespace__" title="Link to this definition"></a></dt>
+<dd><p>Parent namespace of the model, used for automatic rebuilding of models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_post_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_post_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_post_init__" title="Link to this definition"></a></dt>
+<dd><p>The name of the post-init method for the model, if defined.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_root_model__">
+<span class="sig-name descname"><span class="pre">__pydantic_root_model__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_root_model__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model is a [<cite>RootModel</cite>][pydantic.root_model.RootModel].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_serializer__">
+<span class="sig-name descname"><span class="pre">__pydantic_serializer__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_serializer__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaSerializer</cite> used to dump instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_validator__">
+<span class="sig-name descname"><span class="pre">__pydantic_validator__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_validator__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaValidator</cite> used to validate instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of field names and their corresponding [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_computed_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_computed_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_computed_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding [<cite>ComputedFieldInfo</cite>][pydantic.fields.ComputedFieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_extra__">
+<span class="sig-name descname"><span class="pre">__pydantic_extra__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_extra__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing extra values, if [<cite>extra</cite>][pydantic.config.ConfigDict.extra]
+is set to <cite>‘allow’</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_fields_set__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields_set__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_fields_set__" title="Link to this definition"></a></dt>
+<dd><p>The names of fields explicitly set during instantiation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_private__">
+<span class="sig-name descname"><span class="pre">__pydantic_private__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.__pydantic_private__" title="Link to this definition"></a></dt>
+<dd><p>Values of private attributes set on the model instance.</p>
+</dd></dl>
+
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.logs">
+<span class="sig-name descname"><span class="pre">logs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.logs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ChatResponse.response">
+<span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ChatResponse.response" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">ClearMemoryRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Request model for clearing memory.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest.session_id">
+<span class="sig-name descname"><span class="pre">session_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest.session_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClearMemoryRequest.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">ClubAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p>
+<p>A base class for creating Pydantic models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__class_vars__">
+<span class="sig-name descname"><span class="pre">__class_vars__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__class_vars__" title="Link to this definition"></a></dt>
+<dd><p>The names of the class variables defined on the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__private_attributes__">
+<span class="sig-name descname"><span class="pre">__private_attributes__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__private_attributes__" title="Link to this definition"></a></dt>
+<dd><p>Metadata about the private attributes of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__signature__">
+<span class="sig-name descname"><span class="pre">__signature__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__signature__" title="Link to this definition"></a></dt>
+<dd><p>The synthesized <cite>__init__</cite> [<cite>Signature</cite>][inspect.Signature] of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_complete__">
+<span class="sig-name descname"><span class="pre">__pydantic_complete__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_complete__" title="Link to this definition"></a></dt>
+<dd><p>Whether model building is completed, or if there are still undefined fields.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_core_schema__">
+<span class="sig-name descname"><span class="pre">__pydantic_core_schema__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_core_schema__" title="Link to this definition"></a></dt>
+<dd><p>The core schema of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_custom_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_custom_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_custom_init__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model has a custom <cite>__init__</cite> function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_decorators__">
+<span class="sig-name descname"><span class="pre">__pydantic_decorators__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_decorators__" title="Link to this definition"></a></dt>
+<dd><p>Metadata containing the decorators defined on the model.
+This replaces <cite>Model.__validators__</cite> and <cite>Model.__root_validators__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_generic_metadata__">
+<span class="sig-name descname"><span class="pre">__pydantic_generic_metadata__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_generic_metadata__" title="Link to this definition"></a></dt>
+<dd><p>Metadata for generic models; contains data used for a similar purpose to
+__args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_parent_namespace__">
+<span class="sig-name descname"><span class="pre">__pydantic_parent_namespace__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_parent_namespace__" title="Link to this definition"></a></dt>
+<dd><p>Parent namespace of the model, used for automatic rebuilding of models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_post_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_post_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_post_init__" title="Link to this definition"></a></dt>
+<dd><p>The name of the post-init method for the model, if defined.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_root_model__">
+<span class="sig-name descname"><span class="pre">__pydantic_root_model__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_root_model__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model is a [<cite>RootModel</cite>][pydantic.root_model.RootModel].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_serializer__">
+<span class="sig-name descname"><span class="pre">__pydantic_serializer__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_serializer__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaSerializer</cite> used to dump instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_validator__">
+<span class="sig-name descname"><span class="pre">__pydantic_validator__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_validator__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaValidator</cite> used to validate instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of field names and their corresponding [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_computed_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_computed_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_computed_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding [<cite>ComputedFieldInfo</cite>][pydantic.fields.ComputedFieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_extra__">
+<span class="sig-name descname"><span class="pre">__pydantic_extra__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_extra__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing extra values, if [<cite>extra</cite>][pydantic.config.ConfigDict.extra]
+is set to <cite>‘allow’</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_fields_set__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields_set__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_fields_set__" title="Link to this definition"></a></dt>
+<dd><p>The names of fields explicitly set during instantiation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_private__">
+<span class="sig-name descname"><span class="pre">__pydantic_private__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.__pydantic_private__" title="Link to this definition"></a></dt>
+<dd><p>Values of private attributes set on the model instance.</p>
+</dd></dl>
+
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.action">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.action" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.club_id">
+<span class="sig-name descname"><span class="pre">club_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.club_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ClubAction.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ClubAction.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">ExerciseLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Usage docs: <a class="reference external" href="https://docs.pydantic.dev/2.10/concepts/models/">https://docs.pydantic.dev/2.10/concepts/models/</a></p>
+<p>A base class for creating Pydantic models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__class_vars__">
+<span class="sig-name descname"><span class="pre">__class_vars__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__class_vars__" title="Link to this definition"></a></dt>
+<dd><p>The names of the class variables defined on the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__private_attributes__">
+<span class="sig-name descname"><span class="pre">__private_attributes__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__private_attributes__" title="Link to this definition"></a></dt>
+<dd><p>Metadata about the private attributes of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__signature__">
+<span class="sig-name descname"><span class="pre">__signature__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__signature__" title="Link to this definition"></a></dt>
+<dd><p>The synthesized <cite>__init__</cite> [<cite>Signature</cite>][inspect.Signature] of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_complete__">
+<span class="sig-name descname"><span class="pre">__pydantic_complete__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_complete__" title="Link to this definition"></a></dt>
+<dd><p>Whether model building is completed, or if there are still undefined fields.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_core_schema__">
+<span class="sig-name descname"><span class="pre">__pydantic_core_schema__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_core_schema__" title="Link to this definition"></a></dt>
+<dd><p>The core schema of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_custom_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_custom_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_custom_init__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model has a custom <cite>__init__</cite> function.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_decorators__">
+<span class="sig-name descname"><span class="pre">__pydantic_decorators__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_decorators__" title="Link to this definition"></a></dt>
+<dd><p>Metadata containing the decorators defined on the model.
+This replaces <cite>Model.__validators__</cite> and <cite>Model.__root_validators__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_generic_metadata__">
+<span class="sig-name descname"><span class="pre">__pydantic_generic_metadata__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_generic_metadata__" title="Link to this definition"></a></dt>
+<dd><p>Metadata for generic models; contains data used for a similar purpose to
+__args__, __origin__, __parameters__ in typing-module generics. May eventually be replaced by these.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_parent_namespace__">
+<span class="sig-name descname"><span class="pre">__pydantic_parent_namespace__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_parent_namespace__" title="Link to this definition"></a></dt>
+<dd><p>Parent namespace of the model, used for automatic rebuilding of models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_post_init__">
+<span class="sig-name descname"><span class="pre">__pydantic_post_init__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_post_init__" title="Link to this definition"></a></dt>
+<dd><p>The name of the post-init method for the model, if defined.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_root_model__">
+<span class="sig-name descname"><span class="pre">__pydantic_root_model__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_root_model__" title="Link to this definition"></a></dt>
+<dd><p>Whether the model is a [<cite>RootModel</cite>][pydantic.root_model.RootModel].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_serializer__">
+<span class="sig-name descname"><span class="pre">__pydantic_serializer__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_serializer__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaSerializer</cite> used to dump instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_validator__">
+<span class="sig-name descname"><span class="pre">__pydantic_validator__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_validator__" title="Link to this definition"></a></dt>
+<dd><p>The <cite>pydantic-core</cite> <cite>SchemaValidator</cite> used to validate instances of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of field names and their corresponding [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_computed_fields__">
+<span class="sig-name descname"><span class="pre">__pydantic_computed_fields__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_computed_fields__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary of computed field names and their corresponding [<cite>ComputedFieldInfo</cite>][pydantic.fields.ComputedFieldInfo] objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_extra__">
+<span class="sig-name descname"><span class="pre">__pydantic_extra__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_extra__" title="Link to this definition"></a></dt>
+<dd><p>A dictionary containing extra values, if [<cite>extra</cite>][pydantic.config.ConfigDict.extra]
+is set to <cite>‘allow’</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_fields_set__">
+<span class="sig-name descname"><span class="pre">__pydantic_fields_set__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_fields_set__" title="Link to this definition"></a></dt>
+<dd><p>The names of fields explicitly set during instantiation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_private__">
+<span class="sig-name descname"><span class="pre">__pydantic_private__</span></span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.__pydantic_private__" title="Link to this definition"></a></dt>
+<dd><p>Values of private attributes set on the model instance.</p>
+</dd></dl>
+
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.duration">
+<span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.duration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.exercise_type">
+<span class="sig-name descname"><span class="pre">exercise_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.exercise_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.repetitions">
+<span class="sig-name descname"><span class="pre">repetitions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.repetitions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.ExerciseLog.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">MemoryStatsRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Request model for memory statistics.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.MemoryStatsRequest.user_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChoice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">StreamChoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChoice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Model for streaming choice data.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChoice.delta">
+<span class="sig-name descname"><span class="pre">delta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChoice.delta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChoice.finish_reason">
+<span class="sig-name descname"><span class="pre">finish_reason</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChoice.finish_reason" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChoice.index">
+<span class="sig-name descname"><span class="pre">index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChoice.index" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChunk">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Scaffold-your-shape-Chatbot.models.chat.</span></span><span class="sig-name descname"><span class="pre">StreamChunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel" title="(in Pydantic v0.0.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></a></p>
+<p>Model for streaming response chunks.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChunk.choices">
+<span class="sig-name descname"><span class="pre">choices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.choices" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChunk.created">
+<span class="sig-name descname"><span class="pre">created</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.created" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChunk.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChunk.model">
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pili'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Scaffold-your-shape-Chatbot.models.chat.StreamChunk.object">
+<span class="sig-name descname"><span class="pre">object</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'chat.completion.chunk'</span></em><a class="headerlink" href="#Scaffold-your-shape-Chatbot.models.chat.StreamChunk.object" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Pili Development Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

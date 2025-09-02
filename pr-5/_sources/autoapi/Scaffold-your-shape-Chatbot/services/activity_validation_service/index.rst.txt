@@ -1,0 +1,207 @@
+Scaffold-your-shape-Chatbot.services.activity_validation_service
+================================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.activity_validation_service
+
+.. autoapi-nested-parse::
+
+   Smart Activity Validation Service for Pili Logger Agent.
+
+   This service provides intelligent validation, enhancement, and analysis
+   of user activity data to improve data quality and user experience.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.activity_validation_service.activity_validation_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.activity_validation_service.ActivityType
+   Scaffold-your-shape-Chatbot.services.activity_validation_service.ActivityValidationService
+   Scaffold-your-shape-Chatbot.services.activity_validation_service.ValidationIssue
+   Scaffold-your-shape-Chatbot.services.activity_validation_service.ValidationLevel
+   Scaffold-your-shape-Chatbot.services.activity_validation_service.ValidationResult
+
+
+Module Contents
+---------------
+
+.. py:class:: ActivityType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Supported activity types with validation rules.
+
+
+   .. py:attribute:: CARDIO
+      :value: 'cardio'
+
+
+
+   .. py:attribute:: CYCLING
+      :value: 'cycling'
+
+
+
+   .. py:attribute:: OTHER
+      :value: 'other'
+
+
+
+   .. py:attribute:: RUNNING
+      :value: 'running'
+
+
+
+   .. py:attribute:: SPORTS
+      :value: 'sports'
+
+
+
+   .. py:attribute:: STRENGTH
+      :value: 'strength'
+
+
+
+   .. py:attribute:: SWIMMING
+      :value: 'swimming'
+
+
+
+   .. py:attribute:: WALKING
+      :value: 'walking'
+
+
+
+   .. py:attribute:: YOGA
+      :value: 'yoga'
+
+
+
+.. py:class:: ActivityValidationService
+
+   Service for validating and enhancing activity data.
+
+
+   .. py:method:: validate_activity(activity_data, user_profile = None)
+      :async:
+
+
+      Validate activity data with intelligent analysis.
+
+      :param activity_data: Raw activity data from user input
+      :param user_profile: User's fitness profile and history
+
+      :returns: ValidationResult with confidence score and issues
+
+
+
+   .. py:attribute:: activity_patterns
+
+
+   .. py:attribute:: unit_conversions
+
+
+   .. py:attribute:: validation_rules
+
+
+.. py:class:: ValidationIssue
+
+   Represents a validation concern.
+
+
+   .. py:attribute:: field
+      :type:  str
+
+
+   .. py:attribute:: issue_type
+      :type:  str
+
+
+   .. py:attribute:: message
+      :type:  str
+
+
+   .. py:attribute:: severity
+      :type:  str
+
+
+   .. py:attribute:: suggestion
+      :type:  Optional[str]
+      :value: None
+
+
+
+.. py:class:: ValidationLevel
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Validation confidence levels.
+
+
+   .. py:attribute:: FAILED
+      :value: 'failed'
+
+
+
+   .. py:attribute:: HIGH
+      :value: 'high'
+
+
+
+   .. py:attribute:: LOW
+      :value: 'low'
+
+
+
+   .. py:attribute:: MEDIUM
+      :value: 'medium'
+
+
+
+.. py:class:: ValidationResult
+
+   Result of activity validation.
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: enhanced_data
+      :type:  Dict[str, Any]
+
+
+   .. py:attribute:: is_valid
+      :type:  bool
+
+
+   .. py:attribute:: issues
+      :type:  List[ValidationIssue]
+      :value: []
+
+
+
+   .. py:attribute:: suggestions
+      :type:  List[str]
+      :value: []
+
+
+
+   .. py:attribute:: validation_level
+      :type:  ValidationLevel
+
+
+.. py:data:: activity_validation_service
+

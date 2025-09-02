@@ -1,0 +1,297 @@
+Scaffold-your-shape-Chatbot.services.progress_analytics_service
+===============================================================
+
+.. py:module:: Scaffold-your-shape-Chatbot.services.progress_analytics_service
+
+.. autoapi-nested-parse::
+
+   Progress Analytics Service for Pili Logger Agent.
+
+   This service provides comprehensive analytics and insights for user fitness
+   progress, including trends, achievements, and personalized recommendations.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.progress_analytics_service
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.Achievement
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.AchievementType
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.ProgressAnalyticsService
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.ProgressInsight
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.ProgressSummary
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.TrendAnalysis
+   Scaffold-your-shape-Chatbot.services.progress_analytics_service.TrendDirection
+
+
+Module Contents
+---------------
+
+.. py:class:: Achievement
+
+   Represents a fitness achievement.
+
+
+   .. py:attribute:: activity_type
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: date_earned
+      :type:  datetime.datetime
+
+
+   .. py:attribute:: description
+      :type:  str
+
+
+   .. py:attribute:: title
+      :type:  str
+
+
+   .. py:attribute:: type
+      :type:  AchievementType
+
+
+   .. py:attribute:: unit
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: value
+      :type:  Optional[float]
+      :value: None
+
+
+
+.. py:class:: AchievementType
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of fitness achievements.
+
+
+   .. py:attribute:: CONSISTENCY
+      :value: 'consistency'
+
+
+
+   .. py:attribute:: MILESTONE
+      :value: 'milestone'
+
+
+
+   .. py:attribute:: PERSONAL_RECORD
+      :value: 'personal_record'
+
+
+
+   .. py:attribute:: VARIETY
+      :value: 'variety'
+
+
+
+   .. py:attribute:: VOLUME
+      :value: 'volume'
+
+
+
+.. py:class:: ProgressAnalyticsService
+
+   Service for analyzing user fitness progress and generating insights.
+
+
+   .. py:method:: generate_progress_summary(user_id, period_days = 30, activity_history = None)
+      :async:
+
+
+      Generate comprehensive progress summary for a user.
+
+      :param user_id: User ID to analyze
+      :param period_days: Number of days to analyze (default: 30)
+      :param activity_history: List of user activities (if not provided, will fetch from MCP)
+
+      :returns: ProgressSummary with comprehensive analytics
+
+
+
+   .. py:attribute:: achievement_thresholds
+
+
+   .. py:attribute:: trend_analysis_periods
+      :value: [7, 14, 30, 90]
+
+
+
+.. py:class:: ProgressInsight
+
+   Insights about user's fitness progress.
+
+
+   .. py:attribute:: category
+      :type:  str
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: insight_type
+      :type:  str
+
+
+   .. py:attribute:: message
+      :type:  str
+
+
+   .. py:attribute:: recommendation
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:attribute:: supporting_data
+      :type:  Dict[str, Any]
+
+
+.. py:class:: ProgressSummary
+
+   Comprehensive progress summary for a user.
+
+
+   .. py:attribute:: achievements
+      :type:  List[Achievement]
+
+
+   .. py:attribute:: active_days
+      :type:  int
+
+
+   .. py:attribute:: activity_types
+      :type:  List[str]
+
+
+   .. py:attribute:: consistency_score
+      :type:  float
+
+
+   .. py:attribute:: estimated_calories
+      :type:  int
+
+
+   .. py:attribute:: improvement_score
+      :type:  float
+
+
+   .. py:attribute:: insights
+      :type:  List[ProgressInsight]
+
+
+   .. py:attribute:: period_end
+      :type:  datetime.datetime
+
+
+   .. py:attribute:: period_start
+      :type:  datetime.datetime
+
+
+   .. py:attribute:: total_activities
+      :type:  int
+
+
+   .. py:attribute:: total_distance_km
+      :type:  float
+
+
+   .. py:attribute:: total_duration_minutes
+      :type:  float
+
+
+   .. py:attribute:: trends
+      :type:  List[TrendAnalysis]
+
+
+   .. py:attribute:: user_id
+      :type:  str
+
+
+   .. py:attribute:: variety_score
+      :type:  float
+
+
+.. py:class:: TrendAnalysis
+
+   Analysis of fitness trends over time.
+
+
+   .. py:attribute:: change_percentage
+      :type:  float
+
+
+   .. py:attribute:: confidence
+      :type:  float
+
+
+   .. py:attribute:: data_points
+      :type:  int
+
+
+   .. py:attribute:: description
+      :type:  str
+
+
+   .. py:attribute:: direction
+      :type:  TrendDirection
+
+
+   .. py:attribute:: metric
+      :type:  str
+
+
+   .. py:attribute:: period_days
+      :type:  int
+
+
+.. py:class:: TrendDirection
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Direction of fitness trends.
+
+
+   .. py:attribute:: DECLINING
+      :value: 'declining'
+
+
+
+   .. py:attribute:: IMPROVING
+      :value: 'improving'
+
+
+
+   .. py:attribute:: INSUFFICIENT_DATA
+      :value: 'insufficient_data'
+
+
+
+   .. py:attribute:: STABLE
+      :value: 'stable'
+
+
+
+.. py:data:: progress_analytics_service
+
