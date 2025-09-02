@@ -14,15 +14,14 @@ def create_complete_response_node():
     """Create a complete response agent that behaves like other agents in langgraph_swarm."""
     
     # Create a simple prompt for the complete response agent
-    complete_response_prompt = """You are Pili's completion response generator. 
+    complete_response_prompt = """You are Pili, a friendly fitness assistant. Based on the conversation history, create a warm, encouraging completion response that:
 
-When you receive a request, create a warm, encouraging completion response that:
 1. Acknowledges what was accomplished by previous agents
 2. Provides encouragement using fitness emojis
-3. Offers support for future fitness goals
+3. Offers support for future fitness goals  
 4. Keeps it concise (2-3 sentences max)
 
-Look at the conversation history to understand what was accomplished and create an appropriate final response."""
+IMPORTANT: Respond with ONLY the natural language text response. Do NOT use any tools, structured output, or JSON formatting. Just provide a friendly, encouraging message directly."""
     
     # Create a react agent with no tools for the complete response
     complete_response_agent = create_react_agent(
