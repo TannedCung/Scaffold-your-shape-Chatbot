@@ -122,18 +122,34 @@ async def create_mcp_tools_for_agent(mcp_client, user_id: str) -> List:
 
 
 async def create_logger_agent(mcp_client, user_id: str):
-    """Create the logger agent with dynamic MCP tools and user-specific prompt."""
+    """Create the enhanced logger agent with smart validation and extraction capabilities."""
+    # Get MCP tools for external integrations
     mcp_tools = await create_mcp_tools_for_agent(mcp_client, user_id)
     
-    # Add handoff tools to coach and complete response
-    all_tools = mcp_tools + [transfer_to_coach_agent, transfer_to_complete_response]
+    # Import enhanced logger tools
+    from tools.enhanced_logger_tools import enhanced_logger_tools
     
-    # Create user-specific prompt
-    logger_prompt = create_logger_prompt(user_id)
+    # Add handoff tools and enhanced logger capabilities
+    all_tools = mcp_tools + enhanced_logger_tools + [transfer_to_coach_agent, transfer_to_complete_response]
+    
+    # Create user-specific prompt with semantic enhancement
+    base_prompt = create_logger_prompt(user_id)
+    
+    # Enhance prompt with semantic context
+    from services.semantic_memory_service import semantic_memory_service
+    try:
+        enhanced_prompt = await semantic_memory_service.generate_contextual_prompt_enhancement(
+            user_id=user_id,
+            base_prompt=base_prompt,
+            session_id="default"
+        )
+    except Exception as e:
+        print(f"Warning: Could not enhance prompt with semantic context: {e}")
+        enhanced_prompt = base_prompt
     
     logger_agent = create_react_agent(
         get_model(),
-        prompt=logger_prompt,
+        prompt=enhanced_prompt,
         tools=all_tools,
         name="logger_agent",
     )
@@ -142,18 +158,30 @@ async def create_logger_agent(mcp_client, user_id: str):
 
 
 async def create_coach_agent(mcp_client, user_id: str):
-    """Create the coach agent with dynamic MCP tools and user-specific prompt."""
+    """Create the enhanced coach agent with semantic understanding and personalized coaching."""
     mcp_tools = await create_mcp_tools_for_agent(mcp_client, user_id)
     
     # Add handoff tools to logger and complete response
     all_tools = mcp_tools + [transfer_to_logger_agent, transfer_to_complete_response]
     
-    # Create user-specific prompt
-    coach_prompt = create_coach_prompt(user_id)
+    # Create user-specific prompt with semantic enhancement
+    base_prompt = create_coach_prompt(user_id)
+    
+    # Enhance prompt with semantic context
+    from services.semantic_memory_service import semantic_memory_service
+    try:
+        enhanced_prompt = await semantic_memory_service.generate_contextual_prompt_enhancement(
+            user_id=user_id,
+            base_prompt=base_prompt,
+            session_id="default"
+        )
+    except Exception as e:
+        print(f"Warning: Could not enhance coach prompt with semantic context: {e}")
+        enhanced_prompt = base_prompt
     
     coach_agent = create_react_agent(
         get_model(),
-        prompt=coach_prompt,
+        prompt=enhanced_prompt,
         tools=all_tools,
         name="coach_agent",
     )
