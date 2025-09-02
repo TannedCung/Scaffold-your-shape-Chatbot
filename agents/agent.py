@@ -158,11 +158,15 @@ async def create_logger_agent(mcp_client, user_id: str):
 
 
 async def create_coach_agent(mcp_client, user_id: str):
-    """Create the enhanced coach agent with semantic understanding and personalized coaching."""
+    """Create the enhanced coach agent with adaptive workouts and behavioral psychology."""
+    # Get MCP tools for external integrations
     mcp_tools = await create_mcp_tools_for_agent(mcp_client, user_id)
     
-    # Add handoff tools to logger and complete response
-    all_tools = mcp_tools + [transfer_to_logger_agent, transfer_to_complete_response]
+    # Import enhanced coach tools
+    from tools.enhanced_coach_tools import enhanced_coach_tools
+    
+    # Add handoff tools and enhanced coaching capabilities
+    all_tools = mcp_tools + enhanced_coach_tools + [transfer_to_logger_agent, transfer_to_complete_response]
     
     # Create user-specific prompt with semantic enhancement
     base_prompt = create_coach_prompt(user_id)
